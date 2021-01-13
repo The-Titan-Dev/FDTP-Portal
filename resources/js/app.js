@@ -1,6 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { BootstrapVue} from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+
+
 Vue.use(VueRouter);
 
 import App from "./views/App";

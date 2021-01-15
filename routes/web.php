@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpaController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +19,6 @@ use App\Http\Controllers\SpaController;
 //     return view('main');
 // });
 
-Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');
+// Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');
+
+Route::get('/masterlist',[UserController::class, 'index']);

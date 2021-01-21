@@ -1,15 +1,10 @@
 <template>
   <div class="parent__body">
     <b-container fluid>
-      <!-- <div class="headerline"></div> -->
       <img :src="'images/fujitsu.png'" class="fujitsu" />
-      <!-- <div class="ball2"></div>
-      <div class="ball3"></div> -->
       <b-row align-h="between" class="vh-100" align-v="center">
         <b-col class="d-lg-block d-md-none d-sm-none d-none">
           <div class="left__pane">
-            <!-- <div class="ball1"></div> -->
-
             <div class="image__block">
               <div class="label__image__1__block">
                 <img :src="'images/login_1.PNG'" class="label__image__1" />
@@ -23,7 +18,7 @@
               <br />
               <hr />
               <p>
-               " Welcome to our new all-in-one business solution portal.<br />
+                " Welcome to our new all-in-one business solution portal.<br />
                 Having only one account to access all new incoming systems. "
               </p>
             </div>
@@ -37,17 +32,30 @@
                 <img :src="'images/girl_laptop.png'" class="image__laptop" />
               </div>
             </div>
-            <form id="form-login" class="form__login" method="post">
+            <form
+              id="form-login"
+              class="form__login"
+              method="post"
+              @submit.prevent="submitLoginForm"
+            >
               <div class="form__login__group">
                 <label>Employee Number</label>
-                <input type="text" />
+                <input type="text" name="emp_id" v-model="emp_id" />
               </div>
               <div class="form__login__group mb-3">
                 <label>Password</label>
-                <input type="password" />
+                <input type="password" name="password" v-model="password" />
               </div>
-              <button type="button" class="login__btn__ok">Login</button>
-              <button type="button" class="login__btn__cancel">Cancel</button>
+              <button id="btn-login" type="submit" class="login__btn__ok">
+                Login
+              </button>
+              <button
+                type="button"
+                class="login__btn__cancel"
+                @click="clearForm"
+              >
+                Cancel
+              </button>
             </form>
           </div>
         </b-col>
@@ -57,8 +65,63 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "login",
+  data() {
+    return {
+      emp_id: "",
+      password: "",
+    };
+  },
+  methods: {
+    submitLoginForm: function () {
+      var formData = new FormData(document.getElementById("form-login"));
+
+      if (this.emp_id != "" || this.password != "") {
+        document.getElementById("btn-login").disabled = true;
+        this.$store
+          .dispatch("login", formData)
+          .then((response) => {
+            if (response.result.status == 1) {
+              this.toast("warning", response.result.message);
+            } else if (response.result.status == 2) {
+              this.toast("warning", response.result.message);
+            } else if (response.result.status == 3) {
+              this.toast("warning", response.result.message);
+              // console.log(response);
+            } else if (response.result.status == 4) {
+              this.toast("warning", response.result.message);
+            }
+          })
+          .catch((error) => {
+            this.toast("error", "Something went wrong");
+            console.log(error);
+          })
+          .finally(() => {
+            document.getElementById("btn-login").disabled = false;
+          });
+      } else {
+        this.toast("error", "Please complete the form");
+      }
+    },
+    clearForm: function () {
+      this.emp_id = "";
+      this.password = "";
+
+      var sample = localStorage.getItem('fdtpPortal');
+
+      // console.log(JSON.parse(sample));
+    },
+    toast: function (status, message) {
+      this.$toast(message, {
+        type: status,
+        toastClassName: `toastification--${status}`,
+        position: "top-center",
+      });
+    },
+  },
 };
 </script>
 
@@ -254,7 +317,7 @@ export default {
   }
 
   hr {
-    border: .5px solid $red;
+    border: 0.5px solid $red;
   }
 }
 
@@ -304,8 +367,8 @@ export default {
 
 .fujitsu {
   position: absolute;
-  width:150px;
-  left:60px;
-  top:30px;
+  width: 150px;
+  left: 60px;
+  top: 30px;
 }
 </style>

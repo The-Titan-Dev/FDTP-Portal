@@ -104,6 +104,7 @@ class UserController extends Controller
             }
 
             return $this->success("Successfully Executed", $result);
+            // return $result;
         }
     }
 }

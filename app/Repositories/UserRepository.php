@@ -2,21 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\UserRequest;
 use App\Interfaces\UserInterface;
-use App\Traits\ResponseAPI;
 use App\Models\User;
 use App\Models\HrisSections;
 use App\Models\HrisMasterlist;
-use DB;
 use Illuminate\Support\Facades\Auth;
 
 class UserRepository implements UserInterface
 {
-    // Use ResponseAPI Trait in this repository
-    use ResponseAPI;
-
-
     public function load_sections()
     {
         return HrisSections::all('id', 'section', 'section_code');

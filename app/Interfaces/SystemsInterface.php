@@ -7,4 +7,6 @@ use App\Http\Requests\UserRequest;
 interface SystemsInterface
 {
     public function load();
+
+    public function store($request);
 }

@@ -21,19 +21,23 @@ class SystemsController extends Controller
     public function load()
     {
         try {
-            return $this->systemsInterface->load();
+            $result = $this->systemsInterface->load();
+            return $this->success('Systems Loaded', 200, $result);
         } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
         }
     }
 
     public function store(StoreSystems $request)
     {
-        if ($request->validator->fails()) {
-            return $data = [
-                "code"        => 400,
-                "status"      => "warning",
-                "data"        => $request->validator->errors()
-            ];
+        try {
+            if ($request->validator->fails()) {
+                return $this->warning('Invalid Inputs', 400, $request->validator->errors());
+            }
+            $result = $this->systemsInterface->store($request->validated());
+            return $this->success('System added', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
         }
     }
 }

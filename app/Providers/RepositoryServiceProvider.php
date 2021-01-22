@@ -18,7 +18,12 @@ class RepositoryServiceProvider extends ServiceProvider
         // If you dont, the Repository will not get readed.
         $this->app->bind(
             'App\Interfaces\UserInterface',
-            'App\Repositories\UserRepository'
+            'App\Repositories\UserRepository',
+
+        );
+        $this->app->bind(
+            'App\Interfaces\SystemsInterface',
+            'App\Repositories\SystemsRepository'
         );
     }
 

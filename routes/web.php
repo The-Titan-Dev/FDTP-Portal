@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SystemsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +15,17 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/user/load-sections',[UserController::class, 'load_sections']);
-Route::get('/user/load-hris-masterlist',[UserController::class, 'load_hris_masterlist']);
+/*USERS*/
+Route::get('/user/load-sections', [UserController::class, 'load_sections']);
+Route::get('/user/load-hris-masterlist', [UserController::class, 'load_hris_masterlist']);
 
-Route::get('/user/get-user-from-hris/{id}',[UserController::class, 'get_user_from_hris']);
-Route::get('/user/get-user-from-local/{id}',[UserController::class, 'get_user_from_local']);
+Route::get('/user/get-user-from-hris/{id}', [UserController::class, 'get_user_from_hris']);
+Route::get('/user/get-user-from-local/{id}', [UserController::class, 'get_user_from_local']);
 
-Route::post('/user/login',[UserController::class, 'login']);
+Route::post('/user/login', [UserController::class, 'login']);
 
-Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');
+/*SYSTEMS*/
+Route::get('/systems/load', [SystemsController::class, 'load']);
+Route::post('/systems/store', [SystemsController::class, 'store']);
 
+// Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');

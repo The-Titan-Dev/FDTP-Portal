@@ -10,58 +10,33 @@ trait ResponseAPI
      * @param   string          $message
      * @param   array|object    $data
      * @param   integer         $statusCode  
-     * @param   boolean         $isSuccess
+     * @param   boolean         $status
      */
-    public function coreResponse($message, $data = null, $statusCode, $isSuccess = true)
+    public function coreResponse($message,  $statusCode, $status, $data)
     {
         // Check the params
         if (!$message) return response()->json(['message' => 'Message is required'], 500);
 
-        // Send the response
-        if ($isSuccess) {
-            return [
-                'message' => $message,
-                'status' => 'success',
-                'code' => $statusCode,
-                'result' => $data
-            ];
-        } else {
-            return [
-                'message' => $message,
-                'error' => true,
-                'status' => 'error',
-                'code' => $statusCode,
-            ];
-        }
+        return response()->json([
+            'status' => $status,
+            'code' => $statusCode,
+            'message' => $message,
+            'result' => $data
+        ],);
     }
 
-    /**
-     * Send any success response
-     * 
-     * @param   string          $message
-     * @param   array|object    $data
-     * @param   integer         $statusCode
-     */
-    public function success($message, $data, $statusCode = 200)
+    public function success($message, $statusCode, $data = null)
     {
-        return $this->coreResponse($message, $data, $statusCode);
+        return  $this->coreResponse($message, $statusCode, $status = 'success', $data);
     }
 
-    /**
-     * Send any error response
-     * 
-     * @param   string          $message
-     * @param   integer         $statusCode    
-     */
-    public function error($message, $statusCode = 500)
+    public function warning($message, $statusCode, $data = null)
     {
-        return $this->coreResponse($message, null, $statusCode, false);
+        return $this->coreResponse($message, $statusCode, 'warning', $data);
+    }
+
+    public function error($message, $statusCode, $data = null)
+    {
+        return $this->coreResponse($message, $statusCode, 'error', $data);
     }
 }
-
-    // return response()->json([
-    //             'message' => $message,
-    //             'status' => 'success',
-    //             'code' => $statusCode,
-    //             'result' => $data
-    //         ], $statusCode);

@@ -2,84 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSystems;
 use App\Models\Systems;
 use Illuminate\Http\Request;
+use App\Traits\ResponseAPI;
+use App\Interfaces\SystemsInterface;
 
 class SystemsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    use ResponseAPI;
+    protected $systemsInterface;
+
+    public function __construct(SystemsInterface $systemsInterface)
     {
-        //
+        $this->systemsInterface = $systemsInterface;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function load()
     {
-        //
+        try {
+            return $this->systemsInterface->load();
+        } catch (\Exception $e) {
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreSystems $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Systems  $systems
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Systems $systems)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Systems  $systems
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Systems $systems)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Systems  $systems
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Systems $systems)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Systems  $systems
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Systems $systems)
-    {
-        //
+        if ($request->validator->fails()) {
+            return $data = [
+                "code"        => 400,
+                "status"      => "warning",
+                "data"        => $request->validator->errors()
+            ];
+        }
     }
 }

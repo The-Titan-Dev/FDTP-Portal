@@ -12,7 +12,6 @@ import store from "./store";
 
 
 import App from "./views/App";
-import Hello from "./views/Hello";
 import Home from "./views/Home";
 import Login from "./views/Login";
 
@@ -38,11 +37,6 @@ const router = new VueRouter({
             path: "/fdtp-portal/public/",
             name: "home",
             component: Home
-        },
-        {
-            path: "/hello",
-            name: "hello",
-            component: Hello
         },
         {
             path: `${base_url}login`,

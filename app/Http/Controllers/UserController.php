@@ -24,7 +24,12 @@ class UserController extends Controller
      */
     public function load_sections()
     {
-        return $this->userInterface->load_sections();
+        try {
+            $result = $this->userInterface->load_sections();
+            return $this->success('Sections Loaded', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -32,7 +37,12 @@ class UserController extends Controller
      */
     public function load_hris_masterlist()
     {
-        return $this->userInterface->load_hris_masterlist();
+        try {
+            $result = $this->userInterface->load_hris_masterlist();
+            return $this->success('HRIS Data Loaded', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -40,7 +50,12 @@ class UserController extends Controller
      */
     public function get_user_from_hris($emp_id)
     {
-        return $this->userInterface->get_user_from_hris($emp_id);
+        try {
+            $result = $this->userInterface->get_user_from_hris($emp_id);
+            return $this->success('User Data Retrieved', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -48,13 +63,23 @@ class UserController extends Controller
      */
     public function get_user_from_local($emp_id)
     {
-        return $this->userInterface->get_user_from_local($emp_id);
+        try {
+            $result =  $this->userInterface->get_user_from_local($emp_id);
+            return $this->success('User Data Retrieved', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
     }
 
     public function authenticate($credentials)
     {
-        return  $this->userInterface->authenticate($credentials);
+        try {
+            return  $this->userInterface->authenticate($credentials);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
     }
+
     /**
      * 1 = User dont exist in portal database
      * 2 = User dont exist in HRIS database
@@ -69,42 +94,40 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $data = [
-                "code"        => 400,
-                "status"      => "warning",
-                "data"        => $validator->errors()
-            ];
+            return  $this->warning('Invalid inputs', 400, $validator->errors());
         } else {
-            $emp_id = Request('emp_id');
-            $password = Request('password');
+            try {
+                $emp_id = Request('emp_id');
+                $password = Request('password');
 
-            $local_data = $this->get_user_from_local($emp_id);
+                $local_data = $this->userInterface->get_user_from_local($emp_id);
 
-            $result = [];
-            if (empty($local_data['result'])) {
-                $hris_data = $this->get_user_from_hris($emp_id);
-                if (empty($hris_data['result'])) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Employee Not Found';
+                $result = [];
+                if (empty($local_data['result'])) {
+                    $hris_data = $this->userInterface->get_user_from_hris($emp_id);
+                    if (empty($hris_data['result'])) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Employee Not Found';
+                    } else {
+                        $result['status'] = 2;
+                        $result['message'] = 'For Registration';
+                    }
                 } else {
-                    $result['status'] = 2;
-                    $result['message'] = 'For Registration';
-                }
-            } else {
-                $auth = $this->authenticate(Request()->only('emp_id', 'password'));
+                    $auth = $this->authenticate(Request()->only('emp_id', 'password'));
 
-                if ($auth['status'] == true) {
-                    $result['status'] = 3;
-                    $result['message'] = "User Authenticated";
-                    $result['data'] = $auth['user_data'];
-                } else if ($auth['status'] == false) {
-                    $result['status'] = 4;
-                    $result['message'] = 'Invalid Password';
+                    if ($auth['status'] == true) {
+                        $result['status'] = 3;
+                        $result['message'] = "User Authenticated";
+                        $result['data'] = $auth['user_data'];
+                    } else if ($auth['status'] == false) {
+                        $result['status'] = 4;
+                        $result['message'] = 'Invalid Password';
+                    }
                 }
+                return $this->success('User Authenticated', 200, $result);
+            } catch (\Exception $e) {
+                return $this->error($e->getMessage(), $e->getCode());
             }
-
-            return $this->success("Successfully Executed", $result);
-            // return $result;
         }
     }
 }

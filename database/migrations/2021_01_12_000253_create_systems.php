@@ -20,8 +20,8 @@ class CreateSystems extends Migration
             $table->string('reference_code');
             $table->string('reference_number');
             $table->string('description');
-            $table->dateTime('date_inserted');
-            $table->dateTime('date_updated');
+            $table->string('url');
+            $table->date('date_deployed');
             $table->string('status');
             $table->integer('section_owner');
             $table->timestamps();

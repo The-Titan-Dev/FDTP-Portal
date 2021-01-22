@@ -4,8 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\SystemsInterface;
 use App\Traits\ResponseAPI;
-use DB;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Systems;
 
 class SystemsRepository implements SystemsInterface
 {
@@ -14,10 +13,7 @@ class SystemsRepository implements SystemsInterface
 
     public function load()
     {
-        try{
-
-        }catch(\Exception $e){
-            
-        }
+        $sections = Systems::all();
+        return $this->success("Systems Loaded", $sections);
     }
 }

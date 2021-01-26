@@ -22,7 +22,7 @@ trait ResponseAPI
             'code' => $statusCode,
             'message' => $message,
             'result' => $data
-        ],);
+        ],$statusCode);
     }
 
     public function success($message, $statusCode, $data = null)

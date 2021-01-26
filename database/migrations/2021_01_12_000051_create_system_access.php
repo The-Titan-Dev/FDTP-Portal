@@ -19,6 +19,7 @@ class CreateSystemAccess extends Migration
             $table->integer('system_id');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

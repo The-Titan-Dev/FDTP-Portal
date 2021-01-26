@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
 
-class StoreSystems extends FormRequest
+class SystemsStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +26,9 @@ class StoreSystems extends FormRequest
     public function rules()
     {
         return [
-            'name'              => 'required|unique:systems',
-            'reference_code'    => 'required|unique:systems',
-            'reference_number'  => 'required|unique:systems',
+            'name'              => ['required',Rule::unique('systems')->ignore($this->route('id'))],
+            'reference_code'    => ['required',Rule::unique('systems')->ignore($this->route('id'))],
+            'reference_number'  => ['required',Rule::unique('systems')->ignore($this->route('id'))],
             'description'       => 'required',
             'url'               => 'required|url',
             'date_deployed'     => 'required|date_format:Y-m-d',

@@ -25,6 +25,7 @@ class CreateSystems extends Migration
             $table->string('status');
             $table->integer('section_owner');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

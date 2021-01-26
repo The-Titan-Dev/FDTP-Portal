@@ -30,6 +30,16 @@ class SystemsController extends Controller
         }
     }
 
+    public function get($id)
+    {
+        try {
+            $result = $this->systemsInterface->get($id);
+            return $this->success('Systems data loaded', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), $e->getCode());
+        }
+    }
+
     public function store(SystemsStoreRequest $request)
     {
         try {
@@ -71,9 +81,8 @@ class SystemsController extends Controller
                 return $this->warning('Invalid Inputs', 400, $request->validator->errors());
             }
 
-            $result = $this->systemsInterface->update($id,$request->validated());
-            return $this->success('System added', 200, $result);
-            
+            $result = $this->systemsInterface->update($id, $request->validated());
+            return $this->success('System updated', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), $e->getCode());
         }

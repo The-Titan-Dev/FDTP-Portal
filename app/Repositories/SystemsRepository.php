@@ -12,6 +12,11 @@ class SystemsRepository implements SystemsInterface
         return Systems::all();
     }
 
+    public function get($id)
+    {
+        return Systems::find($id);
+    }
+
     public function store($request)
     {
         $systems = new Systems;

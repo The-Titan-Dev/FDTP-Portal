@@ -18,20 +18,17 @@ use App\Http\Controllers\SystemsController;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
+/*USERS*/
 Route::get('/user/load-sections', [UserController::class, 'load_sections']);
 Route::get('/user/load-hris-masterlist', [UserController::class, 'load_hris_masterlist']);
-
 Route::get('/user/get-user-from-hris/{id}', [UserController::class, 'get_user_from_hris']);
 Route::get('/user/get-user-from-local/{id}', [UserController::class, 'get_user_from_local']);
-
 Route::post('/user/login', [UserController::class, 'login']);
 
 /*SYSTEMS*/
 Route::get('/systems/load', [SystemsController::class, 'load']);
+Route::get('/systems/get/{id}', [SystemsController::class, 'get']);
 Route::post('/systems/store', [SystemsController::class, 'store']);
 Route::patch('/systems/update/{id}', [SystemsController::class, 'update']);
 Route::delete('/systems/delete/{id}', [SystemsController::class, 'delete']);

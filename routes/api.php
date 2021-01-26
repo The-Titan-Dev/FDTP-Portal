@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SystemsController;
+use App\Http\Controllers\RoleControllerup;
 
 
 /*
@@ -32,3 +33,9 @@ Route::get('/systems/get/{id}', [SystemsController::class, 'get']);
 Route::post('/systems/store', [SystemsController::class, 'store']);
 Route::patch('/systems/update/{id}', [SystemsController::class, 'update']);
 Route::delete('/systems/delete/{id}', [SystemsController::class, 'delete']);
+
+Route::get('/role/load', [RoleController::class, 'load']);
+Route::get('/role/get/{id}', [RoleController::class, 'get']);
+Route::post('/role/store', [RoleController::class, 'store']);
+Route::patch('/role/update/{id}', [RoleController::class, 'update']);
+Route::delete('/role/delete/{id}', [RoleController::class, 'delete']);

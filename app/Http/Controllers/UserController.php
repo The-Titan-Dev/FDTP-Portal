@@ -28,7 +28,7 @@ class UserController extends Controller
             $result = $this->userInterface->load_sections();
             return $this->success('Sections Loaded', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(), 500);
         }
     }
 
@@ -41,7 +41,7 @@ class UserController extends Controller
             $result = $this->userInterface->load_hris_masterlist();
             return $this->success('HRIS Data Loaded', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(), 500);
         }
     }
 
@@ -54,7 +54,7 @@ class UserController extends Controller
             $result = $this->userInterface->get_user_from_hris($emp_id);
             return $this->success('User Data Retrieved', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(),500);
         }
     }
 
@@ -67,7 +67,7 @@ class UserController extends Controller
             $result =  $this->userInterface->get_user_from_local($emp_id);
             return $this->success('User Data Retrieved', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(), 500);
         }
     }
 
@@ -76,7 +76,7 @@ class UserController extends Controller
         try {
             return  $this->userInterface->authenticate($credentials);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(), 500);
         }
     }
 
@@ -126,7 +126,7 @@ class UserController extends Controller
                 }
                 return $this->success('User Authenticated', 200, $result);
             } catch (\Exception $e) {
-                return $this->error($e->getMessage(), $e->getCode());
+                return $this->error($e->getMessage(), 500);
             }
         }
     }

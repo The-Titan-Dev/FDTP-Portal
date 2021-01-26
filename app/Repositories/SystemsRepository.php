@@ -49,11 +49,13 @@ class SystemsRepository implements SystemsInterface
 
     public function delete($id)
     {
-        $result = Systems::destroy($id);
-        if ($result == 1) {
-            return true;
-        } else {
-            return false;
+        $result = false;
+        
+        $systems = Systems::destroy($id);
+
+        if ($systems) {
+            $result = true;
         }
+        return $result;
     }
 }

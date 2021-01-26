@@ -26,7 +26,7 @@ class SystemsController extends Controller
             $result = $this->systemsInterface->load();
             return $this->success('Systems Loaded', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(), 500);
         }
     }
 
@@ -36,7 +36,7 @@ class SystemsController extends Controller
             $result = $this->systemsInterface->get($id);
             return $this->success('Systems data loaded', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(), 500);
         }
     }
 
@@ -49,34 +49,13 @@ class SystemsController extends Controller
             $result = $this->systemsInterface->store($request->validated());
             return $this->success('System added', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(), 500);
         }
     }
 
     public function update(SystemsStoreRequest $request, $id)
     {
         try {
-            Validator::make($request->all(), [
-                'name' => [
-                    'required',
-                    Rule::unique('systems')->ignore($id),
-                ],
-                'reference_code'    => [
-                    'required',
-                    Rule::unique('systems')->ignore($id),
-                ],
-                'reference_number'  => [
-                    'required',
-                    Rule::unique('systems')->ignore($id),
-                ],
-                'description'       => 'required',
-                'url'               => 'required|url',
-                'date_deployed'     => 'required|date_format:Y-m-d',
-                'status'            => 'required',
-                'section_owner'     => 'required',
-                'abbreviation'      => 'required',
-            ]);
-
             if ($request->validator->fails()) {
                 return $this->warning('Invalid Inputs', 400, $request->validator->errors());
             }
@@ -84,7 +63,7 @@ class SystemsController extends Controller
             $result = $this->systemsInterface->update($id, $request->validated());
             return $this->success('System updated', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(), 500);
         }
     }
 
@@ -94,7 +73,7 @@ class SystemsController extends Controller
             $result = $this->systemsInterface->delete($id);
             return $this->success('System deleted', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), $e->getCode());
+            return $this->error($e->getMessage(), 500);
         }
     }
 }

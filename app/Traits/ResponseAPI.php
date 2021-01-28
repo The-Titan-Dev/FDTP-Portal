@@ -25,7 +25,7 @@ trait ResponseAPI
         ],$statusCode);
     }
 
-    public function success($message, $statusCode, $data = null)
+    public function success($message ='sad', $statusCode, $data = null)
     {
         return  $this->coreResponse($message, $statusCode, $status = 'success', $data);
     }

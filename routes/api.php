@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SystemsController;
-use App\Http\Controllers\RoleControllerup;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SystemRestrictionController;
+use App\Http\Controllers\SystemAccessController;
 
 
 /*
@@ -28,14 +30,26 @@ Route::get('/user/get-user-from-local/{id}', [UserController::class, 'get_user_f
 Route::post('/user/login', [UserController::class, 'login']);
 
 /*SYSTEMS*/
-Route::get('/systems/load', [SystemsController::class, 'load']);
+Route::get('/systems', [SystemsController::class, 'load']);
 Route::get('/systems/get/{id}', [SystemsController::class, 'get']);
-Route::post('/systems/store', [SystemsController::class, 'store']);
-Route::patch('/systems/update/{id}', [SystemsController::class, 'update']);
-Route::delete('/systems/delete/{id}', [SystemsController::class, 'delete']);
+Route::post('/systems', [SystemsController::class, 'store']);
+Route::patch('/systems/{id}', [SystemsController::class, 'update']);
+Route::delete('/systems/{id}', [SystemsController::class, 'delete']);
 
-Route::get('/role/load', [RoleController::class, 'load']);
+Route::get('/role', [RoleController::class, 'load']);
 Route::get('/role/get/{id}', [RoleController::class, 'get']);
-Route::post('/role/store', [RoleController::class, 'store']);
-Route::patch('/role/update/{id}', [RoleController::class, 'update']);
-Route::delete('/role/delete/{id}', [RoleController::class, 'delete']);
+Route::post('/role', [RoleController::class, 'store']);
+Route::patch('/role/{id}', [RoleController::class, 'update']);
+Route::delete('/role/{id}', [RoleController::class, 'delete']);
+
+Route::get('/system-restriction', [SystemRestrictionController::class, 'load']);
+Route::get('/system-restriction/get/{id}', [SystemRestrictionController::class, 'get']);
+Route::post('/system-restriction', [SystemRestrictionController::class, 'store']);
+Route::patch('/system-restriction/{id}', [SystemRestrictionController::class, 'update']);
+Route::delete('/system-restriction/{id}', [SystemRestrictionController::class, 'delete']);
+
+Route::get('/system-access', [SystemAccessController::class, 'load']);
+Route::get('/system-access/get/{id}', [SystemAccessController::class, 'get']);
+Route::post('/system-access', [SystemAccessController::class, 'store']);
+Route::patch('/system-access/{id}', [SystemAccessController::class, 'update']);
+Route::delete('/system-access/{id}', [SystemAccessController::class, 'delete']);

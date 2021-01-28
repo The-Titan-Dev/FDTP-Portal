@@ -30,6 +30,16 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\RoleInterface',
             'App\Repositories\RoleRepository'
         );
+
+        $this->app->bind(
+            'App\Interfaces\SystemRestrictionInterface',
+            'App\Repositories\SystemRestrictionRepository'
+        );
+
+        $this->app->bind(
+            'App\Interfaces\SystemAccessInterface',
+            'App\Repositories\SystemAccessRepository'
+        );
     }
 
     /**

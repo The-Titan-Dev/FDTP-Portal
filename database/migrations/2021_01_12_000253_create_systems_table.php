@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoles extends Migration
+class CreateSystemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,17 @@ class CreateRoles extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('systems', function (Blueprint $table) {
             $table->id();
-            $table->integer('system_id');
-            $table->string('role');
+            $table->string('name');
+            $table->string('abbreviation');
+            $table->string('reference_code');
+            $table->string('reference_number');
             $table->string('description');
+            $table->string('url');
+            $table->date('date_deployed');
+            $table->string('status');
+            $table->integer('section_owner');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +36,6 @@ class CreateRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('systems');
     }
 }

@@ -2,65 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SystemsStoreRequest;
-use App\Models\Systems;
+use App\Http\Requests\SystemAccessRequest;
 use Illuminate\Http\Request;
+use App\Interfaces\SystemAccessInterface;
 use App\Traits\ResponseAPI;
-use App\Interfaces\SystemsInterface;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
 
-class SystemsController extends Controller
+class SystemAccessController extends Controller
 {
     use ResponseAPI;
-    protected $systemsInterface;
+    protected $systemAccessInterface;
 
-    public function __construct(SystemsInterface $systemsInterface)
+    public function __construct(SystemAccessInterface $systemAccessInterface)
     {
-        $this->systemsInterface = $systemsInterface;
+        $this->systemAccessInterface = $systemAccessInterface;
     }
 
     public function load()
     {
         try {
-            $result = $this->systemsInterface->load();
+            $result = $this->systemAccessInterface->load();
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
-
     public function get($id)
     {
         try {
-            $result = $this->systemsInterface->get($id);
+            $result = $this->systemAccessInterface->get($id);
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
 
-    public function store(SystemsStoreRequest $request)
+    public function store(SystemAccessRequest $request)
     {
         try {
             if ($request->validator->fails()) {
                 return $this->warning('Invalid Inputs', 400, $request->validator->errors());
             }
-            $result = $this->systemsInterface->store($request->validated());
+            $result = $this->systemAccessInterface->store($request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
 
-    public function update(SystemsStoreRequest $request, $id)
+    public function update(SystemAccessRequest $request, $id)
     {
         try {
             if ($request->validator->fails()) {
                 return $this->warning('Invalid Inputs', 400, $request->validator->errors());
             }
 
-            $result = $this->systemsInterface->update($id, $request->validated());
+            $result = $this->systemAccessInterface->update($id, $request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
@@ -70,10 +66,10 @@ class SystemsController extends Controller
     public function delete($id)
     {
         try {
-            $result = $this->systemsInterface->delete($id);
+            $result = $this->systemAccessInterface->delete($id);
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), 500);
+            return $this->error($e->getMessage(),500);
         }
     }
 }

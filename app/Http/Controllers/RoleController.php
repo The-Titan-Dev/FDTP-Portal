@@ -21,7 +21,7 @@ class RoleController extends Controller
     {
         try {
             $result = $this->roleInterface->load();
-            return $this->success('Roles Loaded', 200, $result);
+            return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
@@ -30,7 +30,7 @@ class RoleController extends Controller
     {
         try {
             $result = $this->roleInterface->get($id);
-            return $this->success('Role data loaded', 200, $result);
+            return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
@@ -43,7 +43,7 @@ class RoleController extends Controller
                 return $this->warning('Invalid Inputs', 400, $request->validator->errors());
             }
             $result = $this->roleInterface->store($request->validated());
-            return $this->success('Role added', 200, $result);
+            return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
@@ -57,7 +57,7 @@ class RoleController extends Controller
             }
 
             $result = $this->roleInterface->update($id, $request->validated());
-            return $this->success('Role updated', 200, $result);
+            return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
@@ -67,7 +67,7 @@ class RoleController extends Controller
     {
         try {
             $result = $this->roleInterface->delete($id);
-            return $this->success('Role deleted', 200, $result);
+            return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(),500);
         }

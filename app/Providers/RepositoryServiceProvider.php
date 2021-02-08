@@ -40,6 +40,16 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\SystemAccessInterface',
             'App\Repositories\SystemAccessRepository'
         );
+
+        $this->app->bind(
+            'App\Interfaces\ContactInterface',
+            'App\Repositories\ContactRepository'
+        );
+
+        $this->app->bind(
+            'App\Interfaces\ImageInterface',
+            'App\Repositories\ImageRepository'
+        );
     }
 
     /**

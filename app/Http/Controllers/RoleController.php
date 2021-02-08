@@ -39,9 +39,6 @@ class RoleController extends Controller
     public function store(RoleRequest $request)
     {
         try {
-            if ($request->validator->fails()) {
-                return $this->warning('Invalid Inputs', 400, $request->validator->errors());
-            }
             $result = $this->roleInterface->store($request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
@@ -52,10 +49,6 @@ class RoleController extends Controller
     public function update(RoleRequest $request, $id)
     {
         try {
-            if ($request->validator->fails()) {
-                return $this->warning('Invalid Inputs', 400, $request->validator->errors());
-            }
-
             $result = $this->roleInterface->update($id, $request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {

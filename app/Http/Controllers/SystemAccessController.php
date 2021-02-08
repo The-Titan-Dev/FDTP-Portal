@@ -39,9 +39,6 @@ class SystemAccessController extends Controller
     public function store(SystemAccessRequest $request)
     {
         try {
-            if ($request->validator->fails()) {
-                return $this->warning('Invalid Inputs', 400, $request->validator->errors());
-            }
             $result = $this->systemAccessInterface->store($request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
@@ -52,10 +49,6 @@ class SystemAccessController extends Controller
     public function update(SystemAccessRequest $request, $id)
     {
         try {
-            if ($request->validator->fails()) {
-                return $this->warning('Invalid Inputs', 400, $request->validator->errors());
-            }
-
             $result = $this->systemAccessInterface->update($id, $request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {

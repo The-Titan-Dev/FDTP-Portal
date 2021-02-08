@@ -19,27 +19,27 @@ class SystemRestrictionRepository implements SystemRestrictionInterface
 
     public function store($request)
     {
-        $role = new SystemRestriction();
-        $role->system_access_id    = $request['system_access_id'];
-        $role->role_id             = $request['role_id'];
-        return $role->save();
+        $data = new SystemRestriction();
+        $data->system_access_id    = $request['system_access_id'];
+        $data->role_id             = $request['role_id'];
+        return $data->save();
     }
 
     public function update($id, $request)
     {
-        $role = SystemRestriction::find($id);
-        $role->system_access_id    = $request['system_access_id'];
-        $role->role_id             = $request['role_id'];
-        return $role->save();
+        $data = SystemRestriction::find($id);
+        $data->system_access_id    = $request['system_access_id'];
+        $data->role_id             = $request['role_id'];
+        return $data->save();
     }
 
     public function delete($id)
     {
         $result = false;
 
-        $role = SystemRestriction::destroy($id);
+        $data = SystemRestriction::destroy($id);
 
-        if ($role) {
+        if ($data) {
             $result = true;
         }
         

@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SystemRestrictionRequest;
+use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
-use App\Interfaces\SystemRestrictionInterface;
+use App\Interfaces\ContactInterface;
 use App\Traits\ResponseAPI;
 
-class SystemRestrictionController extends Controller
+class ContactController extends Controller
 {
     use ResponseAPI;
-    protected $systemRestrictionInterface;
+    protected $contactInterface;
 
-    public function __construct(SystemRestrictionInterface $systemRestrictionInterface)
+    public function __construct(ContactInterface $contactInterface)
     {
-        $this->systemRestrictionInterface = $systemRestrictionInterface;
+        $this->contactInterface = $contactInterface;
     }
 
     public function load()
     {
         try {
-            $result = $this->systemRestrictionInterface->load();
+            $result = $this->contactInterface->load();
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
@@ -29,27 +29,27 @@ class SystemRestrictionController extends Controller
     public function get($id)
     {
         try {
-            $result = $this->systemRestrictionInterface->get($id);
+            $result = $this->contactInterface->get($id);
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
 
-    public function store(SystemRestrictionRequest $request)
+    public function store(ContactRequest $request)
     {
         try {
-            $result = $this->systemRestrictionInterface->store($request->validated());
+            $result = $this->contactInterface->store($request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
 
-    public function update(SystemRestrictionRequest $request, $id)
+    public function update(ContactRequest $request, $id)
     {
         try {
-            $result = $this->systemRestrictionInterface->update($id, $request->validated());
+            $result = $this->contactInterface->update($id, $request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
@@ -59,7 +59,7 @@ class SystemRestrictionController extends Controller
     public function delete($id)
     {
         try {
-            $result = $this->systemRestrictionInterface->delete($id);
+            $result = $this->contactInterface->delete($id);
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(),500);

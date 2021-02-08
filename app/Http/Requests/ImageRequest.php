@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SystemRestrictionRequest extends FormRequest
+class ImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class SystemRestrictionRequest extends FormRequest
     public function rules()
     {
         return [
-            'system_access_id'  => 'required',
-            'role_id'           => 'required',
+            'system_id'  => 'required',
+            'logo'       => 'required|image',
+            'main_image' => 'required|image',
         ];
     }
 }

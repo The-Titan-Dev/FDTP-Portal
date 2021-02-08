@@ -19,29 +19,29 @@ class SystemAccessRepository implements SystemAccessInterface
 
     public function store($request)
     {
-        $role = new SystemAccess();
-        $role->emp_id        = $request['emp_id'];
-        $role->system_id     = $request['system_id'];
-        $role->status        = $request['status'];
-        return $role->save();
+        $data = new SystemAccess();
+        $data->emp_id        = $request['emp_id'];
+        $data->system_id     = $request['system_id'];
+        $data->status        = $request['status'];
+        return $data->save();
     }
 
     public function update($id, $request)
     {
-        $role = SystemAccess::find($id);
-        $role->emp_id        = $request['emp_id'];
-        $role->system_id     = $request['system_id'];
-        $role->status        = $request['status'];
-        return $role->save();
+        $data = SystemAccess::find($id);
+        $data->emp_id        = $request['emp_id'];
+        $data->system_id     = $request['system_id'];
+        $data->status        = $request['status'];
+        return $data->save();
     }
 
     public function delete($id)
     {
         $result = false;
 
-        $role = SystemAccess::destroy($id);
+        $data = SystemAccess::destroy($id);
 
-        if ($role) {
+        if ($data) {
             $result = true;
         }
 

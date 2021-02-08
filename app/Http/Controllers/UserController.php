@@ -54,7 +54,7 @@ class UserController extends Controller
             $result = $this->userInterface->get_user_from_hris($emp_id);
             return $this->success('User Data Retrieved', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(),500);
+            return $this->error($e->getMessage(), 500);
         }
     }
 
@@ -93,41 +93,38 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return  $this->warning('Invalid inputs', 400, $validator->errors());
-        } else {
-            try {
-                $emp_id = Request('emp_id');
-                $password = Request('password');
 
-                $local_data = $this->userInterface->get_user_from_local($emp_id);
+        try {
+            $emp_id = Request('emp_id');
+            $password = Request('password');
 
-                $result = [];
-                if (empty($local_data['result'])) {
-                    $hris_data = $this->userInterface->get_user_from_hris($emp_id);
-                    if (empty($hris_data['result'])) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Employee Not Found';
-                    } else {
-                        $result['status'] = 2;
-                        $result['message'] = 'For Registration';
-                    }
+            $local_data = $this->userInterface->get_user_from_local($emp_id);
+
+            $result = [];
+            if (empty($local_data['result'])) {
+                $hris_data = $this->userInterface->get_user_from_hris($emp_id);
+                if (empty($hris_data['result'])) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Employee Not Found';
                 } else {
-                    $auth = $this->authenticate(Request()->only('emp_id', 'password'));
-
-                    if ($auth['status'] == true) {
-                        $result['status'] = 3;
-                        $result['message'] = "User Authenticated";
-                        $result['data'] = $auth['user_data'];
-                    } else if ($auth['status'] == false) {
-                        $result['status'] = 4;
-                        $result['message'] = 'Invalid Password';
-                    }
+                    $result['status'] = 2;
+                    $result['message'] = 'For Registration';
                 }
-                return $this->success('User Authenticated', 200, $result);
-            } catch (\Exception $e) {
-                return $this->error($e->getMessage(), 500);
+            } else {
+                $auth = $this->authenticate(Request()->only('emp_id', 'password'));
+
+                if ($auth['status'] == true) {
+                    $result['status'] = 3;
+                    $result['message'] = "User Authenticated";
+                    $result['data'] = $auth['user_data'];
+                } else if ($auth['status'] == false) {
+                    $result['status'] = 4;
+                    $result['message'] = 'Invalid Password';
+                }
             }
+            return $this->success('User Authenticated', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), 500);
         }
     }
 }

@@ -43,9 +43,6 @@ class SystemsController extends Controller
     public function store(SystemsStoreRequest $request)
     {
         try {
-            if ($request->validator->fails()) {
-                return $this->warning('Invalid Inputs', 400, $request->validator->errors());
-            }
             $result = $this->systemsInterface->store($request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
@@ -56,10 +53,6 @@ class SystemsController extends Controller
     public function update(SystemsStoreRequest $request, $id)
     {
         try {
-            if ($request->validator->fails()) {
-                return $this->warning('Invalid Inputs', 400, $request->validator->errors());
-            }
-
             $result = $this->systemsInterface->update($id, $request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {

@@ -8,6 +8,8 @@ use App\Http\Controllers\SystemsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SystemRestrictionController;
 use App\Http\Controllers\SystemAccessController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ImageController;
 
 
 /*
@@ -22,7 +24,9 @@ use App\Http\Controllers\SystemAccessController;
 */
 
 
+
 /*USERS*/
+
 Route::get('/user/load-sections', [UserController::class, 'load_sections']);
 Route::get('/user/load-hris-masterlist', [UserController::class, 'load_hris_masterlist']);
 Route::get('/user/get-user-from-hris/{id}', [UserController::class, 'get_user_from_hris']);
@@ -53,3 +57,17 @@ Route::get('/system-access/get/{id}', [SystemAccessController::class, 'get']);
 Route::post('/system-access', [SystemAccessController::class, 'store']);
 Route::patch('/system-access/{id}', [SystemAccessController::class, 'update']);
 Route::delete('/system-access/{id}', [SystemAccessController::class, 'delete']);
+
+Route::get('/contact', [ContactController::class, 'load']);
+Route::get('/contact/get/{id}', [ContactController::class, 'get']);
+Route::post('/contact', [ContactController::class, 'store']);
+Route::patch('/contact/{id}', [ContactController::class, 'update']);
+Route::delete('/contact/{id}', [ContactController::class, 'delete']);
+
+Route::get('/image', [ImageController::class, 'load']);
+Route::get('/image/get/{id}', [ImageController::class, 'get']);
+Route::post('/image', [ImageController::class, 'store']);
+Route::patch('/image/{id}', [ImageController::class, 'update']);
+Route::delete('/image/{id}', [ImageController::class, 'delete']);
+
+Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');

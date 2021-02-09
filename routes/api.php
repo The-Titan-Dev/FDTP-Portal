@@ -26,7 +26,6 @@ use App\Http\Controllers\ImageController;
 
 
 /*USERS*/
-
 Route::get('/user/load-sections', [UserController::class, 'load_sections']);
 Route::get('/user/load-hris-masterlist', [UserController::class, 'load_hris_masterlist']);
 Route::get('/user/get-user-from-hris/{id}', [UserController::class, 'get_user_from_hris']);
@@ -70,4 +69,4 @@ Route::post('/image', [ImageController::class, 'store']);
 Route::patch('/image/{id}', [ImageController::class, 'update']);
 Route::delete('/image/{id}', [ImageController::class, 'delete']);
 
-Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');
+// Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');

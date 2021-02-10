@@ -58,7 +58,7 @@ class UserController extends Controller
             $result = $this->userInterface->get_user_from_hris($emp_id);
             return $this->success('User Data Retrieved', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(),500);
+            return $this->error($e->getMessage(), 500);
         }
     }
 
@@ -99,15 +99,19 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return  $this->warning('Invalid inputs', 400, $validator->errors());
-        } else {
-            try {
+        } 
+        else 
+        {
+            try 
+            {
                 $emp_id = Request('emp_id');
                 $password = Hash::make($emp_id);
 
                 $local_data = $this->userInterface->get_user_from_local($emp_id);
 
                 $result = [];
-                if (empty($local_data)) {
+                if (empty($local_data)) 
+                {
                     $hris_data = $this->userInterface->get_user_from_hris($emp_id);
                     if (empty($hris_data)) {
                         $result['status'] = 1;
@@ -152,10 +156,12 @@ class UserController extends Controller
                     }
                 }
                 return $this->success('User Authenticated', 200, $result);
-            } catch (\Exception $e) {
-                return $this->error($e->getMessage(), 500);
             }
-        }
+            catch (\Exception $e) 
+            {
+                return $this->error($e->getMessage(), 500);
+            } 
+        }  
     }
 
     public function combinedataManpower($portldata, $hrisdata, $usertoken, $systemaccess, $systems, $systemroles, $systemaccessroles, $usercontacts, $systemimages)

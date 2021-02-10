@@ -10,13 +10,10 @@ Vue.use(VueRouter);
 
 import store from "./store";
 
-
-import App from "./views/App";
-import Home from "./views/Home";
-import Login from "./views/Login";
+import "./icons.js";
 
 import axios from "axios";
-axios.defaults.baseURL = "http://10.164.58.130/fdtp-portal/public/";
+axios.defaults.baseURL = "http://10.164.58.130/fdtp-portal/public/api/";
 
 /*TEMPORARY*/
 import Toast from "vue-toastification";
@@ -29,19 +26,37 @@ const options = {
 
 Vue.use(Toast, options);
 
+import App from "./views/App";
+import Base from "./views/Base";
+import Login from "./views/Login";
+import UserManagement from "./views/UserManagement";
+import Admin from "./views/Admin";
+
 const base_url = "/fdtp-portal/public/";
 const router = new VueRouter({
     mode: "history",
     routes: [
         {
-            path: "/fdtp-portal/public/",
-            name: "home",
-            component: Home
-        },
-        {
             path: `${base_url}login`,
             name: "login",
             component: Login
+        },
+        {
+            path: `${base_url}`,
+            name: "base",
+            component: Base,
+            children: [
+                {
+                    path: `${base_url}admin`,
+                    name: "Admin",
+                    component: Admin
+                },
+                {
+                    path: `${base_url}user-management`,
+                    name: "UserManagement",
+                    component: UserManagement
+                }
+            ]
         }
     ]
 });

@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Interfaces\SystemAccessInterface;
 use App\Models\SystemAccess;
-use App\Models\RoleAccess;
 class SystemAccessRepository implements SystemAccessInterface
 {
     public function loadAllSystemAccess()

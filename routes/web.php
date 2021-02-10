@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,4 +13,4 @@ use Illuminate\Support\Facades\Route;
 */
 /*USERS*/
 
-// Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');
+Route::get('/{any?}', App\Http\Controllers\SpaController::class);

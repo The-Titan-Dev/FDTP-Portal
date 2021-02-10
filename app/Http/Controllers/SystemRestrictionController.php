@@ -2,58 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SystemsStoreRequest;
-use App\Models\Systems;
+use App\Http\Requests\SystemRestrictionRequest;
 use Illuminate\Http\Request;
+use App\Interfaces\SystemRestrictionInterface;
 use App\Traits\ResponseAPI;
-use App\Interfaces\SystemsInterface;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
 
-class SystemsController extends Controller
+class SystemRestrictionController extends Controller
 {
     use ResponseAPI;
-    protected $systemsInterface;
+    protected $systemRestrictionInterface;
 
-    public function __construct(SystemsInterface $systemsInterface)
+    public function __construct(SystemRestrictionInterface $systemRestrictionInterface)
     {
-        $this->systemsInterface = $systemsInterface;
+        $this->systemRestrictionInterface = $systemRestrictionInterface;
     }
 
     public function load()
     {
         try {
-            $result = $this->systemsInterface->load();
+            $result = $this->systemRestrictionInterface->load();
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
-
     public function get($id)
     {
         try {
-            $result = $this->systemsInterface->get($id);
+            $result = $this->systemRestrictionInterface->get($id);
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
 
-    public function store(SystemsStoreRequest $request)
+    public function store(SystemRestrictionRequest $request)
     {
         try {
-            $result = $this->systemsInterface->store($request->validated());
+            $result = $this->systemRestrictionInterface->store($request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
 
-    public function update(SystemsStoreRequest $request, $id)
+    public function update(SystemRestrictionRequest $request, $id)
     {
         try {
-            $result = $this->systemsInterface->update($id, $request->validated());
+            $result = $this->systemRestrictionInterface->update($id, $request->validated());
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
@@ -63,10 +59,10 @@ class SystemsController extends Controller
     public function delete($id)
     {
         try {
-            $result = $this->systemsInterface->delete($id);
+            $result = $this->systemRestrictionInterface->delete($id);
             return $this->success('Successfully Executed', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), 500);
+            return $this->error($e->getMessage(),500);
         }
     }
 }

@@ -26,6 +26,7 @@ use App\Http\Controllers\SystemAccessController;
 */
 
 
+
 /*USERS*/
 Route::get('/user/load-sections', [UserController::class, 'load_sections']);
 Route::get('/user/load-hris-masterlist', [UserController::class, 'load_hris_masterlist']);
@@ -34,11 +35,11 @@ Route::get('/user/get-user-from-local/{id}', [UserController::class, 'get_user_f
 Route::post('/user/login', [UserController::class, 'login']);
 
 /*SYSTEMS*/
-Route::get('/systems/load', [SystemsController::class, 'load']);
+Route::get('/systems', [SystemsController::class, 'load']);
 Route::get('/systems/get/{id}', [SystemsController::class, 'get']);
-Route::post('/systems/store', [SystemsController::class, 'store']);
-Route::patch('/systems/update/{id}', [SystemsController::class, 'update']);
-Route::delete('/systems/delete/{id}', [SystemsController::class, 'delete']);
+Route::post('/systems', [SystemsController::class, 'store']);
+Route::patch('/systems/{id}', [SystemsController::class, 'update']);
+Route::delete('/systems/{id}', [SystemsController::class, 'delete']);
 
 Route::get('/system-access/load', [SystemAccessController::class, 'load']);
 Route::get('/system-access/get/{id}', [SystemAccessController::class, 'get']);

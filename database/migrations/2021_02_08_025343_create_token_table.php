@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSystemAccess extends Migration
+class CreateTokenTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateSystemAccess extends Migration
      */
     public function up()
     {
-        Schema::create('system_accesses', function (Blueprint $table) {
+        Schema::create('tokens', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('emp_id');
-            $table->unsignedBigInteger('system_id');
-            $table->string('status');
+            $table->string('auth_token');
+            $table->unsignedBigInteger('access_token_id');
             $table->timestamps();
-            $table->softDeletes();
             $table->foreign('emp_id')->references('emp_id')->on('users');
-            $table->foreign('system_id')->references('id')->on('systems');
+            $table->foreign('access_token_id')->references('id')->on('access_tokens');
+
         });
     }
 
@@ -32,6 +32,6 @@ class CreateSystemAccess extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('system_accesses');
+        Schema::dropIfExists('tokens');
     }
 }

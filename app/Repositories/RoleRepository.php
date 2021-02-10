@@ -20,7 +20,7 @@ class RoleRepository implements RoleInterface
     public function store($request)
     {
         $role = new Role;
-        $role->system_id    = $request['system_id'];
+        $role->system_id     = $request['system_id'];
         $role->role          = $request['role'];
         $role->description   = $request['description'];
         return $role->save();
@@ -29,7 +29,7 @@ class RoleRepository implements RoleInterface
     public function update($id, $request)
     {
         $role = Role::find($id);
-        $role->system_id    = $request['system_id'];
+        $role->system_id     = $request['system_id'];
         $role->role          = $request['role'];
         $role->description   = $request['description'];
         return $role->save();

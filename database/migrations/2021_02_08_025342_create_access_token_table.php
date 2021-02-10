@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoles extends Migration
+class CreateAccessTokenTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateRoles extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('access_tokens', function (Blueprint $table) {
             $table->id();
+            $table->string('access_token');
             $table->unsignedBigInteger('system_id');
-            $table->string('role');
-            $table->string('description');
             $table->timestamps();
-            $table->softDeletes();
             $table->foreign('system_id')->references('id')->on('systems');
         });
     }
@@ -31,6 +29,6 @@ class CreateRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('access_tokens');
     }
 }

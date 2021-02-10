@@ -30,6 +30,36 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\RoleInterface',
             'App\Repositories\RoleRepository'
         );
+
+        $this->app->bind(
+            'App\Interfaces\AccessTokenInterface',
+            'App\Repositories\AccessTokenRepository'
+        );
+
+        $this->app->bind(
+            'App\Interfaces\TokenInterface',
+            'App\Repositories\TokenRepository'
+        );
+
+        $this->app->bind(
+            'App\Interfaces\SystemAccessInterface',
+            'App\Repositories\SystemAccessRepository'
+        );
+
+        $this->app->bind(
+            'App\Interfaces\ContactInterface',
+            'App\Repositories\ContactRepository'
+        );
+
+        $this->app->bind(
+            'App\Interfaces\ImageInterface',
+            'App\Repositories\ImageRepository'
+        );
+
+        $this->app->bind(
+            'App\Interfaces\RoleAccessInterface',
+            'App\Repositories\RoleAccessRepository'
+        );
     }
 
     /**

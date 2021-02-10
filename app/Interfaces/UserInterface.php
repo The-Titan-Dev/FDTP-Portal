@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Interfaces;
-
-use App\Http\Requests\UserRequest;
-
 interface UserInterface
 {
     public function load_sections();
@@ -15,4 +12,6 @@ interface UserInterface
     public function get_user_from_local($emp_id);
 
     public function authenticate($credentials);
+
+    public function registeredUser($empid);
 }

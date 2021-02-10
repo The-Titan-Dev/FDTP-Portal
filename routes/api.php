@@ -5,7 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SpaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SystemsController;
-use App\Http\Controllers\RoleControllerup;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\AccessTokenController;
+use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\RoleAccessController;
+use App\Http\Controllers\TokenController;
+use App\Http\Controllers\SystemAccessController;
 
 
 /*
@@ -34,8 +40,47 @@ Route::post('/systems/store', [SystemsController::class, 'store']);
 Route::patch('/systems/update/{id}', [SystemsController::class, 'update']);
 Route::delete('/systems/delete/{id}', [SystemsController::class, 'delete']);
 
+Route::get('/system-access/load', [SystemAccessController::class, 'load']);
+Route::get('/system-access/get/{id}', [SystemAccessController::class, 'get']);
+Route::post('/system-access/store', [SystemAccessController::class, 'store']);
+Route::patch('/system-access/update/{id}', [SystemAccessController::class, 'update']);
+Route::delete('/system-access/delete/{id}', [SystemAccessController::class, 'delete']);
+
 Route::get('/role/load', [RoleController::class, 'load']);
 Route::get('/role/get/{id}', [RoleController::class, 'get']);
 Route::post('/role/store', [RoleController::class, 'store']);
 Route::patch('/role/update/{id}', [RoleController::class, 'update']);
 Route::delete('/role/delete/{id}', [RoleController::class, 'delete']);
+
+Route::get('/role-access/load', [RoleAccessController::class, 'load']);
+Route::get('/role-access/get/{id}', [RoleAccessController::class, 'get']);
+Route::post('/role-access/store', [RoleAccessController::class, 'store']);
+Route::patch('/role-access/update/{id}', [RoleAccessController::class, 'update']);
+Route::delete('/role-access/delete/{id}', [RoleAccessController::class, 'delete']);
+
+/**TOKEN */
+Route::get('/access-token/load', [AccessTokenController::class, 'load']);
+Route::get('/access-token/get/{id}', [AccessTokenController::class, 'get']);
+Route::post('/access-token/store', [AccessTokenController::class, 'store']);
+Route::patch('/access-token/update/{id}', [AccessTokenController::class, 'update']);
+Route::delete('/access-token/delete/{id}', [AccessTokenController::class, 'delete']);
+
+Route::get('/token/load', [TokenController::class, 'load']);
+Route::get('/token/get/{id}', [TokenController::class, 'get']);
+Route::post('/token/store', [TokenController::class, 'store']);
+Route::patch('/token/update/{id}', [TokenController::class, 'update']);
+Route::delete('/token/delete/{id}', [TokenController::class, 'delete']);
+
+
+/**INFORMATION */
+Route::get('/contacts/load', [ContactsController::class, 'load']);
+Route::get('/contacts/get/{id}', [ContactsController::class, 'get']);
+Route::post('/contacts/store', [ContactsController::class, 'store']);
+Route::patch('/contacts/update/{id}', [ContactsController::class, 'update']);
+Route::delete('/contacts/delete/{id}', [ContactsController::class, 'delete']);
+
+Route::get('/images/load', [ImagesController::class, 'load']);
+Route::get('/images/get/{id}', [ImagesController::class, 'get']);
+Route::post('/images/store', [ImagesController::class, 'store']);
+Route::patch('/images/update/{id}', [ImagesController::class, 'update']);
+Route::delete('/images/delete/{id}', [ImagesController::class, 'delete']);

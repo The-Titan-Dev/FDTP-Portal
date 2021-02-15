@@ -4,8 +4,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser,faBars } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser);
+library.add(faUser,faBars);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

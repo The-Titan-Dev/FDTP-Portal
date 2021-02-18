@@ -13,7 +13,7 @@ import store from "./store";
 import "./icons.js";
 
 import axios from "axios";
-axios.defaults.baseURL = "http://10.164.58.130/fdtp-portal/public/api/";
+axios.defaults.baseURL = "http://10.164.58.52/FDTP-Portal/public/api/";
 
 /*TEMPORARY*/
 import Toast from "vue-toastification";
@@ -31,6 +31,7 @@ import Base from "./views/Base";
 import Login from "./views/Login";
 import UserManagement from "./views/UserManagement";
 import Admin from "./views/Admin";
+import Home from "./views/Home";
 
 const base_url = "/fdtp-portal/public/";
 const router = new VueRouter({
@@ -55,10 +56,22 @@ const router = new VueRouter({
                     path: `${base_url}user-management`,
                     name: "UserManagement",
                     component: UserManagement
+                },
+                {
+                    path: `${base_url}home`,
+                    name: "Home",
+                    component: Home
                 }
             ]
         }
-    ]
+    ],
+    scrollBehavior: function (to) {
+        if (to.hash) {
+          return {
+            selector: to.hash
+          }
+        }
+      },
 });
 
 const app = new Vue({

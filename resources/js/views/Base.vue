@@ -1,11 +1,16 @@
 <template>
-  <b-container fluid>
-    <AHeader></AHeader>
+  <b-container fluid >
     <b-row>
-    <div class="body">
-      <router-view></router-view>
-    </div>
-    
+      <b-col>
+        <AHeader></AHeader>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col class="p-0">
+        <div class="body">
+          <router-view></router-view>
+        </div>
+      </b-col>
     </b-row>
     <AFooter></AFooter>
   </b-container>
@@ -25,6 +30,7 @@ export default {
 
 <style lang="scss">
 .body {
+<<<<<<< HEAD
   width:100%;
   // min-height:100vh;
   height:100%;
@@ -38,5 +44,10 @@ body{
 
 html {
   scroll-behavior: smooth;
+=======
+  width: 100%;
+  min-height: 100vh;
+  background:#e9ecec;
+>>>>>>> 42bdacb2b7946f5717a71c879c304ef973b605b6
 }
 </style>

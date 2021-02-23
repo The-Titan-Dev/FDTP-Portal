@@ -1,5 +1,7 @@
 <template>
-  <h1>Admin</h1>
+  <div class="">
+      
+  </div>
 </template>
 
 <script>

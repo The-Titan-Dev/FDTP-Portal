@@ -3,28 +3,11 @@
     <b-row class="justify-content-center">
       <b-col>
         <div class="page__body">
-          <div class="page__title mb-5">USER MANAGEMENT</div>
+          <div class="page__title mb-4">USER MANAGEMENT</div>
           <b-row>
             <b-col>
               <div class="table__container">
                 <b-row>
-                  <b-col xl="4" lg="4" md="8">
-                    <b-form-group
-                      id="input-group-1"
-                      label="Search Keyword:"
-                      label-for="filter-input"
-                      description="What are you looking for?"
-                      class="filter__group"
-                    >
-                      <b-form-input
-                        id="filter-input"
-                        v-model="filter"
-                        type="search"
-                        class="custom__input"
-                      >
-                      </b-form-input>
-                    </b-form-group>
-                  </b-col>
                   <b-col xl="2" lg="2" md="4">
                     <b-form-group
                       id="input-group-2"
@@ -42,6 +25,23 @@
                       ></b-form-select>
                     </b-form-group>
                   </b-col>
+                  <b-col xl="4" lg="4" md="8">
+                    <b-form-group
+                      id="input-group-1"
+                      label="Search Keyword:"
+                      label-for="filter-input"
+                      description="What are you looking for?"
+                      class="filter__group"
+                    >
+                      <b-form-input
+                        id="filter-input"
+                        v-model="filter"
+                        type="search"
+                        class="custom__input"
+                      >
+                      </b-form-input>
+                    </b-form-group>
+                  </b-col>
                 </b-row>
 
                 <b-row>
@@ -52,12 +52,26 @@
                       hover
                       bordered
                       responsive
+                      :fields="fields"
                       :filter="filter"
                       :filter-included-fields="filterOn"
-                      :items="items"
+                      :items="this.getUsers.data"
                       :per-page="perPage"
                       :current-page="currentPage"
                     >
+                      <template #cell(emp_photo)="data">
+                        <center>
+                          <b-avatar :src="`/${data.item.emp_photo}`" size="60px"></b-avatar>
+                        </center>
+                      </template>
+
+                      <template #cell(name)="data">
+                        <label>
+                          {{ data.item.emp_first_name}}
+                          {{ data.item.emp_middle_name}}
+                          {{ data.item.emp_last_name }}
+                        </label>
+                      </template>
                     </b-table>
                   </b-col>
 
@@ -95,6 +109,7 @@
 
 <script>
 import Case from "../components/Case.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "UserManagement",
   components: {
@@ -102,215 +117,12 @@ export default {
   },
   data() {
     return {
-      items: [
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
-        {
-          image: "url",
-          first_name: "Ariel",
-          middle_name: "Garcia",
-          last_name: "Quindoza",
-          section: "MIT",
-          Position: "Missionary",
-        },
+      fields: [
+        { key: "emp_id", sortable: true },
+        { key: "emp_photo", sortable: true, label: "Image" },
+        { key: "name", sortable: true, label: "Employee" },
+        { key: "position", sortable: true },
+        { key: "section", sortable: true },
       ],
       currentPage: 1,
       perPage: 5,
@@ -319,13 +131,31 @@ export default {
       filterOn: [],
     };
   },
+  mounted() {
+    this.load_users();
+  },
   computed: {
+    ...mapGetters(["getUsers"]),
     rows() {
-      if (!this.items) {
+      if (!this.getUsers.data) {
         return 1;
       } else {
-        return this.items.length;
+        return this.getUsers.data.length;
       }
+    },
+  },
+  methods: {
+    load_users: function () {
+      this.$store.dispatch("loadUsers").then((result) => {
+        this.toast(result.status, result.message);
+      });
+    },
+    toast: function (status, message) {
+      this.$toast(message, {
+        type: status,
+        toastClassName: `toastification--${status}`,
+        position: "top-center",
+      });
     },
   },
 };
@@ -344,7 +174,7 @@ export default {
 }
 
 .page__title {
-  width: 300px;
+  width: 400px;
   font-size: 40px;
   border-bottom: 5px solid $red;
   color: $black;
@@ -354,7 +184,7 @@ export default {
   .filter__group {
     width: auto;
     background: white;
-    padding: 20px;
+    padding: 10px 25px 10px 25px;
     border-radius: 10px;
     box-shadow: 10px 8px 13px #c6c9ca;
     margin-bottom: 20px;
@@ -371,9 +201,9 @@ export default {
     td {
       border: 0;
       color: $black;
-      padding: 20px 30px 20px 30px;
+      padding: 10px 20px 10px 20px;
       border-bottom: 1px solid #efefef;
-      font-family:MontserratRegular;
+      font-family: MontserratRegular;
     }
 
     th {
@@ -381,32 +211,31 @@ export default {
       color: $black;
       border-bottom: 2px solid #eaeaea;
       padding: 20px 30px 20px 30px;
-      font-family:MontserratBold;
+      font-family: MontserratBold;
     }
   }
 
   .custom__pagination {
-   
-   .page-item{
-     .page-link{
-       color:$black;
-     }
-   }
+    .page-item {
+      .page-link {
+        color: $black;
+      }
+    }
 
-    .page-item.disabled{
-     .page-link{
-       color:#b2b5b5;
-     }
-   }
+    .page-item.disabled {
+      .page-link {
+        color: #b2b5b5;
+      }
+    }
 
-    .page-item.active{
-     .page-link{
-       color:white;
-       background:$red;
-       border-color:$red;
-       outline-color:$red;
-     }
-   }
+    .page-item.active {
+      .page-link {
+        color: white;
+        background: $red;
+        border-color: $red;
+        outline-color: $red;
+      }
+    }
   }
 }
 </style>

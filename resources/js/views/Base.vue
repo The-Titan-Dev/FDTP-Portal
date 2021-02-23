@@ -30,7 +30,6 @@ export default {
 
 <style lang="scss">
 .body {
-<<<<<<< HEAD
   width:100%;
   // min-height:100vh;
   height:100%;
@@ -44,10 +43,8 @@ body{
 
 html {
   scroll-behavior: smooth;
-=======
   width: 100%;
   min-height: 100vh;
   background:#e9ecec;
->>>>>>> 42bdacb2b7946f5717a71c879c304ef973b605b6
 }
 </style>

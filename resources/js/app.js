@@ -13,7 +13,7 @@ import store from "./store";
 import "./icons.js";
 
 import axios from "axios";
-axios.defaults.baseURL = "http://10.164.58.130/fdtp-portal/public/api/";
+axios.defaults.baseURL = "http://10.164.30.173/fdtp-portal/public/api/";
 
 /*TEMPORARY*/
 import Toast from "vue-toastification";
@@ -31,6 +31,7 @@ import Base from "./views/Base";
 import Login from "./views/Login";
 import UserManagement from "./views/UserManagement";
 import Admin from "./views/Admin";
+import SystemManagement from "./views/SystemManagement";
 
 const base_url = "/fdtp-portal/public/";
 const router = new VueRouter({
@@ -55,6 +56,11 @@ const router = new VueRouter({
                     path: `${base_url}user-management`,
                     name: "UserManagement",
                     component: UserManagement
+                },
+                {
+                    path: `${base_url}system-management`,
+                    name: "SystemManagement",
+                    component: SystemManagement
                 }
             ]
         }

@@ -3,9 +3,11 @@
     <img :src="'images/fujitsu.png'" class="nav-logo" />
 
     <ul class="nav-menu">
-      <li><router-link to="" class="nav-a">Systems</router-link></li>
-      <li><router-link :to="{name:'Admin'}" class="nav-a">Admin</router-link></li>
+      <!-- <li><router-link :to="{name:'Admin'}" class="nav-a">Admin</router-link></li> -->
       <li><router-link :to="{name:'UserManagement'}"  class="nav-a">Account</router-link></li>
+      <li><router-link :to="{name:'SystemManagement'}"  class="nav-a">System Management</router-link></li>
+      <li><router-link to="" class="nav-a">Systems</router-link></li>
+      
     </ul>
   </header>
 </template>

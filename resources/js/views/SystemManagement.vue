@@ -14,18 +14,16 @@
                         <p>Fujitsu grows so do its requirements, as well as the need to efficiently manage and safeguard IT and data assets so we centralized system monitoring.</p>
                     </article>
                     <center>
-                        <button class="btn btn-danger btn-lg">
+                        <b-button class="btn btn-danger btn-lg">
                             GET STARTED
-                        </button>
+                        </b-button>
                     </center>
 
                 </div>
             </b-row>
         </section>
       
-        <div class="body-circle"></div> 
-
-        <section class="col-lg-12">
+        <section class=" body-circle col-lg-12">
             <div class="body--management">
                 <h1>SYSTEM MANAGEMENT</h1>
                 <p>Fujitsu grows so do its requirements, as well as the need to efficiently manage and safeguard IT and data assets so we centralized system monitoring.</p>
@@ -35,17 +33,18 @@
             <div class="footer--management">
                  <b-row align-h="between">
                     <b-col sm="12" md="4" class="mb-2">
-                        <button
+                        <b-button
                         type="button"
                         variant="primary"
                         size="md"
                         class="btn btn-danger"
                         v-b-modal.category-modal-insert
                         title="Click to clear form"
-                        @click.native="clearForm"
+                      
                         >
-                        <font-awesome-icon icon="th-list" size="sm" class="icon" /> REGISTER NEW SYSTEM
-                        </button>
+                        <!-- <font-awesome-icon icon="th-list" size="sm" class="icon" />  -->
+                        REGISTER NEW SYSTEM
+                        </b-button>
                     </b-col>
 
                     <b-col sm="12" md="6" lg="5" xl="3" class="mb-2">
@@ -58,23 +57,23 @@
                         >
                         </b-form-input>
                         <b-input-group-append>
-                            <button
+                            <b-button
                             type="button"
                             size="md"
                             class="btn btn-danger"
                             :disabled="!filter"
-                            @click.native="filter = ''"
+                          
                             >
-                            <font-awesome-icon icon="eraser" size="sm" class="icon" />
+                            <!-- <font-awesome-icon icon="eraser" size="sm" class="icon" /> -->
                             Cancel
-                            </button>
+                            </b-button>
                         </b-input-group-append>
                         </b-input-group>
                     </b-col>
                 </b-row>
 
                 <b-table
-                id="areas_table"
+                id="system_management_table"
                 class="alpha__table text-nowrap"
                 hover
                 bordered
@@ -92,16 +91,18 @@
                     variant="danger"
                     size="sm"
                     title="Click to Add role"
-                    @click.native="removeArea(data.item.id)"
+                 
                     >
-                    <font-awesome-icon
+                    <!-- <font-awesome-icon
                         icon="eraser"
                         size="sm"
                         class="icon"
-                    />Add Role
+                    /> -->
+                    Add Role
                     </b-button>
                 </template>
                 </b-table>
+
                 <b-pagination
                     align="right"
                     class="alpha__table__pagination"
@@ -112,61 +113,85 @@
                 </b-pagination> 
             
             </div>
-               
+            <footer class="footer--content">
+                <div class="border--red"></div>
+                <h1>Copyright @2021 FDTP. All Right Reserved.</h1>
+            </footer>
         </section>
-        <b-footer>
-            <h1>Copyright @2021 FDTP. All Right Reserved.</h1>
-        </b-footer>
+
+      
     </div>
     
 </template>
 
 <script style='scss'>
+import { mapGetters } from "vuex";
 export default {
-    name:"SystemManagement",
-    data() {
-    return {
-        currentPage: 1,
-        perPage: 10,
-        filter: null,
-        filterOn: [],
-        fields: [
-        {
-          key: "Name",
-          sortable: true,
+        name:"SystemManagement",
+        data() {
+        return {
+            currentPage: 1,
+            perPage: 10,
+            filter: null,
+            filterOn: [],
+            fields: [
+            {
+            key: "Name",
+            sortable: true,
+            },
+            {
+            key: "System Code",
+            sortable: true,
+            },
+            {
+            key: "Reference Code",
+            sortable: true,
+            },
+            {
+            key: "Reference No.",
+            sortable: true,
+            },
+            {
+            key: "Description",
+            sortable: true,
+            },
+            {
+            key: "Status",
+            sortable: true,
+            },
+            {
+            key: "Section Owner",
+            sortable: true,
+            },
+            {
+            key: "Action",
+            sortable: true,
+            },
+            { key: "actions", label: "Actions" },
+        ]
+        };
+    },
+        
+    mounted() {
+        this.loadTable();
+    },
+    computed: {
+        ...mapGetters(["getSystemManagement"]),
+        rows() {
+        if (!this.getSystemManagement.data) {
+            return 1;
+        } else {
+            return this.getSystemManagement.data.length;
+        }
         },
-        {
-          key: "System Code",
-          sortable: true,
+    },
+    methods: {
+        loadTable: function () {
+            this.$store.dispatch("loadSystemManagement").then((result) => {
+                alert(result.status, result.message);
+            });
         },
-        {
-          key: "Reference Code",
-          sortable: true,
-        },
-        {
-          key: "Reference No.",
-          sortable: true,
-        },
-        {
-          key: "Description",
-          sortable: true,
-        },
-        {
-          key: "Status",
-          sortable: true,
-        },
-        {
-          key: "Section Owner",
-          sortable: true,
-        },
-        {
-          key: "Action",
-          sortable: true,
-        },
-        { key: "actions", label: "Actions" },
-      ]
-    };
-  },
+    }
  
 }
 </script>
@@ -230,17 +255,20 @@ export default {
 .body-circle {
     background: white;
     border-radius: 70% 70% 0% 0%;
-    position: absolute;
+    margin-bottom: 0;
+    padding: 0;
     width: 100%;
-    height:100%;
+    height: auto;
+    
+    
 }
 
 .body--management {
+    
     padding-top: 10%;
     width: 100%;
     text-align: center;
     margin-bottom: 50px;
-
     
     p {
         width: 300px;
@@ -253,11 +281,37 @@ export default {
         margin-top: -120px;
         margin-left: 1000px;
     }
+   
+
 }
 
 .footer--management {
+    padding: 0;
     margin: 0px 200px 0px 200px;
+    
+    .alpha__table__pagination button.page-link {
+        background: #c82333;
+    }
+
+ 
 }
 
+.footer--content {
+    text-align: center;
+   
+    .border--red {
+        background: #e84656;
+        height: 250px; 
+        width: 100%;
+    }
+
+    h1 {
+        width: 100%;
+        font-size: 20px;
+        background: #555656;
+        padding: 15px;
+        color: white;
+    }    
+}
 
 </style>

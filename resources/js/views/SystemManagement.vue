@@ -85,7 +85,7 @@
                 :per-page="perPage"
                 :current-page="currentPage"
                 >
-                <template #cell(actions)="data">
+                <!-- <template #cell(actions)="data">
                     <b-button
                     type="button"
                     variant="danger"
@@ -93,14 +93,14 @@
                     title="Click to Add role"
                  
                     >
-                    <!-- <font-awesome-icon
+                    <font-awesome-icon
                         icon="eraser"
                         size="sm"
                         class="icon"
-                    /> -->
+                    /> 
                     Add Role
                     </b-button>
-                </template>
+                </template> -->
                 </b-table>
 
                 <b-pagination
@@ -136,38 +136,35 @@ export default {
             filterOn: [],
             fields: [
             {
-            key: "Name",
+            key: "name",
             sortable: true,
             },
             {
-            key: "System Code",
+            key: "abbreviation",
             sortable: true,
             },
             {
-            key: "Reference Code",
+            key: "reference_code",
             sortable: true,
             },
             {
-            key: "Reference No.",
+            key: "reference_number",
             sortable: true,
             },
             {
-            key: "Description",
+            key: "description",
             sortable: true,
             },
             {
-            key: "Status",
+            key: "status",
             sortable: true,
             },
             {
             key: "Section Owner",
             sortable: true,
             },
-            {
-            key: "Action",
-            sortable: true,
-            },
-            { key: "actions", label: "Actions" },
+            
+            { key: "id", label: "Actions" },
         ]
         };
     },

@@ -32,6 +32,7 @@ import Login from "./views/Login";
 import UserManagement from "./views/UserManagement";
 import Admin from "./views/Admin";
 import Home from "./views/Home";
+import SystemManagement from "./views/SystemManagement";
 
 const base_url = "/fdtp-portal/public/";
 const router = new VueRouter({
@@ -61,6 +62,10 @@ const router = new VueRouter({
                     path: `${base_url}home`,
                     name: "Home",
                     component: Home
+                },{
+                    path: `${base_url}system-management`,
+                    name: "SystemManagement",
+                    component: SystemManagement
                 }
             ]
         }

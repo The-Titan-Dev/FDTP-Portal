@@ -17,11 +17,7 @@
      
     </ul>
 
-    <ul class="nav-min">
-      <router-link :to="{ name: 'Admin' }" class="nav-a">
-        <font-awesome-icon icon="bars" size="2x" class="hamburger" />
-        </router-link>
-    </ul>
+    
   </header>
 </template>
 

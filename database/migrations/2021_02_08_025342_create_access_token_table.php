@@ -18,6 +18,7 @@ class CreateAccessTokenTable extends Migration
             $table->string('access_token');
             $table->unsignedBigInteger('system_id');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('system_id')->references('id')->on('systems');
         });
     }

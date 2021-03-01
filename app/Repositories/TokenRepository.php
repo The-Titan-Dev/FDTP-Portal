@@ -13,9 +13,9 @@ class TokenRepository implements TokenInterface
         return Token::all();
     }
 
-    public function getSpecificToken($id)
+    public function getSpecificToken($token)
     {
-        return Token::find($id);
+        return Token::where('auth_token',$token)->first();
     }
 
     public function storeToken($request)
@@ -23,7 +23,6 @@ class TokenRepository implements TokenInterface
         $Token = new Token;
         $Token->emp_id                   = $request['emp_id'];
         $Token->auth_token               =  Str::random(64);
-        $Token->access_token_id          = $request['access_token_id'];
         $Token->save();
         $LastInsertId = $Token->emp_id;
         return $LastInsertId;
@@ -34,7 +33,6 @@ class TokenRepository implements TokenInterface
         $Token = Token::find($id);
         $Token->emp_id                   = $request['emp_id'];
         $Token->auth_token               =  Str::random(64);
-        $Token->access_token_id          = $request['access_token_id'];
         return $Token->save();
     }
 

@@ -19,6 +19,7 @@ class CreateImagesTable extends Migration
             $table->string('logo');
             $table->string('main_image');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('system_id')->references('id')->on('systems');
         });
     }

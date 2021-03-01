@@ -24,8 +24,7 @@ class TokenRequest extends FormRequest
     public function rules()
     {
         return [
-            'emp_id'               => 'required',
-            'access_token_id'      => 'required',
+            'emp_id'               => 'required'        
         ];
     }
 

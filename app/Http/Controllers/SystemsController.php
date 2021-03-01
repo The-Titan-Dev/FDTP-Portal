@@ -3,12 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SystemsStoreRequest;
-use App\Models\Systems;
-use Illuminate\Http\Request;
 use App\Traits\ResponseAPI;
 use App\Interfaces\SystemsInterface;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
 
 class SystemsController extends Controller
 {
@@ -23,8 +19,9 @@ class SystemsController extends Controller
     public function load()
     {
         try {
-            $result = $this->systemsInterface->load();
-            return $this->success('Successfully Executed', 200, $result);
+            $data = $this->systemsInterface->load();
+            $result = $this->combineSections($data);
+            return $this->success('Systems Loaded', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
@@ -68,5 +65,33 @@ class SystemsController extends Controller
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
+    }
+
+    public function combineSections($data)
+    {
+        $hris_data = $this->systemsInterface->getSection();
+
+        foreach ($data as $key => $value) {
+            foreach ($hris_data as $hrisdata) {
+                if($value->section_owner == $hrisdata->id)
+                {
+                    $result[] = [
+                        'id'                => $value->id,
+                        'name'              => $value->name,
+                        'abbreviation'      => $value->abbreviation,
+                        'reference_code'    => $value->reference_code,
+                        'reference_number'  => $value->reference_number,
+                        'description'       => $value->description,
+                        'url'               => $value->url,
+                        'date_deployed'     => $value->date_deployed,
+                        'status'            => $value->status,
+                        'section_owner'     => $hrisdata->section,
+
+                    ];
+                }
+            }
+        }
+
+        return $result;
     }
 }

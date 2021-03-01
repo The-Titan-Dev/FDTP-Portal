@@ -75,6 +75,95 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Display specific user from system local data
+     */
+    public function get_registered_user()
+    {
+        try {
+            $data =  $this->userInterface->get_registered_user();
+            $result = $this->combineManpowerRegisteredUsers($data);
+            return $this->success('User Data Retrieved', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), 500);
+        }
+    }
+
+    public function registered_user()
+    {
+        try {
+            $data =  $this->userInterface->get_registered_user();
+            $result = $this->combineManpowerRegisteredUsers($data);
+            return $result;
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), 500);
+        }
+    }
+
+
+    public function get_registered_users_per_system($system_id)
+    {
+        try {
+            $data =  $this->userInterface->get_registered_users_per_system($system_id);
+            if(count($data) == 0)
+            {
+                $result = [];
+            }
+            else
+            {
+                $result = $this->combineManpowerRegisteredUsers($data);
+            }
+            return $this->success('User Data Retrieved', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), 500);
+        }
+    }
+
+    public function get_unregistered_user_per_system($system_id)
+    {
+        try 
+        {
+            $registered_data  = $this->registered_user();
+            $users_per_system =  $this->userInterface->get_registered_users_per_system($system_id);
+
+
+            $data_users = [];
+            foreach ($registered_data as $result_users_value) {
+                array_push($data_users, $result_users_value['emp_id']);
+            }
+
+
+            $data_system = [];
+            foreach ($users_per_system as $result_system_value) {
+                array_push($data_system, $result_system_value->emp_id);
+            }
+
+            $result_data = array_diff($data_users, $data_system);
+
+            $array_result = [];
+            foreach ($result_data as $key => $value) {
+                $data_result = [
+                    "emp_id"            => $registered_data[$key]['emp_id'],
+                    "emp_first_name"    => $registered_data[$key]['emp_first_name'],
+                    "emp_last_name"     => $registered_data[$key]['emp_last_name'],
+                    "emp_middle_name"   => $registered_data[$key]['emp_middle_name'],
+                    "emp_photo"         => $registered_data[$key]['emp_photo'],
+                    "position"          => $registered_data[$key]['position'],
+                    "section"           => $registered_data[$key]['section']
+
+                ];
+
+                array_push($array_result, $data_result);
+            }
+
+            return $this->success("All Users Loaded", 200, $array_result);
+        } 
+        catch (\Throwable $th) 
+        {
+            return $this->error($th->getMessage(), 500);
+        } 
+    }
+
     public function authenticate($credentials)
     {
         try {
@@ -83,6 +172,63 @@ class UserController extends Controller
             return $this->error($e->getMessage(), 500);
         }
     }
+
+    public function update_email(Request $request, $empid)
+    {
+        
+        $validator = Validator::make(Request()->all(), [
+            'email' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return  $this->warning('Invalid inputs', 400, $validator->errors());
+        }
+        else
+        {
+            $data = [
+                'email' => $request->email
+            ];
+            try {
+                    $result = $this->userInterface->updateUserEmail($data, $empid);
+                    return $this->success("Email updated", 200, $result);
+            } catch (\Throwable $e) {
+                    return $this->error($e->getMessage(), 500);
+            }
+        }   
+    }
+
+    public function delete_user($empid)
+    {
+        try {
+            $result = $this->userInterface->deleteUser($empid);
+            return $this->success("User Remove", 200, $result);
+        } catch (\Throwable $e) {
+            return $this->error($e->getMessage(), 500);
+        }
+    }
+
+    // public function updatePassword($empid, Request $request)
+    // {
+    //     $validator = Validator::make(request()->all(), [
+    //         'password'      => 'required'
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return  $this->warning('Invalid inputs', 400, $validator->errors());
+    //     }
+    //     else
+    //     {
+    //         $data = [
+    //             'password' => Hash::make($request->password)
+    //         ];
+    //         try {
+    //                 $result = $this->userInterface->updateUserPassword($data, $empid);
+    //                 return $this->success("Password updated", 200, $result);
+    //         } catch (\Throwable $e) {
+    //                 return $this->error($e->getMessage(), 500);
+    //         }
+    //     }
+    // }
 
     /**
      * 1 = User dont exist in portal database
@@ -105,7 +251,7 @@ class UserController extends Controller
             try 
             {
                 $emp_id = Request('emp_id');
-                $password = Hash::make($emp_id);
+                $password = Hash::make('fp'.$emp_id);
 
                 $local_data = $this->userInterface->get_user_from_local($emp_id);
 
@@ -124,7 +270,8 @@ class UserController extends Controller
                             'password'  => $password
                         ];
                         try {
-                            return  $this->userInterface->registeredUser($data);
+                            $result = $this->userInterface->registeredUser($data);
+                            return $this->success("Registered Successfully",200, $data);
                         } catch (\Exception $e) {
                             return $this->error($e->getMessage(), 500);
                         }
@@ -140,14 +287,15 @@ class UserController extends Controller
                         $result['message'] = "User Authenticated";
                         $this->store($auth['user_info']->emp_id);
                         $hris_data = $this->userInterface->get_user_from_hris($auth['user_info']->emp_id);
-                        if(count($auth['user_system_access']) > 0)
+                        if(!empty($auth['systems_with_access']))
                         {
-                            $result['data'] = $this->combinedataManpower($auth['user_info'], $hris_data,$auth['user_token'],$auth['user_system_access'], $auth['user_system'], $auth['user_system_role'], $auth['user_role_access'], $auth['user_system_contacts'], $auth['system_images']);
+                            $result['data'] = $this->combinedataManpower($auth['user_info'], $hris_data,$auth['user_token'],$auth['systems_with_access']);  
                         }
                         else
                         {
                             $result['data'] = $hris_data;
                         }
+
                     } 
                     else if ($auth['status'] == false) 
                     {
@@ -164,40 +312,66 @@ class UserController extends Controller
         }  
     }
 
-    public function combinedataManpower($portldata, $hrisdata, $usertoken, $systemaccess, $systems, $systemroles, $systemaccessroles, $usercontacts, $systemimages)
+    public function combinedataManpower($portaldata, $hrisdata, $usertoken, $systems)
     {
         $result = [
-            'emp_id'             => $portldata->emp_id,
+            'emp_id'             => $portaldata->emp_id,
             'last_name'          => $hrisdata->emp_last_name,
             'first_name'         => $hrisdata->emp_first_name,
             'middle_name'        => $hrisdata->emp_middle_name,
             'position'           => $hrisdata->position,
             'section_code'       => $hrisdata->section_code,
             'photo'              => $hrisdata->emp_photo,
-            'token'              => $usertoken,
-            'system_access'      => $systemaccess,
-            'system'             => $systems,
-            'roles'              => $systemroles,
-            'role_access'        => $systemaccessroles,
-            'contacts'           => $usercontacts,
-            'images'             => $systemimages
+            'auth_token'         => $usertoken,
+            'systems'            => $systems
         ];
-
-       return $result;
+        return $result;
     }
 
     public function store($data)
     {
-        $datas = [
-            'emp_id' => $data,
-            'access_token_id' => 1
-        ];
         try {
-            $result = $this->tokenInterface->storeToken($datas);
+            $result = $this->tokenInterface->storeToken(['emp_id' => $data]);
             return $this->success('Token added', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
     }
 
+    public function combineManpowerRegisteredUsers($data)
+    {
+        $hris_data = $this->userInterface->load_hris_masterlist();
+       
+        foreach ($data as $key => $value) {
+            foreach ($hris_data as $hrisdata) {
+                if($value->emp_id == $hrisdata->emp_pms_id)
+                {
+                    $result[] = [
+                        'emp_id'            => $value->emp_id,
+                        'emp_last_name'     => $hrisdata->emp_last_name,
+                        'emp_first_name'    => $hrisdata->emp_first_name,
+                        'emp_middle_name'   => $hrisdata->emp_middle_name,
+                        'emp_photo'         => $hrisdata->emp_photo,
+                        'position'          => $hrisdata->position,
+                        'section'           => $hrisdata->section,
+                        'role'              => $value->role,
+                        'status'            => $value->status,
+
+                    ];
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    public function logout($emp_id)
+    {
+        try {
+            $result = $this->userInterface->logOutUser($emp_id);
+            return $this->success("Success LogOut", 200, $result);
+        } catch (\Throwable $e) {
+            return $this->error($e->getMessage(), 500);
+        }
+    }
 }

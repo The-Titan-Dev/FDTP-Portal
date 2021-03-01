@@ -6,16 +6,35 @@ use App\Interfaces\SystemAccessInterface;
 use App\Models\SystemAccess;
 class SystemAccessRepository implements SystemAccessInterface
 {
+    /**
+     * Load all system access from storage
+     * 
+     * @return object data
+     */
     public function loadAllSystemAccess()
     {
         return SystemAccess::all();
     }
     
+    /**
+     * Get the specific system access from storage
+     * The parameter used was coming from Interface
+     * 
+     * @param $id
+     * @return object data
+     */
     public function getSpecificSystemAccess($id)
     {
         return SystemAccess::find($id);
     }
 
+    /**
+     * Store the created System Access in storage
+     * The parameter used was coming from Interface
+     * 
+     * @param $request
+     * @return true/false
+     */
     public function storeSystemAccess($request)
     {
         $SystemAccess = new SystemAccess;
@@ -27,6 +46,14 @@ class SystemAccessRepository implements SystemAccessInterface
         return $LastInsertId;
     }
 
+    /**
+     * Update the specific system Access from storage
+     * The parameter used was coming from Interface
+     * 
+     * @param $id
+     * @param $request
+     * @return true/false
+     */
     public function updateSystemAccess($id, $request)
     {
         $SystemAccess = SystemAccess::find($id);
@@ -36,6 +63,13 @@ class SystemAccessRepository implements SystemAccessInterface
         return $SystemAccess->save();
     }
 
+    /**
+     * Remove the specific System Access from storage
+     * The parameter used was coming from Interface
+     * 
+     * @param $id
+     * @return true/false
+     */
     public function deleteSystemAccess($id)
     {
         $result = false;

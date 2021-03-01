@@ -17,7 +17,7 @@ class CreateSystemAccessesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('emp_id');
             $table->unsignedBigInteger('system_id');
-            $table->string('status');
+            $table->integer('status');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('emp_id')->references('emp_id')->on('users');

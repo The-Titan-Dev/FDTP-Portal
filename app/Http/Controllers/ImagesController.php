@@ -5,17 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImageRequest;
 use App\Interfaces\ImageInterface;
 use App\Traits\ResponseAPI;
+use Illuminate\Support\Facades\DB;
 
 class ImagesController extends Controller
 {
     use ResponseAPI;
     protected $imageInterface;
 
+     /**
+     * Constract the Interface to get Return Data
+     * 
+     * @param ImageInterface $imageInterface
+     */
     public function __construct(ImageInterface $imageInterface)
     {
         $this->imageInterface = $imageInterface;
     }
 
+    /**
+     * Display All Images from storage
+     * 
+     * @return error/success w/object data
+     */
     public function load()
     {
         try {
@@ -26,6 +37,12 @@ class ImagesController extends Controller
         }
     }
 
+    /**
+     * Get the specific Image
+     * 
+     * @param $id
+     * @return error/success w/object data
+     */
     public function get($id)
     {
         try {
@@ -36,8 +53,15 @@ class ImagesController extends Controller
         }
     }
 
+    /**
+     * Store the new created Images
+     * 
+     * @param ImageRequest $request
+     * @return warning/error/success true/false
+     */
     public function store(ImageRequest $request)
     {
+        DB::beginTransaction();
         try {
             if ($request->validator->fails()) {
                 return $this->warning('Invalid Inputs', 400, $request->validator->errors());
@@ -67,13 +91,23 @@ class ImagesController extends Controller
 
             $result = $this->imageInterface->storeImages($data);
             return $this->success('Images added', 200, $result);
+            DB::commit();
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
+            DB::rollBack();
         }
     }
 
+    /**
+     * Update the specific Image
+     * 
+     * @param ImageRequest $request
+     * @param $id
+     * @return warning/error/success true/false
+     */
     public function update(ImageRequest $request, $id)
     {
+        DB::beginTransaction();
         try {
             if ($request->validator->fails()) {
                 return $this->warning('Invalid Inputs', 400, $request->validator->errors());
@@ -103,21 +137,40 @@ class ImagesController extends Controller
 
             $result = $this->imageInterface->updateImages($data, $id);
             return $this->success('Images Updated', 200, $result);
+            DB::commit();
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
+            DB::rollBack();
         }
     }
 
+    /**
+     * Remove the specific image 
+     * 
+     * @param $id
+     * @return error/success true/false
+     */
     public function delete($id)
     {
+        DB::beginTransaction();
         try {
             $result = $this->imageInterface->deleteImages($id);
             return $this->success('Images deleted', 200, $result);
+            DB::commit();
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
+            DB::rollBack();
         }
     }
 
+    /**
+     * Save or move the files into server 211
+     * Paramter used is coming from the store and update method
+     * @param files
+     * @param filename
+     * @param folderdestination
+     * @return error/succes
+     */
     public function uploadTo211($file_tmp, $file, $folder_name)
     {
         $ftp_server = '10.164.20.211';

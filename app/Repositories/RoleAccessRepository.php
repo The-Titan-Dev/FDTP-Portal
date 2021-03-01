@@ -7,16 +7,35 @@ use App\Models\RoleAccess;
 
 class RoleAccessRepository implements RoleAccessInterface
 {
+    /**
+     * Load all Role Access from storage
+     * 
+     * @return object data
+     */
     public function loadAllRoleAccess()
     {
         return RoleAccess::all();
     }
 
+    /**
+     * Get the specific Role Access from storage
+     * The parameter used is coming from Interface
+     *  
+     * @param $id
+     * @return object data
+     */
     public function getSpecificRoleAccess($id)
     {
         return RoleAccess::find($id);
     }
 
+    /**
+     * Store the created Role Access in storage
+     * The parameter used is coming from controller
+     * 
+     * @param $request
+     * @return true/false
+     */
     public function storeRoleAccess($request)
     {
         $RoleAccess = new RoleAccess;
@@ -25,6 +44,14 @@ class RoleAccessRepository implements RoleAccessInterface
         return $RoleAccess->save();
     }
 
+    /**
+     * Update the specific Role Access from storage
+     * The parameter used is coming from controller
+     * 
+     * @param $request
+     * @param $id
+     * @return true/false
+     */
     public function updateRoleAccess($request, $id)
     {
         $RoleAccess = RoleAccess::find($id);
@@ -33,6 +60,13 @@ class RoleAccessRepository implements RoleAccessInterface
         return $RoleAccess->save();
     }
 
+    /**
+     * Remove the specific Role Access from storage
+     * The parameter used is coming from controller
+     * 
+     * @param $id
+     * @return true/false
+     */
     public function deleteRoleAccess($id)
     {
         $result = false;

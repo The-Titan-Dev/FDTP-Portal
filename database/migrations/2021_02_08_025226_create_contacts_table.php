@@ -19,6 +19,7 @@ class CreateContactsTable extends Migration
             $table->unsignedBigInteger('system_id');
             $table->integer('local_no');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('emp_id')->references('emp_id')->on('users');
             $table->foreign('system_id')->references('id')->on('systems');
         });

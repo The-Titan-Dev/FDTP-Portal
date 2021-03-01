@@ -31,7 +31,13 @@ Route::get('/user/load-sections', [UserController::class, 'load_sections']);
 Route::get('/user/load-hris-masterlist', [UserController::class, 'load_hris_masterlist']);
 Route::get('/user/get-user-from-hris/{id}', [UserController::class, 'get_user_from_hris']);
 Route::get('/user/get-user-from-local/{id}', [UserController::class, 'get_user_from_local']);
+Route::get('/user/load-all-registered-users', [UserController::class, 'get_registered_user']);
+Route::get('/user/load-all-registered-users-per-system/{system_name}', [UserController::class, 'get_registered_users_per_system']);
+Route::get('/user/load-all-unregistered-users-per-system/{system_name}', [UserController::class, 'get_unregistered_user_per_system']);
 Route::post('/user/login', [UserController::class, 'login']);
+Route::patch('/user/update-email/{empid}', [UserController::class, 'update_email']);
+Route::delete('/user/delete/{empid}', [UserController::class, 'delete_user']);
+Route::delete('/user/logout/{empid}', [UserController::class, 'logout']);
 
 /*SYSTEMS*/
 Route::get('/systems/load', [SystemsController::class, 'load']);
@@ -46,7 +52,7 @@ Route::post('/system-access/store', [SystemAccessController::class, 'store']);
 Route::patch('/system-access/update/{id}', [SystemAccessController::class, 'update']);
 Route::delete('/system-access/delete/{id}', [SystemAccessController::class, 'delete']);
 
-Route::get('/role/load', [RoleController::class, 'load']);
+Route::get('/role/load/{system_id}', [RoleController::class, 'load']);
 Route::get('/role/get/{id}', [RoleController::class, 'get']);
 Route::post('/role/store', [RoleController::class, 'store']);
 Route::patch('/role/update/{id}', [RoleController::class, 'update']);

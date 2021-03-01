@@ -17,10 +17,9 @@ class CreateTokenTable extends Migration
             $table->id();
             $table->unsignedBigInteger('emp_id');
             $table->string('auth_token');
-            $table->unsignedBigInteger('access_token_id');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('emp_id')->references('emp_id')->on('users');
-            $table->foreign('access_token_id')->references('id')->on('access_tokens');
 
         });
     }

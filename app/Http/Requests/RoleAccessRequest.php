@@ -25,6 +25,7 @@ class RoleAccessRequest extends FormRequest
     {
         return [
             'system_access_id'     => 'required|integer',
+            'role_id'              => 'required|integer',
         ];
     }
 

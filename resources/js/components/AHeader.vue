@@ -3,9 +3,24 @@
     <img :src="'images/fujitsu.png'" class="nav-logo" />
 
     <ul class="nav-menu">
-      <li><router-link to="" class="nav-a">Systems</router-link></li>
-      <li><router-link :to="{name:'Admin'}" class="nav-a">Admin</router-link></li>
-      <li><router-link :to="{name:'UserManagement'}"  class="nav-a">Account</router-link></li>
+      <li><router-link :to="{name:'Home', params:{id:'home'}}" class="nav-a">
+        <font-awesome-icon icon="home" />&nbsp;Home</router-link>
+      </li>
+      <li><router-link to="/fdtp-portal/public/home#system_list" class="nav-a">
+        <font-awesome-icon icon="laptop" />&nbsp;Systems</router-link>
+      </li>
+      <li><router-link :to="{name:'Admin'}" class="nav-a">
+        <font-awesome-icon icon="user-shield" />&nbsp;Admin</router-link>
+      </li>
+      <li><router-link :to="{name:'UserManagement'}"  class="nav-a">
+        <font-awesome-icon icon="cog" />&nbsp;Account</router-link></li>
+     
+    </ul>
+
+    <ul class="nav-min">
+      <router-link :to="{ name: 'Admin' }" class="nav-a">
+        <font-awesome-icon icon="bars" size="2x" class="hamburger" />
+        </router-link>
     </ul>
   </header>
 </template>
@@ -30,6 +45,7 @@ header {
   top: 0;
   right: 0;
   left: 0;
+  z-index: 100;
 }
 
 .nav-logo {
@@ -64,6 +80,49 @@ header {
 
   a:hover {
     color: $red;
+  }
+}
+
+.nav-min{
+    padding:30px 40px 0 0;
+
+    .hamburger{
+        color:$black;
+        transition:.5s;
+    }
+
+    .hamburger:hover{
+        color:$red;
+    }
+}
+
+@include xl {
+  .nav-min {
+    display: none;
+  }
+}
+
+@include lg {
+  .nav-min {
+    display: none;
+  }
+}
+
+@include md {
+  .nav-menu {
+    display: none;
+  }
+}
+
+@include sm {
+  .nav-menu {
+    display: none;
+  }
+}
+
+@include xs {
+  .nav-menu {
+    display: none;
   }
 }
 </style>

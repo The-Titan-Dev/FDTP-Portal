@@ -13,7 +13,9 @@
             padding: 0;
             margin: 0;
         }
-
+        body{
+            /* overflow-x: hidden; */
+        }
         @font-face {
             font-family: Rubik;
             src: url('./fonts/Rubik/RubikMono.ttf');

@@ -32,8 +32,13 @@ class RepositoryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            'App\Interfaces\SystemRestrictionInterface',
-            'App\Repositories\SystemRestrictionRepository'
+            'App\Interfaces\AccessTokenInterface',
+            'App\Repositories\AccessTokenRepository'
+        );
+
+        $this->app->bind(
+            'App\Interfaces\TokenInterface',
+            'App\Repositories\TokenRepository'
         );
 
         $this->app->bind(
@@ -49,6 +54,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Interfaces\ImageInterface',
             'App\Repositories\ImageRepository'
+        );
+
+        $this->app->bind(
+            'App\Interfaces\RoleAccessInterface',
+            'App\Repositories\RoleAccessRepository'
         );
     }
 

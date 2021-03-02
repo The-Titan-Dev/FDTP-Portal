@@ -15,11 +15,13 @@ class CreateSystemAccessesTable extends Migration
     {
         Schema::create('system_accesses', function (Blueprint $table) {
             $table->id();
-            $table->integer('emp_id');
-            $table->integer('system_id');
-            $table->string('status');
+            $table->unsignedBigInteger('emp_id');
+            $table->unsignedBigInteger('system_id');
+            $table->integer('status');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('emp_id')->references('emp_id')->on('users');
+            $table->foreign('system_id')->references('id')->on('systems');
         });
     }
 

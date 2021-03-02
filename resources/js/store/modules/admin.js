@@ -13,7 +13,7 @@ export default {
 		async loadSystemManagement({ commit }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get("systems/load")
+					.get("systems")
 					.then(function(response) {
 						commit("SET_SYSTEMMANAGEMENT", response.data);
 						let result = {

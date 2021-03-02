@@ -24,9 +24,15 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'emp_id'     => 'required',
-            'system_id'  => 'required',
-            'local_no'   => 'required',
+            'emp_id'    => 'required|integer',
+            'system_id' => 'required|integer',
+            'local_no'  => 'required|integer',
         ];
+    }
+
+    public $validator = null;
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $this->validator = $validator;
     }
 }

@@ -1,50 +1,83 @@
 <?php
 
-namespace App\Repositories;
+namespace  App\Repositories;
 
 use App\Interfaces\ContactInterface;
-use App\Models\Contact;
+use App\Models\Contacts;
 
 class ContactRepository implements ContactInterface
 {
-    public function load()
+    /**
+     * Load all Contacts from storage
+     */
+    public function loadAllContacts()
     {
-        return Contact::all();
+        return Contacts::all();
     }
 
-    public function get($id)
+    /**
+     * Get the specific Contacts
+     * The paramter used is coming from interface
+     * 
+     * @param $id
+     * @return object w/data
+     */
+    public function getSpecificContacts($id)
     {
-        return Contact::find($id);
+        return Contacts::find($id);
     }
 
-    public function store($request)
+    /**
+     * Store the new contacts in storge
+     * The paramter used is coming from interface
+     * 
+     * @param $request
+     * @return true/false
+     */
+    public function storeContacts($request)
     {
-        $role = new Contact;
-        $role->emp_id     = $request['emp_id'];
-        $role->system_id  = $request['system_id'];
-        $role->local_no   = $request['local_no'];
-        return $role->save();
+        $Contacts = new Contacts;
+        $Contacts->emp_id       = $request['emp_id'];
+        $Contacts->system_id    = $request['system_id'];
+        $Contacts->local_no     = $request['local_no'];
+        return $Contacts->save();
     }
 
-    public function update($id, $request)
+    /**
+     * Update the specific contact from storage
+     * The paramter used is coming from interface
+     * 
+     * @param $request
+     * @param $id
+     * @return true/false
+     */
+    public function updateContacts($request, $id)
     {
-        $data = Contact::find($id);
-        $data->emp_id     = $request['emp_id'];
-        $data->system_id  = $request['system_id'];
-        $data->local_no   = $request['local_no'];
-        return $data->save();
+        $Contacts = Contacts::find($id);
+        $Contacts->emp_id       = $request['emp_id'];
+        $Contacts->system_id    = $request['system_id'];
+        $Contacts->local_no     = $request['local_no'];
+        return $Contacts->save();
     }
 
-    public function delete($id)
+    /**
+     * Remove the specific contacts from storage
+     * The paramter used is coming from interface
+     * 
+     * @param $id
+     * @return true/false
+     */
+    public function deleteContacts($id)
     {
         $result = false;
+        
+        $systems = Contacts::destroy($id);
 
-        $data = Contact::destroy($id);
-
-        if ($data) {
+        if ($systems) 
+        {
             $result = true;
         }
-
         return $result;
     }
+
 }

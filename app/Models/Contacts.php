@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends Model
+class Contacts extends Model
 {
     use HasFactory;
 
@@ -15,8 +15,8 @@ class Role extends Model
         return $this->belongsTo(Systems::class); 
     }
 
-    public function role()
+    public function user_empid()
     {
-        return $this->hasMany(RoleAccess::class); 
+        return $this->belongsTo(User::class); 
     }
 }

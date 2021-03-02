@@ -4,47 +4,82 @@ namespace App\Repositories;
 
 use App\Interfaces\SystemAccessInterface;
 use App\Models\SystemAccess;
-
 class SystemAccessRepository implements SystemAccessInterface
 {
-    public function load()
+    /**
+     * Load all system access from storage
+     * 
+     * @return object data
+     */
+    public function loadAllSystemAccess()
     {
         return SystemAccess::all();
     }
-
-    public function get($id)
+    
+    /**
+     * Get the specific system access from storage
+     * The parameter used was coming from Interface
+     * 
+     * @param $id
+     * @return object data
+     */
+    public function getSpecificSystemAccess($id)
     {
         return SystemAccess::find($id);
     }
 
-    public function store($request)
+    /**
+     * Store the created System Access in storage
+     * The parameter used was coming from Interface
+     * 
+     * @param $request
+     * @return true/false
+     */
+    public function storeSystemAccess($request)
     {
-        $data = new SystemAccess();
-        $data->emp_id        = $request['emp_id'];
-        $data->system_id     = $request['system_id'];
-        $data->status        = $request['status'];
-        return $data->save();
+        $SystemAccess = new SystemAccess;
+        $SystemAccess->emp_id                = $request['emp_id'];
+        $SystemAccess->system_id             = $request['system_id'];
+        $SystemAccess->status                = $request['status'];
+        $SystemAccess->save();
+        $LastInsertId = $SystemAccess->id;
+        return $LastInsertId;
     }
 
-    public function update($id, $request)
+    /**
+     * Update the specific system Access from storage
+     * The parameter used was coming from Interface
+     * 
+     * @param $id
+     * @param $request
+     * @return true/false
+     */
+    public function updateSystemAccess($id, $request)
     {
-        $data = SystemAccess::find($id);
-        $data->emp_id        = $request['emp_id'];
-        $data->system_id     = $request['system_id'];
-        $data->status        = $request['status'];
-        return $data->save();
+        $SystemAccess = SystemAccess::find($id);
+        $SystemAccess->emp_id                = $request['emp_id'];
+        $SystemAccess->system_id             = $request['system_id'];
+        $SystemAccess->status                = $request['status'];
+        return $SystemAccess->save();
     }
 
-    public function delete($id)
+    /**
+     * Remove the specific System Access from storage
+     * The parameter used was coming from Interface
+     * 
+     * @param $id
+     * @return true/false
+     */
+    public function deleteSystemAccess($id)
     {
         $result = false;
+        
+        $systems = SystemAccess::destroy($id);
 
-        $data = SystemAccess::destroy($id);
-
-        if ($data) {
+        if ($systems) {
             $result = true;
         }
-
         return $result;
     }
 }
+

@@ -2,15 +2,47 @@
 
 namespace App\Interfaces;
 
+/**
+ * Interface serve as access method for controller and Repository
+ * Important: Make Sure that the number method from controller is the same in interface
+ */
 interface ImageInterface
 {
-    public function load();
+    /**
+     * Display all the images
+     */
+    public function loadAllImages();
 
-    public function get($id);
+    /**
+     * Get the specific image
+     * The paramater used was coming from Controller
+     * 
+     * @param $id
+     */
+    public function getSpecificImages($id);
 
-    public function store($request);
+    /**
+     * Store the new created image
+     * The paramater used was coming from Controller
+     * 
+     * @param $data
+     */
+    public function storeImages($data);
 
-    public function update($id, $request);
+    /**
+     * Update the specific images
+     * The paramater used was coming from Controller
+     * 
+     * @param $data
+     * @param $id
+     */
+    public function updateImages($data, $id);
 
-    public function delete($id);
+    /**
+     * Remove the specific images
+     * The paramater used was coming from Controller
+     * 
+     * @param $id
+     */
+    public function deleteImages($id);
 }

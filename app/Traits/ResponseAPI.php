@@ -21,7 +21,7 @@ trait ResponseAPI
             'status' => $status,
             'code' => $statusCode,
             'message' => $message,
-            'result' => $data
+            'data' => $data
         ],$statusCode);
     }
 

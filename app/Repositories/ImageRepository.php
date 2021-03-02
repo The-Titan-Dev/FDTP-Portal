@@ -3,46 +3,84 @@
 namespace App\Repositories;
 
 use App\Interfaces\ImageInterface;
-use App\Models\Image;
+use App\Models\Images;
+
 
 class ImageRepository implements ImageInterface
 {
-    public function load()
+
+    /**
+     * Get all images from storage
+     * The parameter used is coming from interface
+     * 
+     * @return object data
+     */
+    public function loadAllImages()
     {
-        return Image::all();
+        return Images::all();
     }
 
-    public function get($id)
+    /**
+     * Get the specific Images from database
+     * The parameter used is coming from interface
+     * 
+     * @param $id
+     * @return object data
+     */
+    public function getSpecificImages($id)
     {
-        return Image::find($id);
+        return Images::find($id);
     }
 
-    public function store($request)
+    /**
+     * Store the new created Images
+     * The parameter used is coming from interface
+     * 
+     * @param $data
+     * @return true/false
+     */
+    public function storeImages($data)
     {
-        return Image::create($request);
+        $Images = new Images;
+        $Images->system_id      = $data['system_id'];
+        $Images->logo           = $data['logo'];
+        $Images->main_image     = $data['main_image'];
+        return $Images->save();
     }
 
-    public function update($id, $request)
+    /**
+     * Update the specific Images
+     * The parameter used is coming from interface
+     * 
+     * @param $data
+     * @param $id
+     * @return true/false
+     */
+    public function updateImages($data, $id)
     {
-        return 'NO UPDATE YET';
-        // $data = Image::find($id);
-        // $data->system_id     = $request['system_id'];
-        // $data->logo          = $request['logo'];
-        // $data->main_image    = $request['main_image'];
-        // $data->images        = $request['images'];
-        // return $data->save();
+        $Images = Images::find($id);
+        $Images->system_id      = $data['system_id'];
+        $Images->logo           = $data['logo'];
+        $Images->main_image     = $data['main_image'];
+        return $Images->save();
     }
 
-    public function delete($id)
+    /**
+     * Remove the specific Images
+     * The parameter used is coming from interface
+     * 
+     * @param $id
+     * @return true/false
+     */
+    public function deleteImages($id)
     {
         $result = false;
+        
+        $systems = Images::destroy($id);
 
-        $data = Image::destroy($id);
-
-        if ($data) {
+        if ($systems) {
             $result = true;
         }
-
         return $result;
     }
 }

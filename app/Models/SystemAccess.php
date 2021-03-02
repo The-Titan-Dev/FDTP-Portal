@@ -8,5 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SystemAccess extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
+
+    public function system()
+    {
+        return $this->belongsTo(Systems::class); 
+    }
+
+    public function user_empid()
+    {
+        return $this->belongsTo(User::class); 
+    }
 }

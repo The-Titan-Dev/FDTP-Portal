@@ -6,17 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends Model
+class RoleAccess extends Model
 {
     use HasFactory;
 
-    public function system()
+    public function role_access()
     {
-        return $this->belongsTo(Systems::class); 
-    }
-
-    public function role()
-    {
-        return $this->hasMany(RoleAccess::class); 
+        return $this->belongsTo(Role::class); 
     }
 }

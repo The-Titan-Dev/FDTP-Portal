@@ -6,7 +6,7 @@ Vue.use(Vuex);
 import login from "./modules/login";
 import home from "./modules/home";
 import user from "./modules/user";
-import system_management from "./modules/system_management";
+import admin from "./modules/admin";
 
 export default new Vuex.Store({
     state: {},
@@ -16,7 +16,7 @@ export default new Vuex.Store({
         login,
         home,
         user,
-        system_management
+        admin
     },
     // plugins: [createPersistedState({
     //     key:'userdata',

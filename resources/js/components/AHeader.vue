@@ -36,9 +36,13 @@ export default {
     logout(){
       
       let lstorage = JSON.parse(localStorage.getItem('userdata'));
-      let emp_id = lstorage.data.data.emp_pms_id;
+      let emp_id = lstorage.data.data.emp_id;
 
-      this.$store
+      if (emp_id === undefined)
+      {
+        emp_id = lstorage.data.data.emp_pms_id;
+      }
+      this.$store 
           .dispatch("logout", emp_id)
           .then((response) => {
             console.log(response);

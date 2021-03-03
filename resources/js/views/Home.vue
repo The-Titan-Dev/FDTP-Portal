@@ -39,8 +39,8 @@
                     </div>
 
                     <div class="system_list__content">
-                        <b-row>
-                            <b-col xl="4" lg="12" v-for="user_data in user_info.data.data.systems" :key="user_data.id">
+                        <b-row v-if="user_count > 0">
+                            <b-col xl="4" lg="12" v-for="user_data in user_info" :key="user_data.id">
                                 <ACard 
                                     :system_description="user_data.description"
                                     :system_name="user_data.name"
@@ -48,11 +48,16 @@
                                 </ACard>
                             </b-col>
                         </b-row>
+                        <b-row v-if="user_count == 0">
+                            <b-col lg="12">
+                               <h3>You have no access to any system. Contact your section head to add your account in a system.</h3>
+                            </b-col>
+                        </b-row>
                     </div>
                 </div>
             </b-col>
         </b-row>
-        
+        {{user_count}}
         <!-- <div class="row" style="position:relative;z-index: 2;">
 
             <div class="col-xl-12">
@@ -71,16 +76,25 @@ export default {
     components:{
         ACard
     },
-    computed:{
-        ...mapGetters(['user_info'])
+    data(){
+        return{
+            user_info : [],
+            user_count : 0
+        }
     },
     mounted(){
-        this.test()
+        this.get_userdata()
     },
     methods:{
-        test(){
-            console.log(this.user_info.data.data.systems);
-        }
+        get_userdata(){
+            
+            let lstorage = JSON.parse(localStorage.getItem('userdata'));
+            this.user_info = lstorage.data.data.systems;
+            if (this.user_info !== undefined)
+            {
+                this.user_count = this.user_info.length;
+            }
+        },
     },
     
 }

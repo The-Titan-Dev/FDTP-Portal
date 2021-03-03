@@ -3,17 +3,21 @@ import axios from "axios";
 export default {
 	state: {
 		systemmanagement: [],
+		section_owner: [],
 	},
 	mutations: {
 		SET_SYSTEMMANAGEMENT(state, systemmanagement) {
 			state.systemmanagement = systemmanagement;
+		},
+		SET_SECTIONOWNER(state, section_owner) {
+			state.section_owner = section_owner;
 		},
 	},
 	actions: {
 		async loadSystemManagement({ commit }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get("systems")
+					.get("systems/load")
 					.then(function(response) {
 						commit("SET_SYSTEMMANAGEMENT", response.data);
 						let result = {
@@ -23,6 +27,44 @@ export default {
 							data: response.data.data,
 						};
 						resolve(result);
+					})
+					.catch(function(error) {
+						reject(error);
+					});
+			});
+		},	
+		async insertSystemRegistration(state, payload) {
+			return new Promise((resolve, reject) => {
+				axios
+					.post("systems/store ", payload)
+					.then(function(response) {
+						resolve(response);
+					})
+					.catch(function(error) {
+						reject(error);
+						console.log("ERRRR:: ",error);
+					});
+			});
+		},
+		async deleteDeactivate(state, id) {
+			return new Promise((resolve, reject) => {
+				axios
+					.delete(`systems/delete/${id}`)
+					.then(function(response) {
+						resolve(response);
+					})
+					.catch(function(error) {
+						reject(error);
+					});
+			});
+		},
+		async loadSectionOwner({ commit }) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get("user/load-sections ")
+					.then(function(response) {
+						commit("SET_SECTIONOWNER", response.data);
+						resolve(response.data.data);
 					})
 					.catch(function(error) {
 						reject(error);

@@ -33,7 +33,7 @@
             </div>
 
             <div class="footer--management">
-                 <b-row align-h="between">
+                <b-row align-h="between">
                     <b-col sm="12" md="4" class="mb-2">
                         <b-button
                         type="button"
@@ -53,7 +53,7 @@
                         <b-input-group>
                         <b-form-input
                             id="filter-input"
-                            v-model="filter"
+                            v-model="filterRegister"
                             type="search"
                             placeholder="Type to Search"
                         >
@@ -63,8 +63,8 @@
                             type="button"
                             size="md"
                             class="btn btn-danger"
-                            :disabled="!filter"
-                            @click="filter = ''"
+                            :disabled="!filterRegister"
+                            @click="filterRegister = ''"
                             >
                             <font-awesome-icon icon="eraser" size="sm" class="icon" />
                             Cancel
@@ -82,34 +82,35 @@
                 bordered
                 responsive
                 :fields="fields"
-                :filter="filter"
+                :filter="filterRegister"
                 :filter-included-fields="filterOn"
                 :items="getSystemManagement.data"
                 :per-page="perPage"
                 :current-page="currentPage"
                 >
-                <template #cell(actions)="data">
-                    <b-button
-                        type="button"
-                        variant="danger"
-                        size="sm"
-                        title="Click to Add role"
-                        @click="loadRoles(data.item.id)">
-                        <font-awesome-icon icon="clipboard-list" size="sm" class="icon" /> 
-                        Add Role
-                    </b-button>
-                    <b-button
-                        type="button"
-                        variant="secondary"
-                        size="sm"
-                        title="Click to Deactivate system"
-                        v-b-modal.deactivate-modal
-                        @click="loadDeactivate(data.item.id)">
-                        <font-awesome-icon icon="trash" size="sm" class="icon" /> 
-                        Deactivate
-                    </b-button>
-                
-                </template>
+                    <template #cell(actions)="data">
+                        <b-button
+                            type="button"
+                            variant="danger"
+                            size="sm"
+                            title="Click to Add role"
+                            v-b-modal.modal-add-role
+                            @click="loadRoles(data.item.id)">
+                            <font-awesome-icon icon="clipboard-list" size="sm" class="icon" /> 
+                            Add Role
+                        </b-button>
+                        <b-button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            title="Click to Deactivate system"
+                            v-b-modal.deactivate-modal
+                            @click="loadDeactivate(data.item.id)">
+                            <font-awesome-icon icon="trash" size="sm" class="icon" /> 
+                            Deactivate
+                        </b-button>
+                    
+                    </template>
                 </b-table>
 
                 <!-- PAGINATION -->
@@ -358,6 +359,165 @@
         </b-form>
     </b-modal> 
 
+    <b-modal
+        id="modal-add-role"
+        size="xl"
+        hide-footer
+        title="Register New Role"
+        title-class="alpha__modal__title">
+      
+        <!-- search -->
+        <b-row style="padding-top:60px;" align-h="between">
+            <b-col sm="12" md="4" class="mb-2"> </b-col>
+            <b-col sm="12" md="6" lg="5" xl="5" class="mb-2">
+                <b-input-group>
+                <b-form-input
+                    id="filter-input"
+                    v-model="filterRole"
+                    type="search"
+                    placeholder="Type to Search"
+                >
+                </b-form-input>
+                <b-input-group-append>
+                    <b-button
+                    type="button"
+                    size="md"
+                    class="btn btn-danger"
+                    :disabled="!filterRole"
+                    @click="filterRole = ''"
+                    >
+                    <font-awesome-icon icon="eraser" size="sm" class="icon" />
+                    Cancel
+                    </b-button>
+                </b-input-group-append>
+                </b-input-group>
+            </b-col>
+        </b-row>
+
+        <!-- body -->
+        <b-row>
+            <b-col lg="4">
+                 <b-form
+                    class="pl-4 pr-4"
+                    id="form-registration"
+                    @submit.prevent="submitForm"
+                    method="post"
+                    >
+                    <b-row style="padding-top:10px;">
+                        <b-col cols="12" class="mb-2">
+                            <b-form-group
+                            id="input-group-role"
+                            label="System Role :"
+                            label-class="alpha__form__label"
+                            label-for="input-role"
+                            >
+                                <b-form-input
+                                class="alpha-input"
+                                id="input-role"
+                                name="role"
+                                type="text"
+                                placeholder="Enter role"
+                                required
+                                /> 
+                            </b-form-group>
+                        </b-col>
+                        <b-col cols="12" class="mb-2">
+                            <b-form-group
+                            id="input-group-role-description"
+                            label="Description :"
+                            label-class="alpha__form__label"
+                            label-for="input-role-description"
+                            >
+                                <b-form-textarea
+                                class="alpha-input"
+                                id="input-role-description"
+                                name="description"
+                                type="text"
+                                rows="8"
+                                max-rows="1"
+                                placeholder="Enter role description"
+                                required
+                                /> 
+                            </b-form-group>
+                        </b-col>
+                    </b-row>
+                    <hr/>
+                    <div class="float-right">
+                        <b-button
+                        type="button"
+                        title="Click to clear form"
+                        class="mr-2"
+                        @click="clearForm"
+                        >
+                        Cancel
+                        </b-button>
+                        <b-button
+                        id="button-submit"
+                        type="submit"
+                        title="Click to add new register system"
+                        variant="danger"
+                        >
+                        <font-awesome-icon icon="save" size="sm" class="icon" />  
+                        Save Information
+                        </b-button>
+                    </div>
+                    </b-form>
+            </b-col>
+            <b-col lg="8" class="footer--role">
+                <!-- TABLE DATA -->
+                <b-table
+                id="system_role_table"
+                class="alpha__table text-nowrap"
+                hover
+                bordered
+                responsive
+                :fields="fieldsRoles"
+                :filter="filterRole"
+                :filter-included-fields="filterOn"
+                :items="getSystemRole.data"
+                :per-page="perPageRole"
+                :current-page="currentPageRole"
+                >
+                    <template #cell(actions)="data">
+                        <b-button
+                            type="button"
+                            variant="danger"
+                            size="sm"
+                            title="Click to Update"
+                            v-b-modal.modal-add-role
+                            >
+                            <font-awesome-icon icon="clipboard-list" size="sm" class="icon" /> 
+                            Update
+                        </b-button>
+                        <b-button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            title="Click to Delete"
+                            v-b-modal.deactivate-modal
+                        >
+                            <font-awesome-icon icon="trash" size="sm" class="icon" /> 
+                            Delete
+                        </b-button>
+                    
+                    </template>
+                </b-table>
+                <!-- PAGINATION -->
+                <b-pagination
+                    align="right"
+                    class="alpha__table__pagination_role"
+                    pills
+                    v-model="currentPageRole"
+                    :total-rows="rowsrole"
+                    :per-page="perPageRole">
+                </b-pagination> 
+            </b-col>
+            
+        </b-row>
+        <hr/>
+ 
+    </b-modal> 
+
     </div>
     
 </template>
@@ -376,7 +536,8 @@ export default {
             options_section_owner: [],
             currentPage: 1,
             perPage: 10,
-            filter: null,
+            filterRegister: null,
+            filterRole: null,
             filterOn: [],
             fields: [
             {
@@ -450,6 +611,23 @@ export default {
                     validation: "",
                 },
             },
+            fieldsRoles:[
+                {
+                    key: "role",
+                    sortable: true,
+                },
+                {
+                    key: "description",
+                    sortable: true,
+                },
+                { 
+                    key: "actions",
+                    label: "Actions" 
+                },
+
+            ],
+            currentPageRole: 1,
+            perPageRole: 6,
         };
     },
         
@@ -458,7 +636,7 @@ export default {
         this.loadSectionOwner();
     },
     computed: {
-        ...mapGetters(["getSystemManagement"]),
+        ...mapGetters(["getSystemManagement","getSystemRole"]),
         rows() {
             if (!this.getSystemManagement.data) {
                 return 1;
@@ -466,8 +644,16 @@ export default {
                 return this.getSystemManagement.data.length;
             }
         },
+        rowsrole() {
+            if (!this.getSystemRole.data) {
+                return 1;
+            } else {
+                return this.getSystemRole.data.length;
+            }
+        },
     },
     methods: {
+        //Utility
         toast: function (status, message) {
             this.$toast(message, {
                 type: status,
@@ -514,6 +700,7 @@ export default {
                 },
             };
         },
+        //System Registration
         loadTable: function () {
           
             this.$store.dispatch("loadSystemManagement").then((result) => {
@@ -582,8 +769,12 @@ export default {
                 });
             });
         },
-        loadRoles: function(id) {
-            alert(id);
+        //System Role
+        loadRoles: function (system_id) {
+            this.$store.dispatch("loadSystemRole", system_id).then((result) => {
+                this.toast(result.status, result.message);
+                console.log(result.data)
+            });
         },
     }
  
@@ -692,10 +883,21 @@ export default {
     padding: 0;
     margin: 0px 200px 0px 200px;
     
-    .alpha__table__pagination button.page-link {
+ 
+   .alpha__table__pagination button.page-link {
         background: #c82333;
         
     }
+
+  
+ 
+}
+.footer--role {
+    .alpha__table__pagination_role button.page-link {
+        background: #c82333;
+     }
+}
+    
 
     .page-link {
         color: white;
@@ -705,7 +907,6 @@ export default {
         background: #e84656 ;
         color: white;
     }
- 
-}
+
 
 </style>

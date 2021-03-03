@@ -1,9 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Middleware from "./middleware";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import { BootstrapVue } from "bootstrap-vue";
+
 Vue.use(BootstrapVue);
 
 Vue.use(VueRouter);
@@ -40,7 +42,11 @@ const router = new VueRouter({
         {
             path: `${base_url}login`,
             name: "login",
-            component: Login
+            component: Login,
+            beforeEnter(to, from, next) {
+                let middleware = new Middleware(next, router);
+                middleware.guest();
+            }
         },
         {
             path: `${base_url}`,
@@ -50,17 +56,29 @@ const router = new VueRouter({
                 {
                     path: `${base_url}admin`,
                     name: "Admin",
-                    component: Admin
+                    component: Admin,
+                    beforeEnter(to, from, next) {
+                        let middleware = new Middleware(next, router);
+                        middleware.auth(to, from);
+                    }
                 },
                 {
                     path: `${base_url}user-management`,
                     name: "UserManagement",
-                    component: UserManagement
+                    component: UserManagement,
+                    beforeEnter(to, from, next) {
+                        let middleware = new Middleware(next, router);
+                        middleware.auth(to, from);
+                    }
                 },
                 {
                     path: `${base_url}home`,
                     name: "Home",
-                    component: Home
+                    component: Home,
+                    beforeEnter(to, from, next) {
+                        let middleware = new Middleware(next, router);
+                        middleware.auth(to, from);
+                    }
                 }
             ]
         }
@@ -80,3 +98,23 @@ const app = new Vue({
     router,
     store
 });
+
+router.beforeEach((to, from, next) => {
+
+    // check if the user is logged in
+
+    if (localStorage.getItem("userdata") !== null && to.name === 'login') {
+        alert('back to login');
+        router.push({ name: from.name });
+    }
+
+    else if (localStorage.getItem("userdata") === null && to.name !== 'login') {
+        alert('back to login');
+        router.push({ name: 'login' });
+    }
+    
+    next();
+    
+   
+  })
+

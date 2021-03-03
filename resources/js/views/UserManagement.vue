@@ -61,7 +61,7 @@
                     >
                       <template #cell(emp_photo)="data">
                         <center>
-                          <b-avatar :src="`/${data.item.emp_photo}`" size="60px"></b-avatar>
+                          <b-avatar :src="`${data.item.emp_photo}`" size="60px"></b-avatar>
                         </center>
                       </template>
 

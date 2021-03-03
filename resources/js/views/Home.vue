@@ -81,7 +81,8 @@ export default {
         test(){
             console.log(this.user_info.data.data.systems);
         }
-    }
+    },
+    
 }
 </script>
 

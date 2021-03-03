@@ -98,8 +98,31 @@ export default {
 					});
 			});
 		},	
-	
-	
+		async deleteRoleID(state, id) {
+			return new Promise((resolve, reject) => {
+				axios
+					.delete(`role/delete/${id}`)
+					.then(function(response) {
+						resolve(response);
+					})
+					.catch(function(error) {
+						reject(error);
+					});
+			});
+		},
+		async insertSystemRoles(state, payload) {
+			return new Promise((resolve, reject) => {
+				axios
+					.post("role/store", payload)
+					.then(function(response) {
+						resolve(response);
+					})
+					.catch(function(error) {
+						reject(error);
+						console.log("ERRRR:: ",error);
+					});
+			});
+		},
 	
 	},
 	getters: {

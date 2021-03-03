@@ -399,11 +399,20 @@
             <b-col lg="4">
                  <b-form
                     class="pl-4 pr-4"
-                    id="form-registration"
-                    @submit.prevent="submitForm"
+                    id="form-roles"
+                    @submit.prevent="submitFormRoles"
                     method="post"
                     >
                     <b-row style="padding-top:10px;">
+                        <b-form-input
+                        class="alpha-input"
+                        id="input-system-id"
+                        name="system_id"
+                        type="text"
+                        v-model="rolesUpdateID"
+                        required
+                        hidden
+                        /> 
                         <b-col cols="12" class="mb-2">
                             <b-form-group
                             id="input-group-role"
@@ -415,6 +424,7 @@
                                 class="alpha-input"
                                 id="input-role"
                                 name="role"
+                                v-model="formroles.role.value"
                                 type="text"
                                 placeholder="Enter role"
                                 required
@@ -432,6 +442,7 @@
                                 class="alpha-input"
                                 id="input-role-description"
                                 name="description"
+                                v-model="formroles.description.value"
                                 type="text"
                                 rows="8"
                                 max-rows="1"
@@ -447,12 +458,12 @@
                         type="button"
                         title="Click to clear form"
                         class="mr-2"
-                        @click="clearForm"
+                        @click="clearFormRoles"
                         >
                         Cancel
                         </b-button>
                         <b-button
-                        id="button-submit"
+                        id="button-submit-role"
                         type="submit"
                         title="Click to add new register system"
                         variant="danger"
@@ -485,6 +496,7 @@
                             size="sm"
                             title="Click to Update"
                             v-b-modal.modal-add-role
+
                             >
                             <font-awesome-icon icon="clipboard-list" size="sm" class="icon" /> 
                             Update
@@ -494,8 +506,9 @@
                             variant="secondary"
                             size="sm"
                             title="Click to Delete"
-                            v-b-modal.deactivate-modal
-                        >
+                            v-b-modal.role-modal
+                            @click="deleteRoleID(data.item.id)">
+                        
                             <font-awesome-icon icon="trash" size="sm" class="icon" /> 
                             Delete
                         </b-button>
@@ -537,7 +550,6 @@ export default {
             currentPage: 1,
             perPage: 10,
             filterRegister: null,
-            filterRole: null,
             filterOn: [],
             fields: [
             {
@@ -626,11 +638,25 @@ export default {
                 },
 
             ],
+            formroles: {
+                role: {
+                    value: "",
+                    state: null,
+                    validation: "",
+                },
+                description: {
+                    value: "",
+                    state: null,
+                    validation: "",
+                }, 
+            },
             currentPageRole: 1,
             perPageRole: 6,
+            rolesUpdateID:"",
+            filterRole: null,
+            
         };
-    },
-        
+    },        
     mounted() {
         this.loadTable();
         this.loadSectionOwner();
@@ -694,6 +720,20 @@ export default {
                     validation: "",
                 },
                 reference_number: {
+                    value: "",
+                    state: null,
+                    validation: "",
+                },
+            };
+        },
+        clearFormRoles: function (){
+            this.formroles= {
+                role: {
+                    value: "",
+                    state: null,
+                    validation: "",
+                },
+                description: {
                     value: "",
                     state: null,
                     validation: "",
@@ -771,9 +811,56 @@ export default {
         },
         //System Role
         loadRoles: function (system_id) {
+            this. rolesUpdateID= system_id;
             this.$store.dispatch("loadSystemRole", system_id).then((result) => {
                 this.toast(result.status, result.message);
                 console.log(result.data)
+            });
+        },
+        deleteRoleID: function (id) {
+            this.$store
+                .dispatch("deleteRoleID", id)
+                .then((response) => {
+                    let status = response.data.status;
+                    if (status == "success") {
+                        this.loadRoles(this.rolesUpdateID);
+                    } else if (status == "warning") {
+                        this.toast(status, "Please review your inputs.");
+                    } else if (status == "error") {
+                        this.toast(status, response.data.message);
+                    }
+                 })
+                .catch((error) => {
+                    this.toast("error", "Something went wrong");
+            });
+        },
+        submitFormRoles: function () {
+        var formData = new FormData(document.getElementById("form-roles"));
+        document.getElementById("button-submit-role").disabled = true;
+        this.$store
+            .dispatch("insertSystemRoles", formData)
+            .then((response) => {
+            let status = response.data.status;
+            if (status == "success") {
+                this.toast(status, response.data.message);
+                this.loadRoles(this.rolesUpdateID);
+                this.clearFormRoles();
+            } else if (status == "warning") {
+                Object.keys(response.data.data).forEach((key) => {
+                this.formroles[key]["state"] = false;
+                this.formroles[key]["validation"] = response.data.data[key][0];
+                });
+                this.toast(status, "Please review your inputs.");
+            } else if (status == "error") {
+                this.toast(status, response.data.message);
+            }
+            })
+            .catch((error) => {
+            this.toast("error", "Something went wrong");
+            console.log(error);
+            })
+            .finally(() => {
+            document.getElementById("button-submit-role").disabled = false;
             });
         },
     }

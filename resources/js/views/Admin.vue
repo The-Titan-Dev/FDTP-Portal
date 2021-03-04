@@ -10,7 +10,7 @@
                     <article class="system-title">
                         <h1>SYSTEM</h1>
                         <h2>MANAGEMENT</h2>
-                        <span class="line__red"></span>
+                        <hr>
                         <br>
                         <p>"Fujitsu grows so do its requirements, as well as the need to efficiently manage and safeguard IT and data assets so we centralized system monitoring."<br><small>- DaileDreamer</small></p>
                     </article>
@@ -33,6 +33,7 @@
             </div>
 
             <div class="footer--management">
+                <!-- SEARCH -->
                 <b-row align-h="between">
                     <b-col sm="12" md="4" class="mb-2">
                         <b-button
@@ -117,11 +118,12 @@
                 <!-- PAGINATION -->
                 <b-pagination
                     align="right"
-                    class="alpha__table__pagination"
+                    class="alpha__table__pagination mb-0"
                     pills
                     v-model="currentPage"
                     :total-rows="rows"
-                    :per-page="perPage">
+                    :per-page="perPage"
+                    >
                 </b-pagination> 
             
             </div>
@@ -933,9 +935,14 @@ export default {
  
 }
 </script>
-<style lang="scss">
+
+<style lang="scss" scoped>
+    @import "../../sass/variables";
+    @import "../../sass/mediascreens";
+    @import "../../sass/main";
+
 .Admin {
-    background-color:#eef2f3;
+    background-color:$dark-gray;
     padding: 0%; 
     margin: 0%;
     width: 100%;
@@ -943,7 +950,7 @@ export default {
 }
 
 .header-circle{
-    background-color: white;
+    background-color: $white;
     border-radius: 50%;
     height:650px;
     width:650px;
@@ -967,33 +974,33 @@ export default {
         margin-left: 150px;
         .system-title {
             padding-bottom: 60px;
-
             h1 {
                 font-size: 60px;
                 font-weight: 900;
             }
-
             h2 {
                 font-size: 50px;
                 font-weight: 900;
             }
-
-            .line__red
-            {
-             
-                height: 5px;
-                width: 0%;
-                position: absolute;
-                animation: line_slide 0.7s;
-                animation-fill-mode: forwards;
-                animation-delay: 0.1s;
-            }
-            
             p {
                 font-size: 25px;
                 
             }
+
+            hr
+            {
+                height: 5px;
+                width: 100%;
+                position: absolute;
+                animation: line_slide 0.7s;
+                animation-fill-mode: forwards;
+                animation-delay: 0.1s;
+                background-color: $prime;
+            }
+            
+            
         }
+  
     }
 }
 
@@ -1005,17 +1012,14 @@ export default {
     width: 100%;
     height: auto;
     padding-bottom: 50px;;
-    
-    
 }
 
 .body--management {
-    
     padding-top: 5%;
     width: 100%;
     text-align: center;
     margin-bottom: 50px;
-     font-family: MontserratLight;
+    font-family: MontserratLight;
     
     p {
         width: 300px;
@@ -1028,37 +1032,27 @@ export default {
         margin-top: -120px;
         margin-left: 1000px;
     }
-   
+}
 
+th {
+    color: $white;
+    background-color: $prime 
 }
 
 .footer--management {
     padding: 0;
     margin: 0px 200px 0px 200px;
     
- 
-   .alpha__table__pagination button.page-link {
-        background: #c82333;
-        
-    }
-
-  
- 
-}
-.footer--role {
-    .alpha__table__pagination_role button.page-link {
-        background: #c82333;
-     }
-}
-    
-
-.page-link {
-    color: white;
 }
 
-th {
-    background: #e84656 ;
-    color: white;
+.alpha__table__pagination li a {
+   color: $white;
+   background-color: $red;
+}
+
+.alpha__table__pagination_role li a {
+   color: $white;
+   background-color: $red;
 }
 
 

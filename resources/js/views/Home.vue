@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     @import "../../sass/variables";
     @import "../../sass/mediascreens";
     @import "../../sass/main";

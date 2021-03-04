@@ -13,7 +13,11 @@
         <font-awesome-icon icon="user-shield" />&nbsp;Admin</router-link>
       </li>
       <li><router-link :to="{name:'UserManagement'}"  class="nav-a">
-        <font-awesome-icon icon="cog" />&nbsp;Account</router-link></li>
+        <font-awesome-icon icon="cog" />&nbsp;Account</router-link>
+      </li>
+      <li><a  class="nav-a" @click="logout()">
+        <font-awesome-icon icon="cog" />&nbsp;Logout</a>
+      </li>
      
     </ul>
 
@@ -24,6 +28,35 @@
 <script>
 export default {
   name: "AHeader",
+  methods:{
+    logout(){
+      
+      let lstorage = JSON.parse(localStorage.getItem('userdata'));
+      let emp_id = lstorage.data.data.emp_id;
+
+      if (emp_id === undefined)
+      {
+        emp_id = lstorage.data.data.emp_pms_id;
+      }
+      this.$store 
+          .dispatch("logout", emp_id)
+          .then((response) => {
+            console.log(response);
+            if(response.code === 200)
+            {
+              this.toast("success", response.message);
+              this.$router.push({ name: 'login' });
+            }
+          })
+    },
+    toast: function (status, message) {
+      this.$toast(message, {
+        type: status,
+        toastClassName: `toastification--${status}`,
+        position: "top-center",
+      });
+    },
+  }
 };
 </script>
 

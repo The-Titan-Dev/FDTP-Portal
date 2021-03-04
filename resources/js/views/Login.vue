@@ -84,23 +84,37 @@ export default {
         this.$store
           .dispatch("login", formData)
           .then((response) => {
-            if (response.result.status == 1) {
-              this.toast("warning", response.result.message);
-            } else if (response.result.status == 2) {
-              this.toast("warning", response.result.message);
-            } else if (response.result.status == 3) {
-              this.toast("warning", response.result.message);
-              // console.log(response);
-            } else if (response.result.status == 4) {
-              this.toast("warning", response.result.message);
+
+            if (response.data.status == 1) {
+              this.toast("warning", response.data.message);
+              document.getElementById("btn-login").disabled = false;
+
+            } else if (response.data.status == 2) {
+
+              this.toast("warning", response.data.message);
+               document.getElementById("btn-login").disabled = false;
+
+            } else if (response.data.status == 3) {
+              
+              this.toast("warning", response.data.message);
+              document.getElementById("btn-login").disabled = false;
+              this.$router.push({ name: 'Home' });
+
+            } else if (response.data.status == 4) {
+              this.toast("warning", response.data.message);
+               document.getElementById("btn-login").disabled = false;
             }
+            //  1 = User dont exist in portal database
+            //  2 = User dont exist in HRIS database
+            //  3 = User successfully logged in
+            //  4 = USer password incorrect
           })
           .catch((error) => {
             this.toast("error", "Something went wrong");
             console.log(error);
           })
           .finally(() => {
-            document.getElementById("btn-login").disabled = false;
+           
           });
       } else {
         this.toast("error", "Please complete the form");

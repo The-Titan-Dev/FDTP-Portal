@@ -19,6 +19,6 @@ export default new Vuex.Store({
         admin
     },
     // plugins: [createPersistedState({
-    //     key:'userdata',
+    //     key:'test',
     // })]
 });

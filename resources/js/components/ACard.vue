@@ -26,13 +26,13 @@
                         </svg>
                     </div>
                     <div class="text-left">
-                        {{system_name}}
+                        {{system_data.name}}
                     </div>
                     
                 </div>
                 <span class="line-white"></span>
                 <div class="card-text-details text-left mt-2">
-                       {{system_description}}
+                       {{system_data.description}}
                 
                 </div>
                
@@ -40,10 +40,41 @@
             </b-card-text>
 
                 <div class="card-text-controls">
-                    <button class="card-text-btn" @click="system_launch">LAUNCH SYSTEM</button>
-                    <button class="card-text-btn">CONTACT US</button>
+                    
+                    <b-button variant="danger" class="card-text-btn" v-b-modal="'system_launch_'+ system_data.id">SYSTEM DETAILS</b-button>
+                    <!-- <b-button variant="danger" class="card-text-btn">CONTACT US</b-button> -->
                 </div>
         </b-card>
+          
+
+        <b-modal :id="'system_launch_' + system_data.id" :title="system_data.name" hide-footer centered
+        header-bg-variant="dark"
+        header-text-variant="light"
+        body-bg-variant="light"
+        body-text-variant="dark"
+        footer-bg-variant="dark"
+        footer-text-variant="light">
+        <img :src="'images/pc_laptop.svg'" style="height: 200px; position: relative; left: 15%; margin-top: 15%;"  />
+            <div class="mt-4">
+                <b-row>
+                    <b-col cols="5" class="border-right">Abbreviation:</b-col>
+                    <b-col cols="7">{{system_data.abbreviation}}</b-col>
+                    <b-col cols="5" class="border-right">Reference Code:</b-col>
+                    <b-col cols="7">{{system_data.reference_code}}</b-col>
+                    <b-col cols="5" class="border-right">Reference Number:</b-col>
+                    <b-col cols="7">{{system_data.reference_number}}</b-col>
+                    <b-col cols="5" class="border-right">Date Deployed:</b-col>
+                    <b-col cols="7">{{system_data.date_deployed}}</b-col>
+                    <b-col cols="5" class="border-right">Section Owner:</b-col>
+                    <b-col cols="7">{{system_data.section_owner}}</b-col>
+                    <b-col cols="5" class="border-right">Description:</b-col>
+                    <b-col cols="7">{{system_data.description}}</b-col>
+                </b-row>
+            </div>
+            <!-- <button class="card-text-btn" @click="system_launch">LAUNCH SYSTEM</button> -->
+            <b-button variant="dark" class="float-right" @click="system_launch" size="sm">LAUNCH SYSTEM</b-button>
+        </b-modal>
+
     </div>
 </template>
 
@@ -52,14 +83,12 @@
 export default {
     name: "ACard",
     props:{
-        system_name : String,
-        system_description: String,
-        system_path: String
+        system_data : Object
     },
     methods: {
         system_launch(){
             alert('launch');
-            window.location.href=this.system_path;
+            window.location.href=this.system_data.url;
         }
     }
 }
@@ -177,7 +206,10 @@ export default {
         opacity: 0.9;
     }
 
-
+.modal-header
+{
+    border-bottom: 3px solid $prime;
+}
 
 
     // Small devices (landscape phones, 576px and up)

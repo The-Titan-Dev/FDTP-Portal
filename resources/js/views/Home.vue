@@ -42,15 +42,13 @@
                         <b-row v-if="user_count > 0">
                             <b-col xl="4" lg="12" v-for="user_data in user_info" :key="user_data.id">
                                 <ACard 
-                                    :system_description="user_data.description"
-                                    :system_name="user_data.name"
-                                    :system_path="user_data.url">
+                                    :system_data="user_data">
                                 </ACard>
                             </b-col>
                         </b-row>
                         <b-row v-if="user_count == 0">
                             <b-col lg="12">
-                               <h3>You have no access to any system. Contact your section head to add your account in a system.</h3>
+                               <h3>You have no access to any system. Contact your section head to add role in your account in a system.</h3>
                             </b-col>
                         </b-row>
                     </div>
@@ -96,7 +94,6 @@ export default {
             }
         },
     },
-    
 }
 </script>
 

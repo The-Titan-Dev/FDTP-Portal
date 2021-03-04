@@ -91,7 +91,6 @@ export default {
 							data: response.data.data,
 						};
 						resolve(result);
-						console.log(result);
 					})
 					.catch(function(error) {
 						reject(error);
@@ -119,10 +118,38 @@ export default {
 					})
 					.catch(function(error) {
 						reject(error);
-						console.log("ERRRR:: ",error);
 					});
 			});
 		},
+		async loadSelectedRoles(state, id) {
+			return new Promise((resolve, reject) => {
+				axios
+					.get(`role/get/${id}`)
+					.then(function(response) {
+						resolve(response);
+					})
+					.catch(function(error) {
+						reject(error);
+					});
+			});
+		},
+		async updateFormRoles(state, payload) {
+			return new Promise((resolve, reject) => {
+				payload["formData"].append("_method", "PATCH");
+				axios
+					.post(
+						`role/update/${payload["id"]}`,
+						payload["formData"]
+					)
+					.then(function(response) {
+						resolve(response);
+					})
+					.catch(function(error) {
+						reject(error);
+						console.log(error);
+					});
+			});
+		}
 	
 	},
 	getters: {

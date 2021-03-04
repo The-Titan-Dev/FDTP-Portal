@@ -95,7 +95,8 @@
                             size="sm"
                             title="Click to Add role"
                             v-b-modal.modal-add-role
-                            @click="loadRoles(data.item.id)">
+                            @click="loadRoles(data.item.id)"
+                            v-on:click="rolebuttonelement = true" >
                             <font-awesome-icon icon="clipboard-list" size="sm" class="icon" /> 
                             Add Role
                         </b-button>
@@ -411,7 +412,7 @@
                         type="text"
                         v-model="rolesUpdateID"
                         required
-                        hidden
+                        hidden                        
                         /> 
                         <b-col cols="12" class="mb-2">
                             <b-form-group
@@ -459,17 +460,32 @@
                         title="Click to clear form"
                         class="mr-2"
                         @click="clearFormRoles"
+                        v-on:click="rolebuttonelement = true" 
                         >
                         Cancel
                         </b-button>
+
                         <b-button
                         id="button-submit-role"
                         type="submit"
                         title="Click to add new register system"
                         variant="danger"
+                        v-show="rolebuttonelement"
                         >
                         <font-awesome-icon icon="save" size="sm" class="icon" />  
                         Save Information
+                        </b-button>
+
+                        <b-button
+                        id="button-update-role"
+                        type="button"
+                        title="Click to Update role"
+                        variant="warning"
+                        @click="updateFormRoles(subroleupdateId)"
+                        v-show="!rolebuttonelement"
+                        >
+                        <font-awesome-icon icon="save" size="sm" class="icon" /> 
+                        Update Information
                         </b-button>
                     </div>
                     </b-form>
@@ -496,7 +512,8 @@
                             size="sm"
                             title="Click to Update"
                             v-b-modal.modal-add-role
-
+                            @click="loadSelectedRoles(data.item.id)" 
+                            v-on:click="rolebuttonelement = false"                           
                             >
                             <font-awesome-icon icon="clipboard-list" size="sm" class="icon" /> 
                             Update
@@ -508,7 +525,6 @@
                             title="Click to Delete"
                             v-b-modal.role-modal
                             @click="deleteRoleID(data.item.id)">
-                        
                             <font-awesome-icon icon="trash" size="sm" class="icon" /> 
                             Delete
                         </b-button>
@@ -540,6 +556,7 @@ import { mapGetters } from "vuex";
 export default {
         name:"Admin",
         data() {
+       
         return {
             getDeactivateID: "",
             options_status:[
@@ -648,12 +665,14 @@ export default {
                     value: "",
                     state: null,
                     validation: "",
-                }, 
+                },
             },
             currentPageRole: 1,
             perPageRole: 6,
             rolesUpdateID:"",
             filterRole: null,
+            subroleupdateId:"",
+            rolebuttonelement:true,
             
         };
     },        
@@ -863,6 +882,53 @@ export default {
             document.getElementById("button-submit-role").disabled = false;
             });
         },
+        loadSelectedRoles: function (id) {
+            this.subroleupdateId = id;
+            this.$store.dispatch("loadSelectedRoles", id).then((result) => {
+                var information = result.data.data;
+                Object.keys(information).forEach((key) => {
+                    if (key == "role" || key == "description") {
+                        this.formroles[key]["value"] = information[key];
+                    }
+                });
+            });
+        },
+        updateFormRoles: function () {
+            var formData = new FormData(document.getElementById("form-roles"));
+            document.getElementById("button-update-role").disabled = true;
+
+            var patchData = {
+                id: this.subroleupdateId,
+                formData: formData,
+            };
+
+            this.$store
+                .dispatch("updateFormRoles", patchData)
+                .then((response) => {
+                let status = response.data.status;
+                if (status == "success") {
+                    this.clearFormRoles;
+                    this.toast(status, response.data.message);
+                    this.loadRoles(this.rolesUpdateID);
+                } else if (status == "warning") {
+                    Object.keys(response.data.data).forEach((key) => {
+                    this.formroles[key]["state"] = false;
+                    this.formroles[key]["validation"] = response.data.data[key][0];
+                    });
+                    this.toast(status, "Please review your inputs.");
+                } else if (status == "error") {
+                    this.toast(status, response.data.message);
+                }
+                })
+                .catch((error) => {
+                this.toast("error", "Something went wrong");
+                console.log(error);
+                })
+                .finally(() => {
+                document.getElementById("button-update-role").disabled = false;
+                });
+        },
+        
     }
  
 }

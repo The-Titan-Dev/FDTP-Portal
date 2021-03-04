@@ -1052,14 +1052,14 @@ export default {
 }
     
 
-    .page-link {
-        color: white;
-    }
+.page-link {
+    color: white;
+}
 
-    th {
-        background: #e84656 ;
-        color: white;
-    }
+th {
+    background: #e84656 ;
+    color: white;
+}
 
 
 </style>

@@ -55,7 +55,6 @@
                 </div>
             </b-col>
         </b-row>
-        {{user_count}}
         <!-- <div class="row" style="position:relative;z-index: 2;">
 
             <div class="col-xl-12">

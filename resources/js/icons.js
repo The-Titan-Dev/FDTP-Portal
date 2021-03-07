@@ -4,9 +4,9 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 
-import { faUser, faLaptop, faUserShield, faCog, faHome, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faLaptop, faUserShield, faCog, faHome, faBars,faUserCircle } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser,faLaptop, faUserShield, faCog, faHome, faBars);
+library.add(faUser,faLaptop, faUserShield, faCog, faHome, faBars, faUserCircle);
 
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

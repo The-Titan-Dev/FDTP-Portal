@@ -17,7 +17,7 @@
                     <div class="title__tagline">
                         " Welcome to our new all-in-one business solution portal. Having only one account to access all new incoming systems. "
                         <div class="title__controls">
-                            <button class="title__btn">GET STARTED</button>
+                            <a class="title__btn p-3" href="/fdtp-portal/public/home#system_list">GET STARTED</a>
                         </div>
                     </div> 
                 </div>

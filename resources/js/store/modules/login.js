@@ -1,6 +1,6 @@
 import { faLongArrowAltUp } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import createPersistedState from "vuex-persistedstate";
+// import createPersistedState from "vuex-persistedstate";
 export default {
     state: {
         authenticated_user: []
@@ -47,7 +47,7 @@ export default {
     getters: {
         authenticated_user: state => state.authenticated_user
     },
-    plugins: [createPersistedState({
-        key:'userdata',
-    })]
+    // plugins: [createPersistedState({
+    //     key:'userdata',
+    // })]
 };

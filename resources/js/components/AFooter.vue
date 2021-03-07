@@ -6,7 +6,7 @@
                 <router-link :to="{name:'Home', params:{id:'home'}}" class="nav-a">Home</router-link> |
                 <router-link to="/fdtp-portal/public/home#system_list" class="nav-a">Systems</router-link> |
                 <router-link :to="{name:'Admin'}" class="nav-a">Admin</router-link> |
-                <router-link :to="{name:'UserManagement'}"  class="nav-a">Account</router-link> |
+                <router-link :to="{name:'UserManagement'}"  class="nav-a">User</router-link> |
                 <a class="nav-a" @click="logout()">Logout</a> 
         </div>
         <div class="footer__line">
@@ -51,7 +51,7 @@ export default {
 
     .footer{
         background-color: $prime;
-        height: 250px;
+        height: 400px;
         width: 100%;
         position: absolute;
         left:0%;

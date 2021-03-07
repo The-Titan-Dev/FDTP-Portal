@@ -13,7 +13,7 @@
         <font-awesome-icon icon="user-shield" />&nbsp;Admin</router-link>
       </li>
       <li><router-link :to="{name:'UserManagement'}"  class="nav-a">
-        <font-awesome-icon icon="cog" />&nbsp;Account</router-link>
+        <font-awesome-icon icon="user-circle" />&nbsp;User</router-link>
       </li>
       <li><a  class="nav-a" @click="logout()">
         <font-awesome-icon icon="cog" />&nbsp;Logout</a>

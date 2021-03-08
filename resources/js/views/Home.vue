@@ -100,6 +100,7 @@ export default {
     @import "../../sass/variables";
     @import "../../sass/mediascreens";
     @import "../../sass/main";
+    @import "../../sass/animations";
   
     .color-black{
         color: $black;
@@ -116,72 +117,7 @@ export default {
         animation-fill-mode: forwards;
     }
 
-    .title__container{
-        line-height: 40px;
-        position: inherit;
-        top: 25%;
-        padding-top: 10%;
-        padding-left: 5%;
-        padding-right: 5%;
-        font-family: MontserratLight;
-        animation: fadeIn 0.5s;
-        
-
-        .title__tagline{
-            margin-top: 20px;
-            line-height: 35px;
-            font-size: 30px;
-            font-family: MontserratLightItalic;
-            color: $black;
-            // border: solid 3px black;
-            position: absolute;
-            left: 100%;
-            animation: slideToLeft 0.5s;
-            animation-fill-mode: forwards;
-            height: 100%;
-            width: 100%;
-            padding-left: 5%;
-        }
-
-        .title__btn{
-            background: linear-gradient(160deg, #ff4f5a, #d0242f);
-            color: white;
-            border: 0;
-            box-shadow: 0 0 5px $black;
-            padding: 5px 20px 5px 20px;
-            outline: none;
-            font-size: 20px;
-            font-family: MontserratLight;
-            transition: ease 1s;
-            opacity: 0;
-            animation: fadeIn 1s;
-            animation-fill-mode: forwards;
-            animation-delay: 0.4s;
-        }
-
-        .title__btn:hover{
-            background: linear-gradient(160deg, #ef7a81, #e25059);
-        }
-
-        .title__controls
-        {
-            text-align: center;
-            margin-top: 10%;
-        }
-    }
-
-
-
-    .line__red
-    {
-        background: $prime;
-        height: 5px;
-        width: 0%;
-        position: absolute;
-        animation: line_slide 0.7s;
-        animation-fill-mode: forwards;
-        animation-delay: 0.1s;
-    }
+  
 
 
     .system_list{
@@ -224,51 +160,6 @@ export default {
     } 
 
 
-    @keyframes line_slide{
-        0%{
-            width: 0%;
-        }
-        100%{
-            width: 90%
-        }
-    }
-
-    @keyframes fadeIn{
-        0%{
-            opacity: 0;
-        }
-        100%{
-            opacity: 1;
-        }
-    }
-
-    @keyframes slideToLeft{
-        0%{
-            left: 100%;
-        }
-        100%{
-            left: 0%;
-        }
-    }
-
-    @keyframes slideToRight{
-        0%{
-            right: 100%;
-        }
-        100%{
-            right: 0%;
-        }
-    }
-
-    @keyframes growImg{
-        0%{
-            width: 0%;
-            left: 0%;
-        }
-        100%{
-            width: 85%;
-            left: 15%;
-        }
-    }
+ 
 
 </style>

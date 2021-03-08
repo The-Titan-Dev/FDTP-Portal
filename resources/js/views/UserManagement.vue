@@ -183,7 +183,7 @@ export default {
 <style lang="scss">
 @import "../../sass/variables";
 @import "../../sass/mediascreens";
-
+ @import "../../sass/animations";
 .page__body {
   width: 100%;
   height: auto;
@@ -258,16 +258,19 @@ export default {
   }
 }
 
-.image__user_mgmt{
-        width: 70%;
-        left: 28%;
-        top: 20%;
-        opacity: 0;
-        position: inherit;
-        animation: fadeIn 1s;
-        animation-fill-mode: forwards;
-    }
-    .user_container{
-      top: 0% !important;
-    }
+ 
+  .image__user_mgmt{
+      width: 70%;
+      left: 28%;
+      top: 20%;
+      opacity: 0;
+      position: inherit;
+      animation: fadeIn 1s;
+      animation-fill-mode: forwards;
+  }
+  .user_container{
+    top: 0% !important;
+  }
+  
+  
 </style>

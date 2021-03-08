@@ -87,8 +87,9 @@ export default {
     },
     methods: {
         system_launch(){
-            alert('launch');
-            window.location.href=this.system_data.url;
+            let user_data = JSON.parse(localStorage.getItem("userdata"));
+            let auth_token = user_data.data.data.auth_token;
+            window.location.href=`${this.system_data.url}/${auth_token}`;
         }
     }
 }

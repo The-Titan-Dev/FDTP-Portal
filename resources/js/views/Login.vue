@@ -96,7 +96,7 @@ export default {
 
             } else if (response.data.status == 3) {
               
-              this.toast("warning", response.data.message);
+              this.toast("success", response.data.message);
               document.getElementById("btn-login").disabled = false;
               this.$router.push({ name: 'Home' });
 

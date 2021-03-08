@@ -13,18 +13,24 @@
       </b-col>
     </b-row>
     <AFooter></AFooter>
+    
+     <LogoutConfirmation fontawesome_icon="info-circle" title="Information"></LogoutConfirmation>
+     
   </b-container>
 </template>
 
 <script>
 import AHeader from "../components/AHeader.vue";
 import AFooter from "../components/AFooter.vue";
+import LogoutConfirmation from "../components/LogoutConfirmation.vue";
 export default {
   name: "Base",
   components: {
     AHeader,
-    AFooter
+    AFooter,
+    LogoutConfirmation
   },
+ 
 };
 </script>
 

@@ -15,8 +15,8 @@
       <li><router-link :to="{name:'UserManagement'}"  class="nav-a">
         <font-awesome-icon icon="user-circle" />&nbsp;User</router-link>
       </li>
-      <li><a  class="nav-a" @click="logout()">
-        <font-awesome-icon icon="cog" />&nbsp;Logout</a>
+      <li><a  class="nav-a" @click="showModal">
+        <font-awesome-icon icon="cog" @click="showModal"/>&nbsp;Logout</a>
       </li>
      
     </ul>
@@ -26,40 +26,22 @@
         <font-awesome-icon icon="bars" size="2x" class="hamburger" />
         </router-link>
     </ul>
+
   </header>
 </template>
 
 <script>
+
 export default {
   name: "AHeader",
   methods:{
-    logout(){
-      
-      let lstorage = JSON.parse(localStorage.getItem('userdata'));
-      let emp_id = lstorage.data.data.emp_id;
-
-      if (emp_id === undefined)
-      {
-        emp_id = lstorage.data.data.emp_pms_id;
-      }
-      this.$store 
-          .dispatch("logout", emp_id)
-          .then((response) => {
-            console.log(response);
-            if(response.code === 200)
-            {
-              this.toast("success", response.message);
-              this.$router.push({ name: 'login' });
-            }
-          })
-    },
-    toast: function (status, message) {
-      this.$toast(message, {
-        type: status,
-        toastClassName: `toastification--${status}`,
-        position: "top-center",
+   
+  
+    showModal:function(){
+      this.$store.dispatch('addLogoutConfirmation',{
+            variant: "primary",
       });
-    },
+    }
   }
 };
 </script>
@@ -97,6 +79,7 @@ header {
   font-size: 19px;
   color: $black;
   cursor: pointer;
+  
 
   li {
     float: left;

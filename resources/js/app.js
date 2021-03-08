@@ -35,6 +35,7 @@ import UserManagement from "./views/UserManagement";
 import Admin from "./views/Admin";
 import Home from "./views/Home";
 
+
 const base_url = "/fdtp-portal/public/";
 const router = new VueRouter({
     mode: "history",
@@ -72,7 +73,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path: `${base_url}home`,
+                    path: `${base_url}home`, 
                     name: "Home",
                     component: Home,
                     beforeEnter(to, from, next) {

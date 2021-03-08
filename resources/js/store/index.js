@@ -7,6 +7,7 @@ import login from "./modules/login";
 import home from "./modules/home";
 import user from "./modules/user";
 import logoutNotification from "./modules/logoutNotification";
+import admin from "./modules/admin";
 
 export default new Vuex.Store({
     state: {},
@@ -16,7 +17,8 @@ export default new Vuex.Store({
         login,
         home,
         user,
-        logoutNotification
+        logoutNotification,
+        admin
     },
     // plugins: [createPersistedState({
     //     key:'test',

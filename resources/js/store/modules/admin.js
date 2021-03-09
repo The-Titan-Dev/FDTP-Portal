@@ -46,8 +46,8 @@ export default {
 						resolve(response);
 					})
 					.catch(function(error) {
-						reject(error);
-						console.log("ERRRR:: ",error);
+						reject(error.response.data.errors);
+						console.log("ERRRR:: ",error.response.data.errors);
 					});
 			});
 		},
@@ -66,7 +66,7 @@ export default {
 		async loadSectionOwner({ commit }) {
 			return new Promise((resolve, reject) => {
 				axios
-					.get("user/load-sections ")
+					.get("user/load-sections")
 					.then(function(response) {
 						commit("SET_SECTIONOWNER", response.data);
 						resolve(response.data.data);

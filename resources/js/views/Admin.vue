@@ -1,133 +1,137 @@
 <template>
     <div class="Admin">
-        <div class="header-circle"></div> 
+        <!-- <div class="header-circle"></div>  -->
+          <div class="circle__wrapper" style="">
+            <div class="circle"></div>
+        </div>
         <section class="col-lg-12">
             <b-row class="header--title">
                 <div class="col-6">
                     <img src="images/laptopHuman.png" alt="laptopHuman" class="laptopHuman">
                 </div>
                 <div class="content--right col-4">
-                    <article class="system-title">
-                        <h1>SYSTEM</h1>
-                        <h2>MANAGEMENT</h2>
-                        <hr>
-                        <br>
-                        <p>"Fujitsu grows so do its requirements, as well as the need to efficiently manage and safeguard IT and data assets so we centralized system monitoring."<br><small>- DaileDreamer</small></p>
-                    </article>
-                    <center>
-                        <b-button class="btn btn-danger btn-lg">
-                            GET STARTED
-                        </b-button>
-                    </center>
-
+                     <div class="title__container">
+                    <span style="font-size: 85px;" class="color-black">SYSTEM</span>
+                    <br>
+                    <span style="font-size: 75px;" class="color-black">MANAGEMENT</span>
+                    <br>
+                    <span class="line__red"></span>
+                    <div class="title__tagline">
+                        " Fujitsu grows so do its requirements, as well as the need to efficiently manage and safeguard IT and data assets so we centralized system monitoring. "<br><small>- DaileDreamer</small>
+                        <div class="title__controls">
+                            <a class="title__btn p-3" href="/fdtp-portal/public/home#system_list">GET STARTED</a>
+                        </div>
+                    </div> 
+                </div>
                 </div>
             </b-row>
         </section>
       
-        <section class=" body-circle col-lg-12">
+        <section class=" col-lg-12 system_list">
+
             <div class="body--management">
                 <font-awesome-icon icon="user-shield"  class="icon" style="font-size:100px; margin-bottom:25px; "/>
                 <h1>SYSTEM MANAGEMENT</h1>
                 <p>Together we connect and manage Systems and Role. </p>
                  <img src="images/systemList.png" alt="listofsystem" class="body--image">
             </div>
-
-            <div class="footer--management">
-                <!-- SEARCH -->
-                <b-row align-h="between">
-                    <b-col sm="12" md="4" class="mb-2">
-                        <b-button
-                        type="button"
-                        variant="primary"
-                        size="md"
-                        class="btn btn-danger"
-                        v-b-modal.register-system-modal-insert
-                        title="Click to clear form"
-                         @click="clearForm"
-                        >
-                        <font-awesome-icon icon="plus-square" size="lg" class="icon" /> 
-                        REGISTER NEW SYSTEM
-                        </b-button>
-                    </b-col>
-
-                    <b-col sm="12" md="6" lg="5" xl="3" class="mb-2">
-                        <b-input-group>
-                        <b-form-input
-                            id="filter-input"
-                            v-model="filterRegister"
-                            type="search"
-                            placeholder="Type to Search"
-                        >
-                        </b-form-input>
-                        <b-input-group-append>
+            <div class="system_list__content">
+                
+                    <!-- SEARCH -->
+                    <b-row align-h="between">
+                        <b-col sm="12" md="4" class="mb-2">
                             <b-button
                             type="button"
+                            variant="primary"
                             size="md"
                             class="btn btn-danger"
-                            :disabled="!filterRegister"
-                            @click="filterRegister = ''"
+                            v-b-modal.register-system-modal-insert
+                            title="Click to clear form"
+                            @click="clearForm"
                             >
-                            <font-awesome-icon icon="eraser" size="sm" class="icon" />
-                            Cancel
+                            <font-awesome-icon icon="plus-square" size="lg" class="icon" /> 
+                            REGISTER NEW SYSTEM
                             </b-button>
-                        </b-input-group-append>
-                        </b-input-group>
-                    </b-col>
-                </b-row>
+                        </b-col>
 
-                <!-- TABLE DATA -->
-                <b-table
-                id="system_management_table"
-                class="alpha__table text-nowrap"
-                hover
-                bordered
-                responsive
-                :fields="fields"
-                :filter="filterRegister"
-                :filter-included-fields="filterOn"
-                :items="getSystemManagement.data"
-                :per-page="perPage"
-                :current-page="currentPage"
-                >
-                    <template #cell(actions)="data">
-                        <b-button
-                            type="button"
-                            variant="danger"
-                            size="sm"
-                            title="Click to Add role"
-                            v-b-modal.modal-add-role
-                            @click="loadRoles(data.item.id)"
-                            v-on:click="rolebuttonelement = true" >
-                            <font-awesome-icon icon="clipboard-list" size="sm" class="icon" /> 
-                            Add Role
-                        </b-button>
-                        <b-button
-                            type="button"
-                            variant="secondary"
-                            size="sm"
-                            title="Click to Deactivate system"
-                            v-b-modal.deactivate-modal
-                            @click="loadDeactivate(data.item.id)">
-                            <font-awesome-icon icon="trash" size="sm" class="icon" /> 
-                            Deactivate
-                        </b-button>
-                    
-                    </template>
-                </b-table>
+                        <b-col sm="12" md="6" lg="5" xl="3" class="mb-2">
+                            <b-input-group>
+                            <b-form-input
+                                id="filter-input"
+                                v-model="filterRegister"
+                                type="search"
+                                placeholder="Type to Search"
+                            >
+                            </b-form-input>
+                            <b-input-group-append>
+                                <b-button
+                                type="button"
+                                size="md"
+                                class="btn btn-danger"
+                                :disabled="!filterRegister"
+                                @click="filterRegister = ''"
+                                >
+                                <font-awesome-icon icon="eraser" size="sm" class="icon" />
+                                Cancel
+                                </b-button>
+                            </b-input-group-append>
+                            </b-input-group>
+                        </b-col>
+                    </b-row>
 
-                <!-- PAGINATION -->
-                <b-pagination
-                    align="right"
-                    class="alpha__table__pagination mb-0"
-                    pills
-                    v-model="currentPage"
-                    :total-rows="rows"
+                    <!-- TABLE DATA -->
+                    <b-table
+                    id="system_management_table"
+                    class="alpha__table text-nowrap"
+                    hover
+                    bordered
+                    responsive
+                    :fields="fields"
+                    :filter="filterRegister"
+                    :filter-included-fields="filterOn"
+                    :items="getSystemManagement.data"
                     :per-page="perPage"
+                    :current-page="currentPage"
                     >
-                </b-pagination> 
-            
+                        <template #cell(actions)="data">
+                            <b-button
+                                type="button"
+                                variant="danger"
+                                size="sm"
+                                title="Click to Add role"
+                                v-b-modal.modal-add-role
+                                @click="loadRoles(data.item.id)"
+                                v-on:click="rolebuttonelement = true" >
+                                <font-awesome-icon icon="clipboard-list" size="sm" class="icon" /> 
+                                Add Role
+                            </b-button>
+                            <b-button
+                                type="button"
+                                variant="secondary"
+                                size="sm"
+                                title="Click to Deactivate system"
+                                v-b-modal.deactivate-modal
+                                @click="loadDeactivate(data.item.id)">
+                                <font-awesome-icon icon="trash" size="sm" class="icon" /> 
+                                Deactivate
+                            </b-button>
+                        
+                        </template>
+                    </b-table>
+
+                    <!-- PAGINATION -->
+                    <b-pagination
+                        align="right"
+                        class="alpha__table__pagination mb-0"
+                        pills
+                        v-model="currentPage"
+                        :total-rows="rows"
+                        :per-page="perPage"
+                        >
+                    </b-pagination> 
+                
+               
             </div>
-         
         </section>
 
     <!-- MODALS -->
@@ -328,7 +332,7 @@
 
     <b-modal
         id="deactivate-modal"
-        size="sm"
+        size="md"
         hide-footer
         title="System Deactivation"
         title-class="alpha__modal__title">
@@ -344,19 +348,19 @@
         <hr/>
         <div class="float-right">
             <b-button
-            type="button"
-            title="Click to clear form"
-            class="mr-2"
-            @click="$bvModal.hide('deactivate-modal')">
-            No
-            </b-button>
-            <b-button
             id="button-submit"
             type="submit"
             title="Click to deactivate system"
             variant="danger"
             @click="getDeactivate(id)">
             Yes
+            </b-button>
+            <b-button
+            type="button"
+            title="Click to clear form"
+            class="mr-2"
+            @click="$bvModal.hide('deactivate-modal')">
+            No
             </b-button>
         </div>
         </b-form>
@@ -705,7 +709,7 @@ export default {
             this.$toast(message, {
                 type: status,
                 toastClassName: `toastification--${status}`,
-                position: "bottom-right",
+                position: "top-center",
             });
         },
         clearForm: function () {
@@ -943,10 +947,11 @@ export default {
 
 .Admin {
     background-color:$dark-gray;
-    padding: 0%; 
-    margin: 0%;
-    width: 100%;
-    height: 100%;
+    // padding: 0%; 
+    // margin: 0%;
+    // width: 100%;
+    // height: 100%;
+    color: $black;
 }
 
 .header-circle{
@@ -960,7 +965,7 @@ export default {
 }
 
 .header--title {
-    margin-bottom: 300px;
+    // margin-bottom: 300px;
     font-family: MontserratLight;
 
     .laptopHuman {
@@ -970,17 +975,18 @@ export default {
     }
 
     .content--right {
-        margin-top: 300px;
+        // margin-top: 300px;
         margin-left: 150px;
+        color: $black;
+        font-family: MontserratLightItalic;
         .system-title {
             padding-bottom: 60px;
+            font-family: MontserratLight;
+            line-height: 40px;
             h1 {
                 font-size: 60px;
-                font-weight: 900;
-            }
-            h2 {
-                font-size: 50px;
-                font-weight: 900;
+                // font-weight: 900;
+                font-family: MontserratLight;
             }
             p {
                 font-size: 25px;
@@ -1015,7 +1021,7 @@ export default {
 }
 
 .body--management {
-    padding-top: 5%;
+    padding-top: 1%;
     width: 100%;
     text-align: center;
     margin-bottom: 50px;
@@ -1054,6 +1060,41 @@ th {
    color: $white;
    background-color: $red;
 }
+
+ .system_list{
+        border-radius: 40% 40% 0 0;
+        background-color: white;
+
+        padding-top: 25px;
+
+        width: 150%;
+        height: 100vh;
+        padding-top: 25px;
+        margin-top: 235px;
+        // margin-left: -25%;
+        
+        &__laptop{
+        color: $black;
+        }
+
+        &__title{
+            color: $black;
+            font-size: 60px;
+        }
+
+        &__details{
+            color: $black;
+        }
+
+        &__content{
+            // border: solid 3px black;
+           width: 100vw;
+            position: absolute;
+            left: 0%;
+            padding: 50px;
+            background-color: white;
+        }
+    } 
 
 
 </style>

@@ -24,10 +24,12 @@
             </b-col>
             <b-col xl="12">
                 <div class="system_list text-center" id="system_list">
+                   
                     <svg id="computer-24px" xmlns="http://www.w3.org/2000/svg" width="116.969" height="89.253" viewBox="0 0 116.969 89.253">
                         <path id="Path_5" data-name="Path 5" d="M0,0H116.969V89.253H0Z" fill="none"/>
-                        <path id="Path_6" data-name="Path 6" d="M97.474,75.1a9.947,9.947,0,0,0,9.7-10.157l.049-50.783A9.988,9.988,0,0,0,97.474,4H19.495A9.988,9.988,0,0,0,9.747,14.157V64.94A9.988,9.988,0,0,0,19.495,75.1H0V85.253H116.969V75.1ZM19.495,14.157H97.474V64.94H19.495Z" fill="#242424"/>
+                        <path id="Path_6" data-name="Path 6" d="M97.474,75.1a9.947,9.947,0,0,0,9.7-10.157l.049-50.783A9.988,9.988,0,0,0,97.474,4H19.495A9.988,9.988,0,0,0,9.747,14.157V64.94A9.988,9.988,0,0,0,19.495,75.1H0V85.253H116.969V75.1ZM19.495,14.157H97.474V64.94H19.495Z" fill="#555656"/>
                     </svg>
+
                     <br>
                     <div class="system_list__title mt-1">
                     FDTP SYSTEMS
@@ -133,7 +135,7 @@ export default {
         width: 150%;
         height: 100vh;
         padding-top: 25px;
-        margin-top: 235px;
+        margin-top: 170px;
         margin-left: -25%;
         
         &__laptop{

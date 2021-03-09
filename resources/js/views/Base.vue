@@ -9,10 +9,11 @@
       <b-col class="p-0">
         <div class="body">
           <router-view></router-view>
+         
         </div>
       </b-col>
     </b-row>
-    <AFooter></AFooter>
+     <!-- <AFooter></AFooter> -->
     
      <LogoutConfirmation fontawesome_icon="info-circle" title="Information"></LogoutConfirmation>
      

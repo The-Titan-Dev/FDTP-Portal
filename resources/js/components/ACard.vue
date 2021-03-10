@@ -89,7 +89,10 @@ export default {
         system_launch(){
             let user_data = JSON.parse(localStorage.getItem("userdata"));
             let auth_token = user_data.data.data.auth_token;
-            window.location.href=`${this.system_data.url}/${auth_token}`;
+            let system_path = this.system_data.url;
+            let last_char = system_path[system_path.length -1];
+            (last_char === '/') ?  system_path = system_path + auth_token :  system_path = system_path + '/'+ auth_token;
+            window.location.href = system_path;
         }
     }
 }

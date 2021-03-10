@@ -16,6 +16,7 @@
      <!-- <AFooter></AFooter> -->
     
      <LogoutConfirmation fontawesome_icon="info-circle" title="Information"></LogoutConfirmation>
+     <DeleteConfirmation fontawesome_icon="info-circle" title="Information"></DeleteConfirmation>
      
   </b-container>
 </template>
@@ -24,12 +25,14 @@
 import AHeader from "../components/AHeader.vue";
 import AFooter from "../components/AFooter.vue";
 import LogoutConfirmation from "../components/LogoutConfirmation.vue";
+import DeleteConfirmation from "../components/DeleteConfirmation.vue";
 export default {
   name: "Base",
   components: {
     AHeader,
     AFooter,
-    LogoutConfirmation
+    LogoutConfirmation,
+    DeleteConfirmation
   },
  
 };

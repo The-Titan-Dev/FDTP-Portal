@@ -336,14 +336,16 @@
                             size="sm"
                             title="Click to Delete"
                             v-b-modal.role-modal
-                            @click="deleteRoleID(data.item.id)">
+                            @click="showDeleteModal(data.item.id)"
+                            
+                            >
                             <font-awesome-icon icon="trash" size="sm" class="icon" /> 
                             Delete
                         </b-button>
                     
                     </template>
                 </b-table>
-                <!-- PAGINATION -->
+                <!-- PAGINATION  @click="deleteRoleID(data.item.id)"-->
                 <b-pagination
                     align="right"
                     class="alpha__table__pagination_role"
@@ -521,7 +523,13 @@ export default {
                 position: "top-center",
             });
         },
-      
+        showDeleteModal:function(id){
+            this.$store.dispatch('addDeleteConfirmation',{
+                    variant: "primary",
+                    record_id: id,
+                    system_id: this. rolesUpdateID
+            });
+        },
         clearFormRoles: function (){
             this.formroles= {
                 role: {

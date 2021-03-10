@@ -108,11 +108,11 @@
                                 type="button"
                                 variant="secondary"
                                 size="sm"
-                                title="Click to Deactivate system"
+                                title="Click to Terminate system"
                                 v-b-modal.deactivate-modal
                                 @click="loadDeactivate(data.item.id)">
                                 <font-awesome-icon icon="trash" size="sm" class="icon" /> 
-                                Deactivate
+                                Terminate
                             </b-button>
                         
                         </template>
@@ -140,7 +140,7 @@
         id="deactivate-modal"
         size="md"
         hide-footer
-        title="System Deactivation"
+        title="System Termination"
         title-class="alpha__modal__title">
         <b-form
         class="pl-4 pr-4"
@@ -148,16 +148,17 @@
         @submit.prevent="submitForm"
         method="post"
         >
-        <b-row style="padding-top:60px;">
-            <h3>Are you sure you want to Deactivate this system?</h3>
+        <b-row style="padding-top:60px; text-align:center;">
+            <h3>Are you sure you want to Terminate this system?</h3>
         </b-row>
         <hr/>
-        <div class="float-right">
+        <div style="text-align:center;">
             <b-button
             id="button-submit"
             type="submit"
-            title="Click to deactivate system"
+            title="Click to Terminate system"
             variant="danger"
+            size="lg"
             @click="getDeactivate(id)">
             Yes
             </b-button>
@@ -165,13 +166,13 @@
             type="button"
             title="Click to clear form"
             class="mr-2"
+            size="lg"
             @click="$bvModal.hide('deactivate-modal')">
             No
             </b-button>
         </div>
         </b-form>
     </b-modal> 
-
     <b-modal
         id="modal-add-role"
         size="xl"

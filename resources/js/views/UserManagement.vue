@@ -96,11 +96,11 @@
                           <b-button
                             type="button"
                             variant="primary"
-                            size="md"
+                            size="sm"
                             class="btn btn-danger"
                             title="Click to clear form"
                             >
-                            <font-awesome-icon icon="user-slash" size="sm" class="icon" /> 
+                            <font-awesome-icon icon="user-slash"  class="icon" /> 
                             Deactivate
                             </b-button>
                           <label>

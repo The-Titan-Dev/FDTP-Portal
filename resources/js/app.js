@@ -53,6 +53,14 @@ const router = new VueRouter({
             path: `${base_url}`,
             name: "base",
             component: Base,
+            beforeEnter(to, from, next) {
+                if(to.name == 'base')
+                {
+                    next({ name: 'Home' });
+                }
+                next()
+                
+            },
             children: [
                 {
                     path: `${base_url}admin`,

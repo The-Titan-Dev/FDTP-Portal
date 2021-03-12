@@ -34,7 +34,8 @@ Route::get('/user/get-user-from-local/{id}', [UserController::class, 'get_user_f
 Route::get('/user/load-all-registered-users', [UserController::class, 'get_registered_user']);
 Route::get('/user/load-all-registered-users-per-system/{system_id}', [UserController::class, 'get_registered_users_per_system']);
 Route::get('/user/load-all-unregistered-users-per-system/{system_id}', [UserController::class, 'get_unregistered_user_per_system']);
-Route::post('/user/login', [UserController::class, 'login'])->middleware("throttle:10,2");
+Route::post('/user/login', [UserController::class, 'login']);
+Route::post('/user/register', [UserController::class, 'registration']);
 Route::patch('/user/update-email/{empid}', [UserController::class, 'update_email']);
 Route::patch('/user/update-password/{empid}', [UserController::class, 'update_password']);
 Route::delete('/user/delete/{empid}', [UserController::class, 'delete_user']);

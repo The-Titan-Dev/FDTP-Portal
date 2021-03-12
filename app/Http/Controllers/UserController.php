@@ -213,13 +213,13 @@ class UserController extends Controller
 
     public function update_password($empid, Request $request)
     {
-        
-        if(Auth::attempt(['emp_id' => $empid, 'password' => $request->old_password ]) == false)
+
+        if(Auth::attempt(['emp_id' => $empid, 'password' => $request->current_password ]) == false)
         {
             return [
                 "code"      => 400,
                 "status"    => "warning",
-                "data"      => "Your old password is incorrect!"
+                "data"      => "Invalid Current Password!"
             ];
         }
 
@@ -239,24 +239,18 @@ class UserController extends Controller
             try {
                 
                 $result = $this->userInterface->updateUserPassword($data, $empid);
-                return $this->success("Password updated", 200, $result);
+                return $this->success("Change Password Successfully", 200, $result);
             } catch (\Throwable $e) {
                     return $this->error($e->getMessage(), 500);
             }
         }
     }
 
-    /**
-     * 1 = User dont exist in portal database
-     * 2 = User dont exist in HRIS database
-     * 3 = User successfully logged in
-     * 4 = USer password incorrect;
-     */
-    public function login()
+    public function registration(Request $request)
     {
+
         $validator = Validator::make(Request()->all(), [
-            'emp_id' => 'required',
-            'password' => 'required',
+            'emp_id'    => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -266,8 +260,8 @@ class UserController extends Controller
         {
             try 
             {
-                $emp_id = Request('emp_id');
-                $password = Hash::make('fp'.$emp_id);
+                $emp_id = $request->emp_id;
+                $password = Hash::make('Fujitsu@2021');
 
                 $local_data = $this->userInterface->get_user_from_local($emp_id);
 
@@ -287,38 +281,68 @@ class UserController extends Controller
                         ];
                         try {
                             $result = $this->userInterface->registeredUser($data);
-                            return $this->success("Registered Successfully",200, $data);
+                            return $this->success("Registered Successfully",200, true);
                         } catch (\Exception $e) {
                             return $this->error($e->getMessage(), 500);
                         }
                     }
-                } 
-                else 
+                }
+                else
                 {
-                    $auth = $this->authenticate(Request()->only('emp_id', 'password'));
+                    return $this->success("Already Registered",200, true);
+                } 
+            }
+            catch (\Exception $e) 
+            {
+                return $this->error($e->getMessage(), 500);
+            } 
+        }  
+    }
 
-                    if ($auth['status'] == true) 
-                    {
-                        $result['status'] = 3;
-                        $result['message'] = "User Authenticated";
-                        $token_data = $this->store($auth['user_info']->emp_id);
-                        $hris_data = $this->userInterface->get_user_from_hris($auth['user_info']->emp_id);
-                        if(!empty($auth['systems_with_access']))
-                        {
-                            $result['data'] = $this->combinedataManpower($auth['user_info'], $hris_data,$token_data,$auth['systems_with_access']);  
-                        }
-                        else
-                        {
-                            $result['user_token'] = $token_data;
-                            $result['data'] = $hris_data;
-                        }
 
-                    } 
-                    else if ($auth['status'] == false) 
+    /**
+     * 1 = User dont exist in portal database
+     * 2 = User dont exist in HRIS database
+     * 3 = User successfully logged in
+     * 4 = USer password incorrect;
+     */
+    public function login()
+    {
+        $validator = Validator::make(Request()->all(), [
+            'emp_id'    => 'required',
+            'password'  => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return  $this->warning('Invalid inputs', 400, $validator->errors());
+        } 
+        else 
+        {
+            try 
+            {
+                $auth = $this->authenticate(Request()->only('emp_id', 'password'));
+
+                if ($auth['status'] == true) 
+                {
+                    $result['status'] = 3;
+                    $result['message'] = "User Authenticated";
+                    $token_data = $this->store($auth['user_info']->emp_id);
+                    $hris_data = $this->userInterface->get_user_from_hris($auth['user_info']->emp_id);
+                    if(!empty($auth['systems_with_access']))
                     {
-                        $result['status'] = 4;
-                        $result['message'] = 'Invalid Password';
+                        $result['data'] = $this->combinedataManpower($auth['user_info'], $hris_data,$token_data,$auth['systems_with_access']);  
                     }
+                    else
+                    {
+                        $result['user_token'] = $token_data;
+                        $result['data'] = $hris_data;
+                    }
+
+                } 
+                else if ($auth['status'] == false) 
+                {
+                    $result['status'] = 4;
+                    $result['message'] = 'Invalid Password';
                 }
                 return $this->success('User Authenticated', 200, $result);
             }

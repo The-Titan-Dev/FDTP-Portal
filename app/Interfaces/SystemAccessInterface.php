@@ -45,4 +45,20 @@ interface SystemAccessInterface
      * @param $id
      */
     public function deleteSystemAccess($id);
+
+    /**
+     * Remove the specific System Access
+     * The parameter used is coming from Controller
+     * 
+     * @param $id
+     */
+    public function checkSystemAccess($empid, $systemid);
+
+    /**
+     * Remove the specific System Access
+     * The parameter used is coming from Controller
+     * 
+     * @param $id
+     */
+    public function restoreSystemAccess($id);
 }

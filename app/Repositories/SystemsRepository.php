@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\SystemsInterface;
 use App\Models\Systems;
+use App\Models\HrisSections;
 use Illuminate\Support\Facades\Redis;
 class SystemsRepository implements SystemsInterface
 {

@@ -26,26 +26,26 @@ use App\Http\Controllers\SystemAccessController;
 */
 
 
-
 /*USERS*/
 Route::get('/user/load-sections', [UserController::class, 'load_sections']);
 Route::get('/user/load-hris-masterlist', [UserController::class, 'load_hris_masterlist']);
 Route::get('/user/get-user-from-hris/{id}', [UserController::class, 'get_user_from_hris']);
 Route::get('/user/get-user-from-local/{id}', [UserController::class, 'get_user_from_local']);
 Route::get('/user/load-all-registered-users', [UserController::class, 'get_registered_user']);
-Route::get('/user/load-all-registered-users-per-system/{system_name}', [UserController::class, 'get_registered_users_per_system']);
-Route::get('/user/load-all-unregistered-users-per-system/{system_name}', [UserController::class, 'get_unregistered_user_per_system']);
-Route::post('/user/login', [UserController::class, 'login']);
+Route::get('/user/load-all-registered-users-per-system/{system_id}', [UserController::class, 'get_registered_users_per_system']);
+Route::get('/user/load-all-unregistered-users-per-system/{system_id}', [UserController::class, 'get_unregistered_user_per_system']);
+Route::post('/user/login', [UserController::class, 'login'])->middleware("throttle:10,2");
 Route::patch('/user/update-email/{empid}', [UserController::class, 'update_email']);
+Route::patch('/user/update-password/{empid}', [UserController::class, 'update_password']);
 Route::delete('/user/delete/{empid}', [UserController::class, 'delete_user']);
 Route::delete('/user/logout/{empid}', [UserController::class, 'logout']);
 
 /*SYSTEMS*/
-Route::get('/systems', [SystemsController::class, 'load']);
+Route::get('/systems/load', [SystemsController::class, 'load']);
 Route::get('/systems/get/{id}', [SystemsController::class, 'get']);
-Route::post('/systems', [SystemsController::class, 'store']);
-Route::patch('/systems/{id}', [SystemsController::class, 'update']);
-Route::delete('/systems/{id}', [SystemsController::class, 'delete']);
+Route::post('/systems/store', [SystemsController::class, 'store']);
+Route::patch('/systems/update/{id}', [SystemsController::class, 'update']);
+Route::delete('/systems/delete/{id}', [SystemsController::class, 'delete']);
 
 Route::get('/system-access/load', [SystemAccessController::class, 'load']);
 Route::get('/system-access/get/{id}', [SystemAccessController::class, 'get']);
@@ -67,7 +67,7 @@ Route::delete('/role-access/delete/{id}', [RoleAccessController::class, 'delete'
 
 /**TOKEN */
 Route::get('/access-token/load', [AccessTokenController::class, 'load']);
-Route::get('/access-token/get/{id}', [AccessTokenController::class, 'get']);
+Route::get('/access-token/get/{token}', [AccessTokenController::class, 'get']);
 Route::post('/access-token/store', [AccessTokenController::class, 'store']);
 Route::patch('/access-token/update/{id}', [AccessTokenController::class, 'update']);
 Route::delete('/access-token/delete/{id}', [AccessTokenController::class, 'delete']);

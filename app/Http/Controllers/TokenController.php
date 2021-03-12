@@ -32,7 +32,7 @@ class TokenController extends Controller
             $result = $this->TokenInterface->getSpecificToken($id);
             return $this->success('Token data loaded', 200, $result);
         } catch (\Exception $e) {
-            return $this->error($e->getMessage(), 500);
+            return $this->error($e->getLine(), 500);
         }
     }
 

@@ -64,12 +64,21 @@ class SystemAccessController extends Controller
      */
     public function store(SystemAccessRequest $request)
     {
-        // return $request;
         try {
             if ($request->validator->fails()) {
                 return $this->warning('Invalid Inputs', 400, $request->validator->errors());
             }
-            $result = $this->systemAccessInterface->storeSystemAccess($request->validated());
+            $checker = $this->systemAccessInterface->checkSystemAccess(['emp_id' => $request->emp_id],['system_id' => $request->system_id]);
+
+            if(count($checker) > 0)
+            {
+                $result = $this->systemAccessInterface->restoreSystemAccess(['id' => $checker[0]->id]);
+            }
+            else
+            {
+                $result = $this->systemAccessInterface->storeSystemAccess($request->validated());
+
+            }
             return $this->success('SystemAccess added', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
@@ -84,20 +93,21 @@ class SystemAccessController extends Controller
      * @param $id
      * @return warning/error/success true/false
      */
-    public function update(SystemAccessRequest $request, $id)
+    public function update($id)
     {
-        DB::beginTransaction();
+        
         try {
-            if ($request->validator->fails()) {
-                return $this->warning('Invalid Inputs', 400, $request->validator->errors());
-            }
+            // if ($request->validator->fails()) {
+            //     return $this->warning('Invalid Inputs', 400, $request->validator->errors());
+            // }
+            $request = [
+                'status' => 0
+            ];
 
-            $result = $this->systemAccessInterface->updateSystemAccess($id, $request->validated());
+            $result = $this->systemAccessInterface->updateSystemAccess($id, $request);
             return $this->success('SystemAccess updated', 200, $result);
-            DB::commit();
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
-            DB::rollBack();
         }
     }
 
@@ -110,14 +120,11 @@ class SystemAccessController extends Controller
      */
     public function delete($id)
     {
-        DB::beginTransaction();
         try {
             $result = $this->systemAccessInterface->deleteSystemAccess($id);
             return $this->success('SystemAccess deleted', 200, $result);
-            DB::commit();
         } catch (\Exception $e) {
             return $this->error($e->getMessage(),500);
-            DB::rollBack();
         }
     }
 }

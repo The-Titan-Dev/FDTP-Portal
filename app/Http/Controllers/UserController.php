@@ -9,12 +9,16 @@ use App\Traits\ResponseAPI;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Interfaces\TokenInterface;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    use ResponseAPI;
+    use ResponseAPI, ThrottlesLogins;
     protected $userInterface;
     protected $tokenInterface;
+    protected $maxAttempts = 1; // Default is 5
+    protected $decayMinutes = 1; // Default is 1
 
 
     public function __construct(UserInterface $userInterface, TokenInterface $tokenInterface)
@@ -129,7 +133,7 @@ class UserController extends Controller
 
             $data_users = [];
             foreach ($registered_data as $result_users_value) {
-                array_push($data_users, $result_users_value['emp_id']);
+                array_push($data_users, $result_users_value['employee_number']);
             }
 
 
@@ -143,11 +147,11 @@ class UserController extends Controller
             $array_result = [];
             foreach ($result_data as $key => $value) {
                 $data_result = [
-                    "emp_id"            => $registered_data[$key]['emp_id'],
-                    "emp_first_name"    => $registered_data[$key]['emp_first_name'],
-                    "emp_last_name"     => $registered_data[$key]['emp_last_name'],
-                    "emp_middle_name"   => $registered_data[$key]['emp_middle_name'],
-                    "emp_photo"         => $registered_data[$key]['emp_photo'],
+                    "emp_id"            => $registered_data[$key]['employee_number'],
+                    "emp_first_name"    => $registered_data[$key]['last_name'],
+                    "emp_last_name"     => $registered_data[$key]['first_name'],
+                    "emp_middle_name"   => $registered_data[$key]['middle_name'],
+                    "emp_photo"         => $registered_data[$key]['photo'],
                     "position"          => $registered_data[$key]['position'],
                     "section"           => $registered_data[$key]['section']
 
@@ -160,7 +164,7 @@ class UserController extends Controller
         } 
         catch (\Throwable $th) 
         {
-            return $this->error($th->getMessage(), 500);
+            return $this->error($th->getLine(), 500);
         } 
     }
 
@@ -207,28 +211,40 @@ class UserController extends Controller
         }
     }
 
-    // public function updatePassword($empid, Request $request)
-    // {
-    //     $validator = Validator::make(request()->all(), [
-    //         'password'      => 'required'
-    //     ]);
+    public function update_password($empid, Request $request)
+    {
+        
+        if(Auth::attempt(['emp_id' => $empid, 'password' => $request->old_password ]) == false)
+        {
+            return [
+                "code"      => 400,
+                "status"    => "warning",
+                "data"      => "Your old password is incorrect!"
+            ];
+        }
 
-    //     if ($validator->fails()) {
-    //         return  $this->warning('Invalid inputs', 400, $validator->errors());
-    //     }
-    //     else
-    //     {
-    //         $data = [
-    //             'password' => Hash::make($request->password)
-    //         ];
-    //         try {
-    //                 $result = $this->userInterface->updateUserPassword($data, $empid);
-    //                 return $this->success("Password updated", 200, $result);
-    //         } catch (\Throwable $e) {
-    //                 return $this->error($e->getMessage(), 500);
-    //         }
-    //     }
-    // }
+        //Your password must be more than 8 characters long, should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character.
+        $validator = Validator::make(request()->all(), [
+            'password'      => 'required|string|min:8|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/'
+        ]);
+
+        if ($validator->fails()) {
+            return  $this->warning('Invalid inputs', 400, $validator->errors());
+        }
+        else
+        {
+            $data = [
+                'password' => Hash::make($request->password)
+            ];
+            try {
+                
+                $result = $this->userInterface->updateUserPassword($data, $empid);
+                return $this->success("Password updated", 200, $result);
+            } catch (\Throwable $e) {
+                    return $this->error($e->getMessage(), 500);
+            }
+        }
+    }
 
     /**
      * 1 = User dont exist in portal database
@@ -285,14 +301,15 @@ class UserController extends Controller
                     {
                         $result['status'] = 3;
                         $result['message'] = "User Authenticated";
-                        $this->store($auth['user_info']->emp_id);
+                        $token_data = $this->store($auth['user_info']->emp_id);
                         $hris_data = $this->userInterface->get_user_from_hris($auth['user_info']->emp_id);
                         if(!empty($auth['systems_with_access']))
                         {
-                            $result['data'] = $this->combinedataManpower($auth['user_info'], $hris_data,$auth['user_token'],$auth['systems_with_access']);  
+                            $result['data'] = $this->combinedataManpower($auth['user_info'], $hris_data,$token_data,$auth['systems_with_access']);  
                         }
                         else
                         {
+                            $result['user_token'] = $token_data;
                             $result['data'] = $hris_data;
                         }
 
@@ -332,7 +349,7 @@ class UserController extends Controller
     {
         try {
             $result = $this->tokenInterface->storeToken(['emp_id' => $data]);
-            return $this->success('Token added', 200, $result);
+            return $result;
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
         }
@@ -347,11 +364,12 @@ class UserController extends Controller
                 if($value->emp_id == $hrisdata->emp_pms_id)
                 {
                     $result[] = [
-                        'emp_id'            => $value->emp_id,
-                        'emp_last_name'     => $hrisdata->emp_last_name,
-                        'emp_first_name'    => $hrisdata->emp_first_name,
-                        'emp_middle_name'   => $hrisdata->emp_middle_name,
-                        'emp_photo'         => $hrisdata->emp_photo,
+                        'system_access_id'  => $value->id,
+                        'employee_number'   => $value->emp_id,
+                        'last_name'         => $hrisdata->emp_last_name,
+                        'first_name'        => $hrisdata->emp_first_name,
+                        'middle_name'       => $hrisdata->emp_middle_name,
+                        'photo'             => $hrisdata->emp_photo,
                         'position'          => $hrisdata->position,
                         'section'           => $hrisdata->section,
                         'role'              => $value->role,

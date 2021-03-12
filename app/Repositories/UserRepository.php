@@ -67,6 +67,7 @@ class UserRepository implements UserInterface
     public function get_registered_users_per_system($system_id)
     {
         $SystemUsers = User::where('b.id',$system_id)
+                        ->where('a.status',1)
                         ->join('system_accesses as a','users.emp_id','=','a.emp_id')
                         ->join('systems as b','a.system_id','=','b.id')
                         ->join('roles as c','c.system_id','=','b.id')
@@ -74,13 +75,19 @@ class UserRepository implements UserInterface
                             $join->on('a.id', '=', 'd.system_access_id');
                             $join->on('c.id', '=', 'd.role_id');
                         })
-                        ->select('users.emp_id','role','a.status')
+                        ->select('users.emp_id','role','a.status','a.id')
                         ->get();
                         
         return $SystemUsers;
     }
 
     public function updateUserEmail($data, $empid)
+    {
+        $User = User::where('emp_id', $empid);
+        return $User->update($data);
+    }
+
+    public function updateUserPassword($data, $empid)
     {
         $User = User::where('emp_id', $empid);
         return $User->update($data);

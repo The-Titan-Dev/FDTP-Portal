@@ -57,8 +57,8 @@ class SystemAccessRepository implements SystemAccessInterface
     public function updateSystemAccess($id, $request)
     {
         $SystemAccess = SystemAccess::find($id);
-        $SystemAccess->emp_id                = $request['emp_id'];
-        $SystemAccess->system_id             = $request['system_id'];
+        // $SystemAccess->emp_id                = $request['emp_id'];
+        // $SystemAccess->system_id             = $request['system_id'];
         $SystemAccess->status                = $request['status'];
         return $SystemAccess->save();
     }
@@ -77,9 +77,32 @@ class SystemAccessRepository implements SystemAccessInterface
         $systems = SystemAccess::destroy($id);
 
         if ($systems) {
+            
             $result = true;
         }
         return $result;
+    }
+
+    /**
+     * Get the specific system access from storage
+     * The parameter used was coming from Interface
+     * 
+     * @param $id
+     * @return object data
+     */
+    public function checkSystemAccess($empid, $systemid)
+    {
+        return SystemAccess::where($systemid)
+                            ->where($empid)
+                            ->where('system_accesses.status',0)
+                            ->join('role_accesses as a','system_accesses.id','=','a.system_access_id')
+                            ->get();
+    }
+
+    public function restoreSystemAccess($id)
+    {
+        return SystemAccess::where($id)
+        ->update(['status' => 1]);
     }
 }
 

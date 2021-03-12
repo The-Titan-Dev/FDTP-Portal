@@ -261,7 +261,7 @@ class UserController extends Controller
             try 
             {
                 $emp_id = $request->emp_id;
-                $password = Hash::make('Fujitsu@2021');
+                $password = Hash::make('Fujitsu@1234');
 
                 $local_data = $this->userInterface->get_user_from_local($emp_id);
 
@@ -289,7 +289,7 @@ class UserController extends Controller
                 }
                 else
                 {
-                    return $this->success("Already Registered",200, true);
+                    return $this->error("Already Registered",500, true);
                 } 
             }
             catch (\Exception $e) 

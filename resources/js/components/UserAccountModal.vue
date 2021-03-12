@@ -12,8 +12,14 @@
                     @submit.prevent="submitForm"
                     method="post"
                     >
+                    <b-form-group id="input-group-system-name" label="Current Password :" label-class="alpha__form__label" label-for="input-system-name" >
+                        <b-form-input  class="alpha-input" id="input-current-password" name="current_password" type="password" placeholder="Input text here" required /> 
+                    </b-form-group>
                     <b-form-group id="input-group-system-name" label="New Password :" label-class="alpha__form__label" label-for="input-system-name" >
-                        <b-form-input  class="alpha-input" id="input-system-name" name="new_password" type="password" placeholder="Input text here" required /> 
+                        <b-form-input  class="alpha-input" id="input-new-password" name="password" type="password" placeholder="Input text here" required /> 
+                    </b-form-group>
+                    <b-form-group id="input-group-system-name" label="Confirm Password :" label-class="alpha__form__label" label-for="input-system-name" >
+                        <b-form-input  class="alpha-input" id="input-confirm-password" name="password_confirmation" type="password" placeholder="Input text here" required /> 
                     </b-form-group>
                      <b-button
                         id="button-submit"

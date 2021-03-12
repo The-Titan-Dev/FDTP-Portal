@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Contacts::class);
     }
+
+    public function passwordHistories()
+    {
+        return $this->hasMany(PasswordHistory::class);
+    }
 }

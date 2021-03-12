@@ -7,6 +7,7 @@ use App\Models\AccessToken;
 use App\Models\User;
 use App\Models\HrisSections;
 use App\Models\HrisMasterlist;
+use App\Models\PasswordHistory;
 use App\Models\RoleAccess;
 use App\Models\Systems;
 use App\Models\Token;
@@ -89,8 +90,14 @@ class UserRepository implements UserInterface
 
     public function updateUserPassword($data, $empid)
     {
-        $User = User::where('emp_id', $empid);
-        return $User->update($data);
+        $User = User::where('emp_id', $empid)
+                    ->update($data);
+        $passwordHistory = PasswordHistory::create([
+            'emp_id' => $empid,
+            'password' => $data['password']
+        ]);
+
+        return $User;
     }
 
     public function deleteUser($empid)
@@ -152,7 +159,10 @@ class UserRepository implements UserInterface
 
     public function registeredUser($data)
     {
-        return User::create($data);
+        $user = User::create($data);
+        $passwordHistory = PasswordHistory::create($data);
+
+        return $user;
     }
 
     public function gettokens($emp_id)

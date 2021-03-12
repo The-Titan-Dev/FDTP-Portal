@@ -80,15 +80,15 @@
                       >
                         <template #cell(emp_photo)="data">
                           <center>
-                            <b-avatar :src="`${data.item.emp_photo}`" size="60px"></b-avatar>
+                            <b-avatar :src="`${data.item.photo}`" size="60px"></b-avatar>
                           </center>
                         </template>
 
                         <template #cell(name)="data">
                           <label>
-                            {{ data.item.emp_first_name}}
-                            {{ data.item.emp_middle_name}}
-                            {{ data.item.emp_last_name }}
+                            {{ data.item.first_name}}
+                            {{ data.item.middle_name}}
+                            {{ data.item.last_name }}
                           </label>
                         </template>
                       </b-table>
@@ -137,7 +137,7 @@ export default {
   data() {
     return {
       fields: [
-        { key: "emp_id", sortable: true },
+        { key: "employee_number", sortable: true },
         { key: "emp_photo", sortable: true, label: "Image" },
         { key: "name", sortable: true, label: "Employee" },
         { key: "position", sortable: true },

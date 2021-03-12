@@ -3,6 +3,7 @@
     <img :src="'images/fujitsu.png'" class="nav-logo" />
 
     <ul class="nav-menu">
+     
       <li><router-link :to="{name:'Home', params:{id:'home'}}" class="nav-a">
         <font-awesome-icon icon="home" />&nbsp;Home</router-link>
       </li>
@@ -15,10 +16,10 @@
       <li><router-link :to="{name:'UserManagement'}"  class="nav-a">
         <font-awesome-icon icon="user-circle" />&nbsp;User</router-link>
       </li>
-      <li><a  class="nav-a" @click="showModal">
-        <font-awesome-icon icon="cog" @click="showModal"/>&nbsp;Logout</a>
+      <li>
+        <a  class="nav-a" @click="openCloseUserModal">
+        <font-awesome-icon icon="cog" />&nbsp;Account</a>
       </li>
-     
     </ul>
 
     <ul class="nav-min">
@@ -26,21 +27,35 @@
         <font-awesome-icon icon="bars" size="2x" class="hamburger" />
         </router-link>
     </ul>
-
-  </header>
+    <UserAccountModal v-if="get_pw_visibility"/>
+  </header> 
 </template>
 
 <script>
-
+import UserAccountModal from "./UserAccountModal";
+import {mapGetters} from "vuex";
 export default {
   name: "AHeader",
+  components:{
+    UserAccountModal
+  },
+  computed:{
+    ...mapGetters(["get_pw_visibility"]),
+  },
   methods:{
-   
-  
+
     showModal:function(){
       this.$store.dispatch('addLogoutConfirmation',{
             variant: "primary",
       });
+    },
+
+    openCloseUserModal(){
+      this.$store.dispatch("changeVisibility",this.get_pw_visibility)
+      .then(response => {
+        console.log(response)
+      })
+      
     }
   }
 };

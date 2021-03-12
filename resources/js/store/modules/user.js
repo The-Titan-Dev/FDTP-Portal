@@ -13,7 +13,7 @@ export default {
         async loadUsers({commit}, payload) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get(`http://10.164.58.52/FDTP-Portal/public/api/user/get-registered-user`)
+                    .get(`http://10.164.58.52/FDTP-Portal/public/api/user/load-all-registered-users`)
                     .then(function(response) {
                         commit("SET_USER_LIST", response.data);
                         resolve(response.data);

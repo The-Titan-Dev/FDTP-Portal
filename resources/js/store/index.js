@@ -6,6 +6,9 @@ Vue.use(Vuex);
 import login from "./modules/login";
 import home from "./modules/home";
 import user from "./modules/user";
+import logoutNotification from "./modules/logoutNotification";
+import deleteConfirmation from "./modules/deleteConfirmation";
+import admin from "./modules/admin";
 
 export default new Vuex.Store({
     state: {},
@@ -14,9 +17,12 @@ export default new Vuex.Store({
     modules: {
         login,
         home,
-        user
+        user,
+        logoutNotification,
+        admin,
+        deleteConfirmation
     },
     // plugins: [createPersistedState({
-    //     key:'userdata',
+    //     key:'test',
     // })]
 });

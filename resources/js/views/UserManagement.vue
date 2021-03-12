@@ -1,110 +1,145 @@
 <template>
-  <b-container fluid>
-    <b-row class="justify-content-center">
+  <div style="font-family: MontserratLight">
+    <div class="circle__wrapper" style="">
+            <div class="circle"></div>
+        </div>
+    <b-row>
       <b-col>
         <div class="page__body">
-          <div class="page__title mb-4">USER MANAGEMENT</div>
-          <b-row>
-            <b-col>
-              <div class="table__container">
-                <b-row>
-                  <b-col xl="2" lg="2" md="4">
-                    <b-form-group
-                      id="input-group-2"
-                      label="Select display row"
-                      label-for="per-page-select"
-                      description="Displayed row base on selection"
-                      class="filter__group"
-                    >
-                      <b-form-select
-                        id="per-page-select"
-                        v-model="perPage"
-                        :options="pageOptions"
-                        size="sm"
-                        class="custom__input"
-                      ></b-form-select>
-                    </b-form-group>
-                  </b-col>
-                  <b-col xl="4" lg="4" md="8">
-                    <b-form-group
-                      id="input-group-1"
-                      label="Search Keyword:"
-                      label-for="filter-input"
-                      description="What are you looking for?"
-                      class="filter__group"
-                    >
-                      <b-form-input
-                        id="filter-input"
-                        v-model="filter"
-                        type="search"
-                        class="custom__input"
+          <b-row class="mb-5">
+            <b-col xl="7" lg="12" md="12">
+                <img :src="'images/user_mgmt.svg'" class="image__user_mgmt" />
+            </b-col>
+            <b-col xl="5" lg="12" md="12">
+                <div class="title__container user_container">
+                    <span style="font-size: 85px;" class="color-black">USER</span>
+                    <br>
+                    <span style="font-size: 75px;" class="color-black">MANAGEMENT</span>
+                    <br>
+                    <span class="line__red"></span>
+                    <div class="title__tagline">
+                        " Welcome to User Management of the FDTP System Portal. All employees list down here can request access to FDTP Systems through their Section Heads approval and system role allocation"
+                        <div class="title__controls">
+                            <a class="title__btn p-3" href="/fdtp-portal/public/user-management#list" >GET STARTED</a>
+                        </div>
+                    </div> 
+                </div>
+            </b-col>
+          </b-row>
+          <b-row class="my-5">
+              <b-col id="list" class="my-5">
+                <div class="table__container">
+                  <b-row>
+                    <b-col xl="2" lg="2" md="4">
+                      <b-form-group
+                        id="input-group-2"
+                        label="Select display row"
+                        label-for="per-page-select"
+                        description="Displayed row base on selection"
+                        class="filter__group"
                       >
-                      </b-form-input>
-                    </b-form-group>
-                  </b-col>
-                </b-row>
+                        <b-form-select
+                          id="per-page-select"
+                          v-model="perPage"
+                          :options="pageOptions"
+                          size="sm"
+                          class="custom__input"
+                        ></b-form-select>
+                      </b-form-group>
+                    </b-col>
+                    <b-col xl="4" lg="4" md="8">
+                      <b-form-group
+                        id="input-group-1"
+                        label="Search Keyword:"
+                        label-for="filter-input"
+                        description="What are you looking for?"
+                        class="filter__group"
+                      >
+                        <b-form-input
+                          id="filter-input"
+                          v-model="filter"
+                          type="search"
+                          class="custom__input"
+                        >
+                        </b-form-input>
+                      </b-form-group>
+                    </b-col>
+                    <b-col cols="12">
+                      <b-table
+                        id="budgets_table"
+                        class="custom__table"
+                        hover
+                        bordered
+                        responsive
+                        :fields="fields"
+                        :filter="filter"
+                        :filter-included-fields="filterOn"
+                        :items="this.getUsers.data"
+                        :per-page="perPage"
+                        :current-page="currentPage"
+                      >
+                        <template #cell(emp_photo)="data">
+                          <center>
+                            <b-avatar :src="`${data.item.photo}`" size="60px"></b-avatar>
+                          </center>
+                        </template>
 
-                <b-row>
-                  <b-col cols="12">
-                    <b-table
-                      id="budgets_table"
-                      class="custom__table"
-                      hover
-                      bordered
-                      responsive
-                      :fields="fields"
-                      :filter="filter"
-                      :filter-included-fields="filterOn"
-                      :items="this.getUsers.data"
-                      :per-page="perPage"
-                      :current-page="currentPage"
-                    >
-                      <template #cell(emp_photo)="data">
-                        <center>
-                          <b-avatar :src="`/${data.item.emp_photo}`" size="60px"></b-avatar>
-                        </center>
-                      </template>
+                        <template #cell(name)="data">
+                          <label>
+                            {{ data.item.first_name}}
+                            {{ data.item.middle_name}}
+                            {{ data.item.last_name }}
+                          </label>
+                        </template>
 
-                      <template #cell(name)="data">
-                        <label>
-                          {{ data.item.emp_first_name}}
-                          {{ data.item.emp_middle_name}}
-                          {{ data.item.emp_last_name }}
-                        </label>
-                      </template>
-                    </b-table>
-                  </b-col>
+                        <template #cell(controls)="data">
+                          <b-button
+                            type="button"
+                            variant="primary"
+                            size="sm"
+                            class="btn btn-danger"
+                            title="Click to clear form"
+                            >
+                            <font-awesome-icon icon="user-slash"  class="icon" /> 
+                            Deactivate
+                            </b-button>
+                          <label>
+                            <!-- {{ data.item.employee_number}} -->
+                          </label>
+                        </template>
+                      </b-table>
+                    </b-col>
 
-                  <b-col class="d-flex justify-content-center mt-3">
-                    <b-pagination
-                      v-model="currentPage"
-                      :total-rows="rows"
-                      :per-page="perPage"
-                      class="custom__pagination"
-                    >
-                      <template #first-text><span>First</span></template>
-                      <template #prev-text><span>Prev</span></template>
-                      <template #next-text><span>Next</span></template>
-                      <template #last-text><span>Last</span></template>
-                      <template #ellipsis-text>
-                        <b-spinner small type="grow"></b-spinner>
-                        <b-spinner small type="grow"></b-spinner>
-                        <b-spinner small type="grow"></b-spinner>
-                      </template>
-                      <template #page="{ page, active }">
-                        <b v-if="active">{{ page }}</b>
-                        <i v-else>{{ page }}</i>
-                      </template>
-                    </b-pagination>
-                  </b-col>
-                </b-row>
-              </div>
+                    <b-col class="d-flex justify-content-center mt-3">
+                      <b-pagination
+                        v-model="currentPage"
+                        :total-rows="rows"
+                        :per-page="perPage"
+                        class="custom__pagination"
+                      >
+                        <template #first-text><span>First</span></template>
+                        <template #prev-text><span>Prev</span></template>
+                        <template #next-text><span>Next</span></template>
+                        <template #last-text><span>Last</span></template>
+                        <template #ellipsis-text>
+                          <b-spinner small type="grow"></b-spinner>
+                          <b-spinner small type="grow"></b-spinner>
+                          <b-spinner small type="grow"></b-spinner>
+                        </template>
+                        <template #page="{ page, active }">
+                          <b v-if="active">{{ page }}</b>
+                          <i v-else>{{ page }}</i>
+                        </template>
+                      </b-pagination>
+                    </b-col>
+                  </b-row>
+                </div>
             </b-col>
           </b-row>
         </div>
       </b-col>
     </b-row>
-  </b-container>
+  </div>
 </template> 
 
 <script>
@@ -118,11 +153,12 @@ export default {
   data() {
     return {
       fields: [
-        { key: "emp_id", sortable: true },
+        { key: "employee_number", sortable: true },
         { key: "emp_photo", sortable: true, label: "Image" },
         { key: "name", sortable: true, label: "Employee" },
         { key: "position", sortable: true },
         { key: "section", sortable: true },
+        { key: "controls", sortable: true },
       ],
       currentPage: 1,
       perPage: 5,
@@ -164,7 +200,12 @@ export default {
 <style lang="scss">
 @import "../../sass/variables";
 @import "../../sass/mediascreens";
+ @import "../../sass/animations";
 
+ .title__container
+ {
+   color: $black;
+ }
 .page__body {
   width: 100%;
   height: auto;
@@ -238,4 +279,20 @@ export default {
     }
   }
 }
+
+ 
+  .image__user_mgmt{
+      width: 70%;
+      left: 28%;
+      top: 20%;
+      opacity: 0;
+      position: inherit;
+      animation: fadeIn 1s;
+      animation-fill-mode: forwards;
+  }
+  .user_container{
+    top: 0% !important;
+  }
+  
+  
 </style>

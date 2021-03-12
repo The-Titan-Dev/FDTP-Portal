@@ -17,17 +17,19 @@
                     <div class="title__tagline">
                         " Welcome to our new all-in-one business solution portal. Having only one account to access all new incoming systems. "
                         <div class="title__controls">
-                            <button class="title__btn">GET STARTED</button>
+                            <a class="title__btn p-3" href="/fdtp-portal/public/home#system_list">GET STARTED</a>
                         </div>
                     </div> 
                 </div>
             </b-col>
             <b-col xl="12">
                 <div class="system_list text-center" id="system_list">
+                   
                     <svg id="computer-24px" xmlns="http://www.w3.org/2000/svg" width="116.969" height="89.253" viewBox="0 0 116.969 89.253">
                         <path id="Path_5" data-name="Path 5" d="M0,0H116.969V89.253H0Z" fill="none"/>
-                        <path id="Path_6" data-name="Path 6" d="M97.474,75.1a9.947,9.947,0,0,0,9.7-10.157l.049-50.783A9.988,9.988,0,0,0,97.474,4H19.495A9.988,9.988,0,0,0,9.747,14.157V64.94A9.988,9.988,0,0,0,19.495,75.1H0V85.253H116.969V75.1ZM19.495,14.157H97.474V64.94H19.495Z" fill="#242424"/>
+                        <path id="Path_6" data-name="Path 6" d="M97.474,75.1a9.947,9.947,0,0,0,9.7-10.157l.049-50.783A9.988,9.988,0,0,0,97.474,4H19.495A9.988,9.988,0,0,0,9.747,14.157V64.94A9.988,9.988,0,0,0,19.495,75.1H0V85.253H116.969V75.1ZM19.495,14.157H97.474V64.94H19.495Z" fill="#555656"/>
                     </svg>
+
                     <br>
                     <div class="system_list__title mt-1">
                     FDTP SYSTEMS
@@ -39,20 +41,22 @@
                     </div>
 
                     <div class="system_list__content">
-                        <b-row>
-                            <b-col xl="4" lg="12" v-for="user_data in user_info.data.data.systems" :key="user_data.id">
+                        <b-row v-if="user_count > 0">
+                            <b-col xl="4" lg="12" v-for="user_data in user_info" :key="user_data.id">
                                 <ACard 
-                                    :system_description="user_data.description"
-                                    :system_name="user_data.name"
-                                    :system_path="user_data.url">
+                                    :system_data="user_data">
                                 </ACard>
+                            </b-col>
+                        </b-row>
+                        <b-row v-if="user_count == 0">
+                            <b-col lg="12">
+                               <h3>You have no access to any system. Contact your section head to add role in your account in a system.</h3>
                             </b-col>
                         </b-row>
                     </div>
                 </div>
             </b-col>
         </b-row>
-        
         <!-- <div class="row" style="position:relative;z-index: 2;">
 
             <div class="col-xl-12">
@@ -71,24 +75,34 @@ export default {
     components:{
         ACard
     },
-    computed:{
-        ...mapGetters(['user_info'])
+    data(){
+        return{
+            user_info : [],
+            user_count : 0
+        }
     },
     mounted(){
-        this.test()
+        this.get_userdata()
     },
     methods:{
-        test(){
-            console.log(this.user_info.data.data.systems);
-        }
-    }
+        get_userdata(){
+            
+            let lstorage = JSON.parse(localStorage.getItem('userdata'));
+            this.user_info = lstorage.data.data.systems;
+            if (this.user_info !== undefined)
+            {
+                this.user_count = this.user_info.length;
+            }
+        },
+    },
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     @import "../../sass/variables";
     @import "../../sass/mediascreens";
     @import "../../sass/main";
+    @import "../../sass/animations";
   
     .color-black{
         color: $black;
@@ -105,72 +119,7 @@ export default {
         animation-fill-mode: forwards;
     }
 
-    .title__container{
-        line-height: 40px;
-        position: inherit;
-        top: 25%;
-        padding-top: 10%;
-        padding-left: 5%;
-        padding-right: 5%;
-        font-family: MontserratLight;
-        animation: fadeIn 0.5s;
-        
-
-        .title__tagline{
-            margin-top: 20px;
-            line-height: 35px;
-            font-size: 30px;
-            font-family: MontserratLightItalic;
-            color: $black;
-            // border: solid 3px black;
-            position: absolute;
-            left: 100%;
-            animation: slideToLeft 0.5s;
-            animation-fill-mode: forwards;
-            height: 100%;
-            width: 100%;
-            padding-left: 5%;
-        }
-
-        .title__btn{
-            background: linear-gradient(160deg, #ff4f5a, #d0242f);
-            color: white;
-            border: 0;
-            box-shadow: 0 0 5px $black;
-            padding: 5px 20px 5px 20px;
-            outline: none;
-            font-size: 20px;
-            font-family: MontserratLight;
-            transition: ease 1s;
-            opacity: 0;
-            animation: fadeIn 1s;
-            animation-fill-mode: forwards;
-            animation-delay: 0.4s;
-        }
-
-        .title__btn:hover{
-            background: linear-gradient(160deg, #ef7a81, #e25059);
-        }
-
-        .title__controls
-        {
-            text-align: center;
-            margin-top: 10%;
-        }
-    }
-
-
-
-    .line__red
-    {
-        background: $prime;
-        height: 5px;
-        width: 0%;
-        position: absolute;
-        animation: line_slide 0.7s;
-        animation-fill-mode: forwards;
-        animation-delay: 0.1s;
-    }
+  
 
 
     .system_list{
@@ -186,7 +135,7 @@ export default {
         width: 150%;
         height: 100vh;
         padding-top: 25px;
-        margin-top: 235px;
+        margin-top: 170px;
         margin-left: -25%;
         
         &__laptop{
@@ -213,51 +162,6 @@ export default {
     } 
 
 
-    @keyframes line_slide{
-        0%{
-            width: 0%;
-        }
-        100%{
-            width: 90%
-        }
-    }
-
-    @keyframes fadeIn{
-        0%{
-            opacity: 0;
-        }
-        100%{
-            opacity: 1;
-        }
-    }
-
-    @keyframes slideToLeft{
-        0%{
-            left: 100%;
-        }
-        100%{
-            left: 0%;
-        }
-    }
-
-    @keyframes slideToRight{
-        0%{
-            right: 100%;
-        }
-        100%{
-            right: 0%;
-        }
-    }
-
-    @keyframes growImg{
-        0%{
-            width: 0%;
-            left: 0%;
-        }
-        100%{
-            width: 85%;
-            left: 15%;
-        }
-    }
+ 
 
 </style>

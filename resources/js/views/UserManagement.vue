@@ -91,6 +91,22 @@
                             {{ data.item.last_name }}
                           </label>
                         </template>
+
+                        <template #cell(controls)="data">
+                          <b-button
+                            type="button"
+                            variant="primary"
+                            size="md"
+                            class="btn btn-danger"
+                            title="Click to clear form"
+                            >
+                            <font-awesome-icon icon="user-slash" size="sm" class="icon" /> 
+                            Deactivate
+                            </b-button>
+                          <label>
+                            <!-- {{ data.item.employee_number}} -->
+                          </label>
+                        </template>
                       </b-table>
                     </b-col>
 
@@ -142,6 +158,7 @@ export default {
         { key: "name", sortable: true, label: "Employee" },
         { key: "position", sortable: true },
         { key: "section", sortable: true },
+        { key: "controls", sortable: true },
       ],
       currentPage: 1,
       perPage: 5,
@@ -184,6 +201,11 @@ export default {
 @import "../../sass/variables";
 @import "../../sass/mediascreens";
  @import "../../sass/animations";
+
+ .title__container
+ {
+   color: $black;
+ }
 .page__body {
   width: 100%;
   height: auto;

@@ -76,7 +76,7 @@ class UserRepository implements UserInterface
                             $join->on('a.id', '=', 'd.system_access_id');
                             $join->on('c.id', '=', 'd.role_id');
                         })
-                        ->select('users.emp_id','role','a.status','a.id')
+                        ->select('users.emp_id','role','a.status','a.id','users.email')
                         ->get();
                         
         return $SystemUsers;

@@ -62,7 +62,11 @@ class TokenRepository implements TokenInterface
         $Token->emp_id                   = $request['emp_id'];
         $Token->auth_token               =  Str::random(64);
         $Token->save();
-        $LastInsertId = $Token->auth_token;
+        $LastInsertId = [
+            'auth_token' => $Token->auth_token,
+            'created_at' => $Token->created_at,
+            'updated_at' => $Token->updated_at
+        ];
         return $LastInsertId;
     }
 

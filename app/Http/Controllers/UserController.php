@@ -17,7 +17,7 @@ class UserController extends Controller
     use ResponseAPI, ThrottlesLogins;
     protected $userInterface;
     protected $tokenInterface;
-    protected $maxAttempts = 1; // Default is 5
+    protected $maxAttempts = 5; // Default is 5
     protected $decayMinutes = 1; // Default is 1
 
 
@@ -289,7 +289,7 @@ class UserController extends Controller
                 }
                 else
                 {
-                    return $this->success("Already Registered",200, true);
+                    return $this->error("Already Registered",500);
                 } 
             }
             catch (\Exception $e) 
@@ -306,7 +306,7 @@ class UserController extends Controller
      * 3 = User successfully logged in
      * 4 = USer password incorrect;
      */
-    public function login()
+    public function login(Request $request)
     {
         $validator = Validator::make(Request()->all(), [
             'emp_id'    => 'required',
@@ -320,7 +320,14 @@ class UserController extends Controller
         {
             try 
             {
+                
                 $auth = $this->authenticate(Request()->only('emp_id', 'password'));
+
+                // return $request;
+                if ($this->hasTooManyLoginAttempts($request)) {
+                    $this->fireLockoutEvent($request);
+                    return $this->sendLockoutResponse($request);
+                }
 
                 if ($auth['status'] == true) 
                 {
@@ -338,11 +345,15 @@ class UserController extends Controller
                         $result['data'] = $hris_data;
                     }
 
+                    $this->clearLoginAttempts($request);
+
                 } 
                 else if ($auth['status'] == false) 
                 {
                     $result['status'] = 4;
                     $result['message'] = 'Invalid Password';
+
+                    $this->incrementLoginAttempts($request);
                 }
                 return $this->success('User Authenticated', 200, $result);
             }
@@ -393,6 +404,7 @@ class UserController extends Controller
                         'last_name'         => $hrisdata->emp_last_name,
                         'first_name'        => $hrisdata->emp_first_name,
                         'middle_name'       => $hrisdata->emp_middle_name,
+                        'email'             => $value->email,
                         'photo'             => $hrisdata->emp_photo,
                         'position'          => $hrisdata->position,
                         'section'           => $hrisdata->section,

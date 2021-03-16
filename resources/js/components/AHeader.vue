@@ -52,9 +52,6 @@ export default {
 
     openCloseUserModal(){
       this.$store.dispatch("changeVisibility",this.get_pw_visibility)
-      .then(response => {
-        console.log(response)
-      })
       
     }
   }

@@ -17,6 +17,7 @@ export default {
         async changeVisibility({commit}, payload){
             commit("set_pw_visibility", !payload)
         },
+        
         async changePassword(state, payload){
             let lstorage = JSON.parse(localStorage.getItem('userdata'));
             let emp_id = lstorage.data.data.emp_id;

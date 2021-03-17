@@ -58,6 +58,7 @@ const router = new VueRouter({
                 {
                     next({ name: 'Home' });
                 }
+                
                 next()
                 
             },
@@ -126,4 +127,3 @@ router.beforeEach((to, from, next) => {
     
    
   })
-

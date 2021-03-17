@@ -5,7 +5,7 @@
         <hr>
         <a  class="nav-a" @click="showModal"><font-awesome-icon icon="sign-out-alt" />&nbsp;Logout</a>
         
-        <b-modal id="modal-change-pw" title="Change Password" hide-footer no-close-on-esc no-close-on-backdrop>
+        <b-modal id="modal-change-pw" title="Change Password" hide-header-close hide-footer no-close-on-esc no-close-on-backdrop>
             <div  style="margin-top: 15%">
                  <b-form
                     class="pl-4 pr-4"
@@ -13,6 +13,13 @@
                     @submit.prevent="submitForm"
                     method="post"
                     >
+                    <div class="mb-4 modal-change-pw__warning" v-if="authenticated_pcheck">
+                        <div class="modal-change-pw__warning__title">
+                            <font-awesome-icon icon="info-circle" size="lg" class="icon" /> Information
+                        </div>
+                        The system detected that you're using a default password. 
+                        This will require you to change your password immediately for security purposes.
+                    </div>
                     <b-form-group class="mb-4" id="input-group-system-name" label="Current Password :" label-class="user__label" label-for="current_password" >
                         <b-form-input  class="alpha-input" id="current_password" name="current_password" :type="show_pw_status" placeholder="Input text here" required /> 
                     </b-form-group>
@@ -32,6 +39,18 @@
                         >
                         Show Password
                         </b-form-checkbox>
+
+                    <b-button
+                        id="button-submit"
+                        type="button"
+                        variant="secondary"
+                        class="float-right ml-2"
+                        @click="$bvModal.hide('modal-change-pw')"
+                        v-if="!authenticated_pcheck">
+                    <font-awesome-icon icon="times" size="sm" class="icon" />  
+                        Close
+                    </b-button>
+                    
                      <b-button
                         id="button-submit"
                         type="submit"
@@ -41,6 +60,7 @@
                     <font-awesome-icon icon="save" size="sm" class="icon" />  
                         Change Password
                     </b-button>
+                     
                 </b-form>
             </div>
         </b-modal>
@@ -52,18 +72,19 @@ import {mapGetters} from "vuex";
 export default {
     name: "UserAccountModal",
     computed: {
-        ...mapGetters(["get_pw_visibility"])
+        ...mapGetters(["get_pw_visibility", "authenticated_pcheck"])
     },
     data(){
         return {
-            show_pw_status : "password"
+            show_pw_status : "password",
         }
     },
     mounted() {
         this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
             console.log('trigger')
             this.$store.dispatch("changeVisibility", this.get_pw_visibility)
-        })
+        }),
+        this.openModalDefault()
     },
     methods:{
         showModal:function(){
@@ -71,7 +92,6 @@ export default {
                     variant: "primary",
             });
         },
-
         submitForm(){
             //submit change password
             let formData = new FormData(document.getElementById('form-change-pw'));
@@ -84,7 +104,7 @@ export default {
                     this.toast(response.data.status,response.data.message);
                     document.getElementById("form-change-pw").reset();
                     this.$bvModal.hide("modal-change-pw");
-                    this.show_pw_status = "password"
+                    this.show_pw_status = "password";
                 }
                 else
                 {
@@ -102,6 +122,12 @@ export default {
             })
         },
 
+        openModalDefault(){
+            if(this.authenticated_pcheck)
+            {
+                this.$bvModal.show("modal-change-pw");
+            }
+        },
         toast: function (status, message) {
             this.$toast(message, {
                 type: status,
@@ -110,6 +136,10 @@ export default {
             });
          },
         
+    },
+    created() {
+         console.log('trigger')
+         this.openModalDefault()
     }
 }
 </script>
@@ -153,4 +183,19 @@ export default {
         font-weight: bold;
     }
     
+    .modal-change-pw__warning
+    {
+        background-color: $red;
+        color: $white;
+        padding: 20px;
+        border-radius: 5px;
+        justify-content: center;
+        // font-weight: bold;
+        &__title{
+            font-weight: bold;
+            border-bottom: 1px solid $white;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+    }
 </style>

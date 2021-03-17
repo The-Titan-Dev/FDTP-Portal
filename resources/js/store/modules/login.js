@@ -3,15 +3,20 @@ import axios from "axios";
 // import createPersistedState from "vuex-persistedstate";
 export default {
     state: {
-        authenticated_user: []
+        authenticated_user: [],
+        authenticated_pcheck: false
     },
     mutations: {
         SET_AUTHENTICATED_USER(state, user) {
             state.authenticated_user = user;
+        },
+        SET_AUTHENTICATED_PCHECK(state, bool) {
+            state.authenticated_pcheck = bool;
         }
     },
     actions: {
         async login({commit}, payload) {
+            // console.log(payload.get("password"));
             return new Promise((resolve, reject) => {
                 axios
                     .post(`user/login`, payload)
@@ -19,6 +24,7 @@ export default {
                         commit("SET_AUTHENTICATED_USER", response.data);
                         if(response.data.data.status === 3){
                             localStorage.userdata = JSON.stringify(response.data);
+                            payload.get("password") === "Fujitsu@1234" ? commit("SET_AUTHENTICATED_PCHECK", true) : commit("SET_AUTHENTICATED_PCHECK", false);
                         }
                         resolve(response.data);
                     })
@@ -45,7 +51,8 @@ export default {
         }
     },
     getters: {
-        authenticated_user: state => state.authenticated_user
+        authenticated_user: state => state.authenticated_user,
+        authenticated_pcheck: state => state.authenticated_pcheck
     },
     // plugins: [createPersistedState({
     //     key:'userdata',

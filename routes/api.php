@@ -38,6 +38,7 @@ Route::post('/user/login', [UserController::class, 'login'])->middleware("thrott
 Route::post('/user/register', [UserController::class, 'registration']);
 Route::patch('/user/update-email/{empid}', [UserController::class, 'update_email']);
 Route::patch('/user/update-password/{empid}', [UserController::class, 'update_password']);
+Route::patch('/user/reset-password/{empid}', [UserController::class, 'reset_password']);
 Route::delete('/user/delete/{empid}', [UserController::class, 'delete_user']);
 Route::delete('/user/logout/{empid}', [UserController::class, 'logout']);
 

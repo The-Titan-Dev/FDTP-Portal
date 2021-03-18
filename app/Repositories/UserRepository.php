@@ -106,6 +106,14 @@ class UserRepository implements UserInterface
         return $User;
     }
 
+    public function resetPassword($empid, $data)
+    {
+        $User = User::where('emp_id', $empid)
+        ->update($data);
+
+        return $User;
+    }
+
     public function authenticate($credentials)
     {
         $result = [];

@@ -26,4 +26,6 @@ interface UserInterface
     public function logOutUser($empid);
 
     public function updateUserPassword($request, $empid);
+
+    public function resetPassword($empid, $data);
 }

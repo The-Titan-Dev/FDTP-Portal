@@ -211,6 +211,19 @@ class UserController extends Controller
         }
     }
 
+    public function reset_password($empid)
+    {
+        $password = [
+            'password' => Hash::make('Fujitsu@2021')
+        ];
+        try {
+            $result = $this->userInterface->resetPassword($empid,$password);
+            return $this->success("Password Reset", 200, $result);
+        } catch (\Throwable $e) {
+            return $this->error($e->getMessage(), 500);
+        }
+    }
+
     public function update_password($empid, Request $request)
     {
 

@@ -1,8 +1,8 @@
 
 
-class Middleware {
+class Auth {
     
-    constructor( next, router){
+    constructor(next, router){
         // this.to = to;
         // this.from = from;
         this.next = next;
@@ -26,4 +26,4 @@ class Middleware {
 
 }
 
-module.exports = Middleware
+module.exports = Auth

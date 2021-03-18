@@ -24,7 +24,13 @@ export default {
                         commit("SET_AUTHENTICATED_USER", response.data);
                         if(response.data.data.status === 3){
                             localStorage.userdata = JSON.stringify(response.data);
-                            payload.get("password") === "Fujitsu@1234" ? commit("SET_AUTHENTICATED_PCHECK", true) : commit("SET_AUTHENTICATED_PCHECK", false);
+                            if(payload.get("password") === "Fujitsu@1234"){
+                                localStorage.pcheck = true;
+                            } 
+                            else{
+
+                                localStorage.pcheck = false;
+                            }
                         }
                         resolve(response.data);
                     })
@@ -42,6 +48,7 @@ export default {
                     .then(function(response) {
                         localStorage.clear();
                         resolve(response.data);
+                        commit("SET_AUTHENTICATED_PCHECK", false)
                         // localStorage.userdata = JSON.stringify(response.data);
                     })
                     .catch(function(error) {

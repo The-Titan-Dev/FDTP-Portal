@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Middleware from "./middleware";
+import Authentication from "./middleware/authentication";
+import DefaultPasword from "./middleware/defaultPassword";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -35,6 +36,7 @@ import UserManagement from "./views/UserManagement";
 import Admin from "./views/Admin";
 import Home from "./views/Home";
 
+let defaultPw = new DefaultPasword(store);
 
 const base_url = "/fdtp-portal/public/";
 const router = new VueRouter({
@@ -45,8 +47,8 @@ const router = new VueRouter({
             name: "login",
             component: Login,
             beforeEnter(to, from, next) {
-                let middleware = new Middleware(next, router);
-                middleware.guest();
+                let authenticate = new Authentication(next, router);
+                authenticate.guest();
             }
         },
         {
@@ -58,6 +60,7 @@ const router = new VueRouter({
                 {
                     next({ name: 'Home' });
                 }
+                
                 next()
                 
             },
@@ -67,8 +70,10 @@ const router = new VueRouter({
                     name: "Admin",
                     component: Admin,
                     beforeEnter(to, from, next) {
-                        let middleware = new Middleware(next, router);
-                        middleware.auth(to, from);
+                        // check if the user is using a default password
+                        defaultPw.checkDefaultPassword();
+                        let authenticate = new Authentication(next, router);
+                        authenticate.auth(to, from);
                     }
                 },
                 {
@@ -76,8 +81,9 @@ const router = new VueRouter({
                     name: "UserManagement",
                     component: UserManagement,
                     beforeEnter(to, from, next) {
-                        let middleware = new Middleware(next, router);
-                        middleware.auth(to, from);
+                        defaultPw.checkDefaultPassword();
+                        let authenticate = new Authentication(next, router);
+                        authenticate.auth(to, from);
                     }
                 },
                 {
@@ -85,8 +91,10 @@ const router = new VueRouter({
                     name: "Home",
                     component: Home,
                     beforeEnter(to, from, next) {
-                        let middleware = new Middleware(next, router);
-                        middleware.auth(to, from);
+                        
+                        defaultPw.checkDefaultPassword();
+                        let authenticate = new Authentication(next, router);
+                        authenticate.auth(to, from);
                     }
                 }
             ]

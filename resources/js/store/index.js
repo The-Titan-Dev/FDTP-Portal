@@ -4,7 +4,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import login from "./modules/login";
-import home from "./modules/home";
+import user_authentication from "./modules/user_authentication";
 import user from "./modules/user";
 import logoutNotification from "./modules/logoutNotification";
 import deleteConfirmation from "./modules/deleteConfirmation";
@@ -16,7 +16,7 @@ export default new Vuex.Store({
     actions: {},
     modules: {
         login,
-        home,
+        user_authentication,
         user,
         logoutNotification,
         admin,

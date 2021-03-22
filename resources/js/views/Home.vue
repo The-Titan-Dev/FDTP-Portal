@@ -94,7 +94,7 @@ export default {
                 this.user_count = this.user_info.length;
             }
         },
-    },
+    }
 }
 </script>
 

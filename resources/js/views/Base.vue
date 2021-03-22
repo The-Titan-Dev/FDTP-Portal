@@ -17,6 +17,7 @@
     <a v-if="arrowUpDisplay" href="#" class="arrow-up"><font-awesome-icon icon="chevron-up" size="2x" class="hamburger" /></a>
      <LogoutConfirmation fontawesome_icon="info-circle" title="Information"></LogoutConfirmation>
      <DeleteConfirmation fontawesome_icon="info-circle" title="Information"></DeleteConfirmation>
+     <ChangePassword fontawesome_icon="info-circle" title="Information"></ChangePassword>
      
   </b-container>
 </template>
@@ -26,13 +27,15 @@ import AHeader from "../components/AHeader.vue";
 import AFooter from "../components/AFooter.vue";
 import LogoutConfirmation from "../components/LogoutConfirmation.vue";
 import DeleteConfirmation from "../components/DeleteConfirmation.vue";
+import ChangePassword from "../components/ChangePassword.vue";
 export default {
   name: "Base",
   components: {
     AHeader,
     AFooter,
     LogoutConfirmation,
-    DeleteConfirmation
+    DeleteConfirmation,
+    ChangePassword
   },
   data(){
     return {

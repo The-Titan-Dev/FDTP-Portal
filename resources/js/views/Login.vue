@@ -42,10 +42,21 @@
                 <label>Employee Number</label>
                 <input type="text" name="emp_id" v-model="emp_id" />
               </div>
-              <div class="form__login__group mb-3">
+              <div class="form__login__group">
                 <label>Password</label>
-                <input type="password" name="password" v-model="password" />
+                <input :type="show_pw_status" name="password" v-model="password" />
               </div>
+              <b-form-checkbox
+                        id="checkbox-show-pw"
+                        v-model="show_pw_status"
+                        name="checkbox-show-pw"
+                        value="text"
+                        unchecked-value="password"
+                        class="form__chk mb-3"
+                        >
+                        Show Password
+                </b-form-checkbox>
+
               <button id="btn-login" type="submit" class="login__btn__ok">
                 Login
               </button>
@@ -73,6 +84,7 @@ export default {
     return {
       emp_id: "",
       password: "",
+      show_pw_status : "password",
     };
   },
   methods: {
@@ -216,6 +228,9 @@ export default {
   }
 }
 
+.form__chk{
+  color: $white
+}
 .form__login {
   display: block;
   text-align: left;

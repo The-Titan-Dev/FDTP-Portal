@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SystemAccessRequest;
 use App\Interfaces\SystemAccessInterface;
+use App\Interfaces\RoleAccessInterface;
 use App\Traits\ResponseAPI;
 use Illuminate\Support\Facades\DB;
 
@@ -11,15 +12,17 @@ class SystemAccessController extends Controller
 {
     use ResponseAPI;
     protected $systemAccessInterface;
+    protected $roleAccessInterface;
 
     /**
      * Constract the Interface to get Return Data
      * 
      * @param SystemAccessInterface $systemAccessInterface
      */
-    public function __construct(SystemAccessInterface $systemAccessInterface)
+    public function __construct(SystemAccessInterface $systemAccessInterface, RoleAccessInterface $roleAccessInterface)
     {
         $this->systemAccessInterface = $systemAccessInterface;
+        $this->roleAccessInterface = $roleAccessInterface;
     }
 
     /**
@@ -70,15 +73,21 @@ class SystemAccessController extends Controller
             }
             $checker = $this->systemAccessInterface->checkSystemAccess(['emp_id' => $request->emp_id],['system_id' => $request->system_id]);
 
-            if(count($checker) > 0)
-            {
-                $result = $this->systemAccessInterface->restoreSystemAccess(['id' => $checker[0]->id]);
+            foreach ($checker as $value) {
+                
+                if($value->status == 0)
+                {
+                    $result = $this->systemAccessInterface->restoreSystemAccess(['id' => $value->id]);
+                }
             }
-            else
-            {
-                $result = $this->systemAccessInterface->storeSystemAccess($request->validated());
+          
+            $result = $this->systemAccessInterface->storeSystemAccess($request->validated());
+            $data = [
+                'system_access_id' => $result->id,
+                'role_id'          => $request->role_id
+            ];
+            $this->roleAccessInterface->storeRoleAccess($data);
 
-            }
             return $this->success('SystemAccess added', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 500);
@@ -127,4 +136,5 @@ class SystemAccessController extends Controller
             return $this->error($e->getMessage(),500);
         }
     }
+
 }

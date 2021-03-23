@@ -10,6 +10,8 @@ class SystemAccess extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['emp_id','system_id','status'];
+
     public function system()
     {
         return $this->belongsTo(Systems::class); 

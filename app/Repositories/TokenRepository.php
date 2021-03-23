@@ -45,7 +45,8 @@ class TokenRepository implements TokenInterface
             $data = [];
             foreach ($Token as $value) {
                 $data[$value->abbreviation][] = [
-                    'role'   => $value->role
+                    'system_id'   => $value->id,
+                    'role'        => $value->role
                 ];  
             }
             $result["system_access"] = $data;
@@ -100,7 +101,7 @@ class TokenRepository implements TokenInterface
                             $join->on('a.id', '=', 'd.system_access_id');
                             $join->on('b.id', '=', 'd.role_id');
                         })
-                        ->select('role','abbreviation')
+                        ->select('role','abbreviation','systems.id')
                         ->get();
     }
 

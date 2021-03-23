@@ -37,13 +37,24 @@ class SystemAccessRepository implements SystemAccessInterface
      */
     public function storeSystemAccess($request)
     {
-        $SystemAccess = new SystemAccess;
-        $SystemAccess->emp_id                = $request['emp_id'];
-        $SystemAccess->system_id             = $request['system_id'];
-        $SystemAccess->status                = $request['status'];
-        $SystemAccess->save();
-        $LastInsertId = $SystemAccess->id;
-        return $LastInsertId;
+        // $SystemAccess = new SystemAccess;
+        // $SystemAccess->emp_id                = $request['emp_id'];
+        // $SystemAccess->system_id             = $request['system_id'];
+        // $SystemAccess->status                = $request['status'];
+        // $SystemAccess->save();
+        // $LastInsertId = $SystemAccess->id;
+        // return $LastInsertId;
+
+        $SystemAccess = SystemAccess::updateOrCreate([
+            'emp_id'                 => $request['emp_id'],
+            'system_id'              => $request['system_id'],
+        ],[
+            'emp_id'                 => $request['emp_id'],
+            'system_id'              => $request['system_id'],
+            'status'                 => 1,
+        ]);
+
+        return $SystemAccess;
     }
 
     /**
@@ -94,8 +105,8 @@ class SystemAccessRepository implements SystemAccessInterface
     {
         return SystemAccess::where($systemid)
                             ->where($empid)
-                            ->where('system_accesses.status',0)
                             ->join('role_accesses as a','system_accesses.id','=','a.system_access_id')
+                            ->select('system_accesses.id','system_accesses.system_id','a.role_id','system_accesses.status')
                             ->get();
     }
 

@@ -38,10 +38,15 @@ class RoleAccessRepository implements RoleAccessInterface
      */
     public function storeRoleAccess($request)
     {
-        $RoleAccess = new RoleAccess;
-        $RoleAccess->system_access_id   = $request['system_access_id'];
-        $RoleAccess->role_id            = $request['role_id'];
-        return $RoleAccess->save();
+        $RoleAccess = RoleAccess::updateOrCreate([
+            'system_access_id'       => $request['system_access_id'],
+            'role_id'                => $request['role_id'],
+        ],[
+            'system_access_id'       => $request['system_access_id'],
+            'role_id'                => $request['role_id'],
+        ]);
+
+        return $RoleAccess;
     }
 
     /**

@@ -26,7 +26,7 @@ class SystemAccessRequest extends FormRequest
         return [
             'emp_id'               => 'required',
             'system_id'            => 'required',
-            'status'               => 'required',
+            'role_id'              => 'required',
         ];
     }
 

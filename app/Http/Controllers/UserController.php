@@ -214,7 +214,7 @@ class UserController extends Controller
     public function reset_password($empid)
     {
         $password = [
-            'password' => Hash::make('Fujitsu@2021')
+            'password' => Hash::make('Fujitsu@1234')
         ];
         try {
             $result = $this->userInterface->resetPassword($empid,$password);

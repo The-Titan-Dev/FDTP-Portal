@@ -99,9 +99,10 @@
                             size="sm"
                             class="btn btn-danger"
                             title="Click to clear form"
+                            @click="reset_password(data.item.employee_number)"
                             >
                             <font-awesome-icon icon="user-slash"  class="icon" /> 
-                            Deactivate
+                            Reset Password
                             </b-button>
                           <label>
                             <!-- {{ data.item.employee_number}} -->
@@ -186,13 +187,21 @@ export default {
         this.toast(result.status, result.message);
       });
     },
+
+    reset_password(id){
+      this.$store.dispatch("resetPassword", id)
+      .then(result => {
+        this.toast(result.status, result.message);
+      })
+    },
+
     toast: function (status, message) {
       this.$toast(message, {
         type: status,
         toastClassName: `toastification--${status}`,
         position: "top-center",
       });
-    },
+    }
   },
 };
 </script>

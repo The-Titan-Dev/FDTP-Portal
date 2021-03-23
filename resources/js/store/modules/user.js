@@ -22,6 +22,15 @@ export default {
                         reject(error);
                     });
             });
+        },
+
+        async resetPassword(state,payload){
+            return new Promise((resolve, reject) => {
+                axios.post(`/user/reset-password/${payload}`, {"id": payload, "_method": "patch"})
+                .then(response =>{
+                    resolve(reject)
+                })
+            })
         }
     },
     getters: {

@@ -10,7 +10,7 @@ class SystemsRepository implements SystemsInterface
 {
     public function load()
     {
-        return Systems::all();
+        return Systems::all()->sortBy("name");
     }
 
     public function get($id)

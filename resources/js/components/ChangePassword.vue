@@ -39,7 +39,7 @@
                                 Change Password
                             </b-button>
                             <b-button
-                                id="button-submit"
+                                id="button-close"
                                 type="button"
                                 variant="secondary"
                                 class="ml-2"

@@ -20,10 +20,10 @@ export default {
         }
     },
     mounted() {
-        this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
-            console.log('trigger')
-            this.$store.dispatch("changeVisibility", this.get_pw_visibility)
-        })
+        // this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
+        //     console.log('trigger')
+        //     this.$store.dispatch("changeVisibility", this.get_pw_visibility)
+        // })
     },
     methods:{
         showModal:function(){

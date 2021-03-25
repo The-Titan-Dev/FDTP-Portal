@@ -168,6 +168,9 @@ export default {
 				.then(response => {
 					resolve(response)
 				})
+				.catch(error => {
+					reject(error)
+				})
 			})
 		}
 	

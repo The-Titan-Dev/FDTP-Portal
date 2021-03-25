@@ -120,8 +120,11 @@ export default {
         get_system_access_user(){
             this.$store.dispatch("getSystemAccessUser", this.employee_number)
             .then(response => {
+                // console.log(response.data.data);
                 this.items = [];
-                for(const [key, value] of Object.entries(response.data.data.system_access)){
+                if(response.data.data != false)
+                {
+                     for(const [key, value] of Object.entries(response.data.data.system_access)){
                     value.forEach(element => {
                          this.items.push({
                             system_name : key,
@@ -130,6 +133,8 @@ export default {
                     });
                    
                 }
+                }
+               
             })
         }
     }

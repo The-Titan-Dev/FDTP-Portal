@@ -29,7 +29,7 @@ class TokenController extends Controller
     public function get($id)
     {
         try {
-            $result = $this->TokenInterface->getSpecificToken($id);
+            $result = $this->TokenInterface->getSpecificToken(['auth_token' => $id]);
             return $this->success('Token data loaded', 200, $result);
         } catch (\Exception $e) {
             return $this->error($e->getLine(), 500);

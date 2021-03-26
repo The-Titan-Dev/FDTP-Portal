@@ -41,6 +41,7 @@ Route::patch('/user/update-password/{empid}', [UserController::class, 'update_pa
 Route::patch('/user/reset-password/{empid}', [UserController::class, 'reset_password']);
 Route::delete('/user/delete/{empid}', [UserController::class, 'delete_user']);
 Route::delete('/user/logout/{empid}', [UserController::class, 'logout']);
+Route::get('/user/system-role-access/{emp_id}', [UserController::class, 'get_system_role_access']);
 
 /*SYSTEMS*/
 Route::get('/systems/load', [SystemsController::class, 'load']);

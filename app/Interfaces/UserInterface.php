@@ -28,4 +28,6 @@ interface UserInterface
     public function updateUserPassword($request, $empid);
 
     public function resetPassword($empid, $data);
+
+    public function getSpecificUser($empid);
 }

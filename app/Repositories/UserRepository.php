@@ -217,4 +217,54 @@ class UserRepository implements UserInterface
         }
         return $result;
     }
+    public function getSpecificUser($empid)
+    {
+        $result_data = User::where('emp_id',$empid)->first();
+
+        if($result_data != null)
+        {
+            $Token  = $this->AccessSystemRole($result_data->emp_id);
+            $Hris   = $this->get_user_from_hris($result_data->emp_id);
+
+            if($result_data->emp_id === $Hris->emp_pms_id){
+                $result = [
+                    'id'                => $result_data->id,
+                    'emp_id'            => $result_data->emp_id,
+                    'emp_last_name'     => $Hris->emp_last_name,
+                    'emp_first_name'    => $Hris->emp_first_name,
+                    'emp_middle_name'   => $Hris->emp_middle_name,
+                    'emp_photo'         => $Hris->emp_photo,
+                    'position'          => $Hris->position,
+                    'section'           => $Hris->section,
+                    'email'             => $result_data->email,
+                ];
+            }
+            $data = [];
+            foreach ($Token as $value) {
+                $data[$value->abbreviation][] = [
+                    'system_id'   => $value->id,
+                    'role'        => $value->role
+                ];  
+            }
+            $result["system_access"] = $data;
+
+            return $result;
+        }               
+        
+        return false;
+    }
+
+    public function AccessSystemRole($emp_id)
+    {
+        return Systems::where('emp_id',$emp_id)
+                        ->where('a.status',1)
+                        ->join('system_accesses as a','systems.id','=','a.system_id')
+                        ->join('roles as b','systems.id','=','b.system_id')
+                        ->join('role_accesses as d', function ($join) {
+                            $join->on('a.id', '=', 'd.system_access_id');
+                            $join->on('b.id', '=', 'd.role_id');
+                        })
+                        ->select('role','abbreviation','systems.id')
+                        ->get();
+    }
 }

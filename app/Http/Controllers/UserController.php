@@ -104,6 +104,16 @@ class UserController extends Controller
         }
     }
 
+    public function get_system_role_access($emp_id)
+    {
+        try {
+            $result = $this->userInterface->getSpecificUser($emp_id);
+            return $this->success('User Data Retrieved', 200, $result);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), 500);
+        }
+    }
+
 
     public function get_registered_users_per_system($system_id)
     {

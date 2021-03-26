@@ -16,10 +16,10 @@ class TokenRepository implements TokenInterface
         return Token::all();
     }
 
-    public function getSpecificToken($token)
+    public function getSpecificToken($where)
     {
         
-        $result_data = Token::where('auth_token',$token)
+        $result_data = Token::where($where)
                         ->join('users as a','tokens.emp_id','=','a.emp_id')
                         ->first();
 

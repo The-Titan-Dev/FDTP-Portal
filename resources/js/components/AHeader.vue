@@ -10,12 +10,14 @@
       <li><router-link to="/fdtp-portal/public/home#system_list" class="nav-a">
         <font-awesome-icon icon="laptop" />&nbsp;Systems</router-link>
       </li>
+      <template  v-if="isAdmin">
       <li><router-link :to="{name:'Admin'}" class="nav-a">
         <font-awesome-icon icon="user-shield" />&nbsp;Admin</router-link>
       </li>
       <li><router-link :to="{name:'UserManagement'}"  class="nav-a">
         <font-awesome-icon icon="user-circle" />&nbsp;User</router-link>
       </li>
+      </template>
       <li>
         <a  class="nav-a" @click="openCloseUserModal">
         <font-awesome-icon icon="cog" />&nbsp;Account</a>
@@ -39,8 +41,16 @@ export default {
   components:{
     UserAccountModal
   },
+  data(){
+    return {
+      isAdmin : false
+    }
+  },
   computed:{
     ...mapGetters(["get_pw_visibility"]),
+  },
+  mounted(){
+    this.isAdminPortal()
   },
   methods:{
 
@@ -53,6 +63,27 @@ export default {
     openCloseUserModal(){
       this.$store.dispatch("changeVisibility",this.get_pw_visibility)
       
+    },
+
+    isAdminPortal(){
+      let lstorage = JSON.parse(localStorage.getItem('userdata'))
+      let section_code = lstorage.data.data.section_code
+      let systems =  lstorage.data.data.systems
+      console.log(systems)
+      if(systems.length > 0)
+      {
+        for(const [key, value] of Object.entries(systems))
+        {
+          if(value.name == "FDTP Portal"){
+            this.isAdmin = true
+          }
+        }
+      }
+
+      if(section_code === "MIT")
+      {
+        this.isAdmin = true
+      }
     }
   }
 };

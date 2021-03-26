@@ -99,14 +99,23 @@
                             size="sm"
                             class="btn btn-danger"
                             title="Click to clear form"
+                            v-b-modal="'set-admin-account-modal'"
+                            @click="getDetailsEmployeeAdmin(data.item.employee_number)"
+                            >
+                            <font-awesome-icon icon="user-slash"  class="icon" /> 
+                              Set Admin
+                            </b-button>
+                          <b-button
+                            type="button"
+                            variant="outline-secondary"
+                            size="sm"
+                            class="btn"
+                            title="Click to clear form"
                             @click="reset_password(data.item.employee_number)"
                             >
                             <font-awesome-icon icon="user-slash"  class="icon" /> 
                             Reset Password
                             </b-button>
-                          <label>
-                            <!-- {{ data.item.employee_number}} -->
-                          </label>
                         </template>
                       </b-table>
                     </b-col>
@@ -140,16 +149,19 @@
         </div>
       </b-col>
     </b-row>
+    <SetAdminAccount :employee_number="getActiveEmployeeId"/>
   </div>
 </template> 
 
 <script>
 import Case from "../components/Case.vue";
 import { mapGetters } from "vuex";
+import SetAdminAccount from "../components/SetAdminAccount";
 export default {
   name: "UserManagement",
   components: {
     Case,
+    SetAdminAccount
   },
   data() {
     return {
@@ -166,6 +178,7 @@ export default {
       pageOptions: [5, 10, 15, { value: 100, text: "Show more" }],
       filter: null,
       filterOn: [],
+      activeEmployeeId : null
     };
   },
   mounted() {
@@ -180,6 +193,9 @@ export default {
         return this.getUsers.data.length;
       }
     },
+    getActiveEmployeeId(){
+      return this.activeEmployeeId;
+    }
   },
   methods: {
     load_users: function () {
@@ -195,6 +211,9 @@ export default {
       })
     },
 
+    getDetailsEmployeeAdmin(activeEmployeeId){
+      this.activeEmployeeId = activeEmployeeId
+    },
     toast: function (status, message) {
       this.$toast(message, {
         type: status,

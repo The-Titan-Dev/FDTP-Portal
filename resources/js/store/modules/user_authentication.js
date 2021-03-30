@@ -31,6 +31,12 @@ export default {
         async changePassword(state, payload){
             let lstorage = JSON.parse(localStorage.getItem('userdata'));
             let emp_id = lstorage.data.data.emp_id;
+
+            if(emp_id == undefined)
+            {
+                emp_id = lstorage.data.data.emp_pms_id;
+            }
+            
             return new Promise((resolve, reject) => {
                 axios
 					.post(`user/update-password/${emp_id}`, payload)

@@ -70,16 +70,20 @@ export default {
       let section_code = lstorage.data.data.section_code
       let systems =  lstorage.data.data.systems
       console.log(systems)
-      if(systems.length > 0)
+      console.log(section_code)
+      if(systems != undefined)
       {
-        for(const [key, value] of Object.entries(systems))
+        if(systems.length > 0)
         {
-          if(value.name == "FDTP Portal"){
-            this.isAdmin = true
+          for(const [key, value] of Object.entries(systems))
+          {
+            if(value.name == "FDTP Portal"){
+              this.isAdmin = true
+            }
           }
         }
       }
-
+   
       if(section_code === "MIT")
       {
         this.isAdmin = true

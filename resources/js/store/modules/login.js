@@ -55,6 +55,19 @@ export default {
                         reject(error);
                     });
             });
+        },
+
+        async signup(state, payload)
+        {
+            return new Promise((resolve, reject) => {
+                axios.post("user/register", payload)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch(error => {
+                    reject(error.response)
+                })
+            })
         }
     },
     getters: {

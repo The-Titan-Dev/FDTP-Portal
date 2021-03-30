@@ -68,10 +68,25 @@
                 Cancel
               </button>
             </form>
+            <div class="sign_up_container">
+                  No user account yet? <a href="#" v-b-modal.modal-1>Sign Up</a> here
+            </div>
+            <!-- <b-button v-b-modal.modal-1>No account ye</b-button> -->
           </div>
         </b-col>
       </b-row>
     </b-container>
+     <b-modal id="modal-1" title="User Account Registration" hide-footer>
+      <div class="sign_up_content my-5 p-4">
+        <b-form  method="post" @submit.prevent="submitSignupForm" id="form-submit-sign-up">
+          <img :src="'images/signup.svg'" alt="sign up image" class="sign_up_image mb-5" />
+          <p>Register an account by inputting your employee number on the field below</p>
+          <b-form-input  placeholder="Enter your Employee Number" class="mb-3" name="emp_id" id="emp_id"></b-form-input>
+          <b-button  type="submit" variant="danger" class="btn-register">Register</b-button> <br>
+          <label class="error-msg">{{error_msg}}</label>
+         </b-form>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -85,6 +100,7 @@ export default {
       emp_id: "",
       password: "",
       show_pw_status : "password",
+      error_msg: null
     };
   },
   methods: {
@@ -147,6 +163,28 @@ export default {
         position: "top-center",
       });
     },
+    submitSignupForm: function(){
+      let formData = new FormData(document.getElementById('form-submit-sign-up'))
+    
+      if(formData.get('emp_id') != null && formData.get('emp_id') != '')
+      {
+        this.$store.dispatch("signup", formData)
+        .then(response =>{
+          console.log(response)
+          this.toast("success", response.data.message);
+          this.resetSignUp();
+        })
+        .catch(error => {
+          this.error_msg = error.data.message
+        })
+      }
+      else{
+        this.error_msg = '*Employee Number is can\'t be blank. Please input employee number'
+      }
+    },
+    resetSignUp: function(){
+      document.getElementById('emp_id').value = null
+    }
   },
 };
 </script>
@@ -172,8 +210,10 @@ export default {
 
 .login__box {
   width: 450px;
-  height: 600px;
+  height: 650px;
   background-image: url(/fdtp-portal/public/images/redbkg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
   border-radius: 50px;
   box-shadow: 12px 10px 25px #7d7c7c;
 }
@@ -400,4 +440,39 @@ export default {
   left: 60px;
   top: 30px;
 }
+
+.sign_up_container
+{
+  color: $white;
+  padding: 10px;
+  text-align: center;
+
+  a {
+    color: rgb(117, 162, 247);
+    text-decoration: underline;
+  }
+}
+
+
+.sign_up_content
+{
+  text-align: center;
+  width: 100%;
+  .btn-register
+  {
+    background-color: $prime;
+    width: 80%;
+  }
+  .sign_up_image
+  {
+    width: 300px;
+  }
+
+  .error-msg
+  {
+    color: $red;
+    margin-top: 10px;
+  }
+}
+
 </style>

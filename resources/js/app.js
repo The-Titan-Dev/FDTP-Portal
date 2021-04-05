@@ -38,7 +38,7 @@ import Home from "./views/Home";
 
 let defaultPw = new DefaultPasword(store);
 
-const base_url = "/fdtp-portal/public/";
+const base_url = "/FDTP-Portal/public/";
 const router = new VueRouter({
     mode: "history",
     routes: [

@@ -93,7 +93,7 @@ export default {
             let last_char = system_path[system_path.length -1];
             (last_char === '/') ?  system_path = system_path + auth_token :  system_path = system_path + '/'+ auth_token;
             console.log(last_char);
-            window.location.href = system_path;
+            window.open(system_path, "_blank");
         }
     }
 }

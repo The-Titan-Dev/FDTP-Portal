@@ -347,10 +347,10 @@ class UserController extends Controller
                 $auth = $this->authenticate(Request()->only('emp_id', 'password'));
 
                 // return $request;
-                if ($this->hasTooManyLoginAttempts($request)) {
-                    $this->fireLockoutEvent($request);
-                    return $this->sendLockoutResponse($request);
-                }
+                // if ($this->hasTooManyLoginAttempts($request)) {
+                //     $this->fireLockoutEvent($request);
+                //     return $this->sendLockoutResponse($request);
+                // }
 
                 if ($auth['status'] == true) 
                 {
@@ -368,7 +368,7 @@ class UserController extends Controller
                         $result['data'] = $hris_data;
                     }
 
-                    $this->clearLoginAttempts($request);
+                    // $this->clearLoginAttempts($request);
 
                 } 
                 else if ($auth['status'] == false) 
@@ -376,7 +376,7 @@ class UserController extends Controller
                     $result['status'] = 4;
                     $result['message'] = 'Invalid Password';
 
-                    $this->incrementLoginAttempts($request);
+                    // $this->incrementLoginAttempts($request);
                 }
                 return $this->success('User Authenticated', 200, $result);
             }

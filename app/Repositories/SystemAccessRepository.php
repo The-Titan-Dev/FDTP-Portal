@@ -105,7 +105,7 @@ class SystemAccessRepository implements SystemAccessInterface
     {
         return SystemAccess::where($systemid)
                             ->where($empid)
-                            ->join('role_accesses as a','system_accesses.id','=','a.system_access_id')
+                            ->leftjoin('role_accesses as a','system_accesses.id','=','a.system_access_id')
                             ->select('system_accesses.id','system_accesses.system_id','a.role_id','system_accesses.status')
                             ->get();
     }

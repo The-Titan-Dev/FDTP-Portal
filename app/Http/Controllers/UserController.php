@@ -423,6 +423,7 @@ class UserController extends Controller
                 {
                     $result[] = [
                         'system_access_id'  => $value->id,
+                        'role_access_id'    => $value->role_id,
                         'employee_number'   => $value->emp_id,
                         'last_name'         => $hrisdata->emp_last_name,
                         'first_name'        => $hrisdata->emp_first_name,
@@ -431,6 +432,8 @@ class UserController extends Controller
                         'photo'             => $hrisdata->emp_photo,
                         'position'          => $hrisdata->position,
                         'section'           => $hrisdata->section,
+                        'abbreviation'      => $value->abbreviation,
+                        'section_code'      => $hrisdata->section_code,
                         'role'              => $value->role,
                         'status'            => $value->status,
 

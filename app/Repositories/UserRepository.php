@@ -69,6 +69,7 @@ class UserRepository implements UserInterface
     {
         $SystemUsers = User::where('b.id',$system_id)
                         ->where('a.status',1)
+                        ->whereNull('d.deleted_at')
                         ->join('system_accesses as a','users.emp_id','=','a.emp_id')
                         ->join('systems as b','a.system_id','=','b.id')
                         ->join('roles as c','c.system_id','=','b.id')
@@ -76,7 +77,7 @@ class UserRepository implements UserInterface
                             $join->on('a.id', '=', 'd.system_access_id');
                             $join->on('c.id', '=', 'd.role_id');
                         })
-                        ->select('users.emp_id','role','a.status','a.id','users.email')
+                        ->select('d.id as role_id','users.emp_id','role','a.status','a.id','users.email','abbreviation')
                         ->get();
                         
         return $SystemUsers;

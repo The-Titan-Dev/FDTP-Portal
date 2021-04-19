@@ -95,6 +95,7 @@ class TokenRepository implements TokenInterface
     {
         return Systems::where('emp_id',$emp_id)
                         ->where('a.status',1)
+                        ->whereNull('d.deleted_at')
                         ->join('system_accesses as a','systems.id','=','a.system_id')
                         ->join('roles as b','systems.id','=','b.system_id')
                         ->join('role_accesses as d', function ($join) {

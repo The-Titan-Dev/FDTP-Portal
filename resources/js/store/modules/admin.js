@@ -150,29 +150,7 @@ export default {
 					});
 			});
 		},
-		async assignSystemRolesUser(state, payload) {
-			return new Promise((resolve, reject) => {
-				axios.post("system-access/store",payload)
-				.then(response => {
-					resolve(response)
-				})
-				.catch(error => {
-					reject(error.response)
-				})
-			})
-		},
-		async getSystemAccessUser(state,employee_id){
-			
-			return new Promise((resolve,reject) => {
-				axios.get(`user/system-role-access/${employee_id}`)
-				.then(response => {
-					resolve(response)
-				})
-				.catch(error => {
-					reject(error)
-				})
-			})
-		}
+		
 	
 	},
 	getters: {

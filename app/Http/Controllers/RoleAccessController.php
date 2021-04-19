@@ -108,14 +108,11 @@ class RoleAccessController extends Controller
      */
     public function delete($id)
     {
-        DB::beginTransaction();
         try {
             $result = $this->roleAccessInterface->deleteRoleAccess($id);
             return $this->success("RoleAccess deleted",200, $result);
-            DB::commit();
         } catch (\Throwable $e) {
             return $this->error($e->getMessage(), 500);
-            DB::rollBack();
         }
     }
 }

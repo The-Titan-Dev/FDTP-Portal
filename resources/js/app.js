@@ -16,7 +16,7 @@ import store from "./store";
 import "./icons.js";
 
 import axios from "axios";
-axios.defaults.baseURL = "http://10.164.58.52/FDTP-Portal/public/api/";
+axios.defaults.baseURL = "http://10.164.30.173/FDTP-Portal/public/api/";
 
 /*TEMPORARY*/
 import Toast from "vue-toastification";
@@ -38,7 +38,7 @@ import Home from "./views/Home";
 
 let defaultPw = new DefaultPasword(store);
 
-const base_url = "/fdtp-portal/public/";
+const base_url = "/FDTP-Portal/public/";
 const router = new VueRouter({
     mode: "history",
     routes: [
